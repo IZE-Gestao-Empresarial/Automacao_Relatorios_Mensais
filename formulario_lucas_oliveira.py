@@ -351,7 +351,7 @@ def inicializar_clientes():
     """
     # Definir lista fixa de clientes diretamente no código
     if 'clientes' not in st.session_state:
-        clientes_args = ["Cloud Treinamentos", "Zion", "Siligyn", "Giga Moveis", "Martins Magazine"]
+        clientes_args = ["Império das Cadeiras","Biomassa","Litoral Medical","Linha por Linha"]
         st.session_state.clientes = clientes_args
 
 def formulario_principal():
