@@ -5,11 +5,7 @@ Formulário Streamlit - Relatórios Mensais
 Interface web para coletar dados sobre relatórios de clientes.
 
 Uso: 
-  streamlit run formulario_streamlit.py
-  streamlit run formulario_streamlit.py "Cliente A" "Cliente B" "Cliente C"
-
-Exemplo:
-  streamlit run formulario_streamlit.py "Ativa" "Roma" "Biomassa"
+  streamlit run formulario_relatorio_mensal_corrigido.py
 """
 
 import streamlit as st
@@ -22,6 +18,70 @@ import threading
 import time
 import gspread
 from google.oauth2.service_account import Credentials
+
+# Dicionário de consultores e seus respectivos clientes
+# A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
+CONSULTORES_CLIENTES = {
+    "Leonardo Souto": [
+        "Ativa Tecidos", "Mundo das Pedras", "Levens e Lineker",
+        "Qualipint", "Comercial 3 Irmãos", "R7 Motors"
+    ],
+    "Drisi Rigamonti": [
+        "Império das Cadeiras", "Linha por Linha"
+    ],
+    "Tiago Alves de Oliveira": [
+        "Fio de Amor", "Saquecred", "Connect Energia Solar"
+    ],
+    "Lucas Oliveira": [
+        "Cloud Treinamentos (INITD LTDA)", "Zion", "Martins Magazine", "Siligyn"
+    ],
+    "Romulo Chaul": [
+        "PavFacil", "MAD Engenharia", "Nobre Casa", "M F Construcoes e Utilidades"
+    ],
+    "Ariana Fernandes": [
+        "Casa da Manicure", "VMB Advocacia", "Sallus",
+        "Laboratório de Análises Clínicas Labcenter", "Kairo Ícaro Advogados Associados", "Milhã Net"
+    ],
+    "Ana Paula B Duarte": [
+        "Criar Agronegócios", "Sementes 3 Pinheiros", "RM Moto Peças",
+        "Multifiltros", "Sanear Brasil", "MF Comércio de Caminhões"
+    ],
+    "Matheus Firmino": [
+        "Expertabi Assessoria Internacional"
+    ],
+    "Nury Sato": [
+        "Euro e Cia", "J E L Serviços Médicos", "Silveira de Oliveira dos Santos Advogados",
+        "Dias e Lima Advogados", "EG Transportes e Logísticas", "Petfeel Petcenter"
+    ],
+    "Danilo Vaz": [
+        "BBZ Advocacia", "Leonardo Rainan e Rodrigo Pinho advogados associados",
+        "Superna Beauty & Tech", "OPT.DOC. Gestão de Consultórios"
+    ],
+    "Nath Toledo": [
+        "Grupo RedeSul"
+    ],
+    "William Alves da Silva": [
+        "Doutor 7", "TOKLAR", "Dom Gabriel",
+        "Zoom Veículos", "Sap Restaurante e Eventos", "Afinidade Distribuidora"
+    ],
+    "Guilherme Teixeira": [
+        "Peterson & Escobar ADV", "Pingo Distribuidora", "Maia & Morgado Advogados Associados",
+        "AR Advocacia Empresarial", "Ilir Advogados", "Renda Mais Transporte", "Vinhal Batista Imoveis"
+    ],
+    "Adeilton Rufino da Silva": [
+        "Telerad", "JP Recicla", "Auto Posto Crisma", "Projector"
+    ],
+    "Pedro de Carvalho Marques": [
+        "Summer Auto Peças", "Boug Acessórios", "Vitrine 360", "Marcia Pinto Gastronomia"
+    ],
+    "Gabriel Matias Vieira": [
+        "Embratecc"
+    ],
+    "deborafigueredo.ize@gmail.com": [
+        "Grupo Ótica Atual", "Pizzaria Kallebe", "Cresol", "Imperial Tapetes e Interiores"
+    ]
+}
+
 
 def configurar_google_sheets():
     """
@@ -337,123 +397,108 @@ def cabecalho():
     <div class="instructions">
         <h4 style="margin-top: 0; color: #FF6900;">Instruções de Preenchimento:</h4>
         <ol style="margin-bottom: 0;">
-            <li><strong>Selecione</strong> os clientes que deseja enviar o relatório</li>
-            <li><strong>Escolha os módulos</strong> necessários quando aplicável</li>
-            <li><strong>Adicione observações</strong> se necessário</li>
-            <li><strong>Envie</strong> o formulário</li>
+            <li><strong>Selecione o seu nome</strong> na lista de consultores.</li>
+            <li>Para cada cliente, <strong>indique</strong> se o relatório deve ser enviado.</li>
+            <li><strong>Escolha os módulos</strong> e adicione observações, se necessário.</li>
+            <li><strong>Envie</strong> o formulário ao finalizar.</li>
         </ol>
     </div>
     """, unsafe_allow_html=True)
 
-def inicializar_clientes():
-    """
-    Inicializa a lista de clientes com valores dos parâmetros do terminal
-    """
-    # Definir lista fixa de clientes diretamente no código
-    if 'clientes' not in st.session_state:
-        clientes_args = ["PavFacil", "MAD Engenharia", "Nobre Casa", "M F Construcoes e Utilidades"]
-        st.session_state.clientes = clientes_args
-
 def formulario_principal():
     """
-    Formulário principal em formato profissional
+    Formulário principal que primeiro pede o consultor e depois mostra os clientes.
     """
-    # Inicializar clientes pré-definidos
-    inicializar_clientes()
-    
     # Inicializar respostas na sessão
     if 'respostas_formulario' not in st.session_state:
         st.session_state.respostas_formulario = {}
-    
+
+    # Etapa 1: Seleção do Consultor
+    lista_consultores = ["Selecione um consultor"] + sorted(list(CONSULTORES_CLIENTES.keys()))
+    consultor_selecionado = st.selectbox(
+        "👤 **Primeiro, selecione o consultor:**",
+        options=lista_consultores,
+        key="consultor_select"
+    )
+
     respostas = {}
     
-    # Formulário em formato profissional
-    for i, cliente in enumerate(st.session_state.clientes):
-        # Container com estilo profissional
-        st.markdown(f"""
-        <div class="client-section">
-            <h4 style="margin-top: 0; color: #FF6900; font-size: 1.2rem;">{cliente}</h4>
-        </div>
-        """, unsafe_allow_html=True)
+    # Etapa 2: Exibir o formulário para os clientes do consultor selecionado
+    if consultor_selecionado != "Selecione um consultor":
+        st.markdown(f"### Clientes de: {consultor_selecionado}")
+        clientes_do_consultor = CONSULTORES_CLIENTES[consultor_selecionado]
         
-        with st.container():
-            # Pergunta principal
-            col1, col2 = st.columns([1, 2])
+        for cliente in clientes_do_consultor:
+            # Container com estilo profissional
+            st.markdown(f"""
+            <div class="client-section">
+                <h4 style="margin-top: 0; color: #FF6900; font-size: 1.2rem;">{cliente}</h4>
+            </div>
+            """, unsafe_allow_html=True)
             
-            with col1:
-                deseja_relatorio = st.selectbox(
-                    "Solicitar relatório:",
-                    options=["Selecione uma opção", "Sim", "Não"],
-                    key=f"relatorio_{i}",
-                )
-            
-            with col2:
-                if deseja_relatorio != "Selecione uma opção":
-                    if deseja_relatorio == "Sim":
-                        st.markdown('<div class="success-message">Relatório será gerado</div>', unsafe_allow_html=True)
+            with st.container():
+                # Pergunta principal
+                col1, col2 = st.columns([1, 2])
+                
+                with col1:
+                    deseja_relatorio = st.selectbox(
+                        "Solicitar relatório:",
+                        options=["Selecione uma opção", "Sim", "Não"],
+                        key=f"relatorio_{cliente}", # Chave única baseada no cliente
+                    )
+                
+                with col2:
+                    if deseja_relatorio != "Selecione uma opção":
+                        if deseja_relatorio == "Sim":
+                            st.markdown('<div class="success-message">Relatório será gerado</div>', unsafe_allow_html=True)
+                        else:
+                            st.markdown('<div class="error-message">Relatório não solicitado</div>', unsafe_allow_html=True)
+                
+                # Configurações detalhadas para "Sim"
+                modulos_selecionados = []
+                nota_consultor = ""
+                
+                if deseja_relatorio == "Sim":
+                    st.markdown("**Módulos a incluir no relatório:**")
+                    
+                    col_fc, col_dre, col_ind = st.columns(3)
+                    
+                    with col_fc:
+                        fc_check = st.checkbox("FC", key=f"fc_{cliente}")
+                    with col_dre:
+                        dre_check = st.checkbox("DRE", key=f"dre_{cliente}")
+                    with col_ind:
+                        ind_check = st.checkbox("Indicadores", key=f"ind_{cliente}")
+                    
+                    # Construir lista de módulos
+                    if fc_check: modulos_selecionados.append("FC")
+                    if dre_check: modulos_selecionados.append("DRE")
+                    if ind_check: modulos_selecionados.append("Indicadores")
+                    
+                    # Campo de observações
+                    nota_consultor = st.text_area(
+                        "Nota do Consultor:",
+                        placeholder="Digite aqui as suas observações adicionais para o relatório...",
+                        height=80,
+                        key=f"nota_{cliente}",
+                    )
+                    
+                    # Validação
+                    if not modulos_selecionados:
+                        st.markdown('<div class="warning-message">Selecione pelo menos um módulo para gerar o relatório</div>', unsafe_allow_html=True)
                     else:
-                        st.markdown('<div class="error-message">Relatório não solicitado</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="success-message">Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
+                
+                # Armazenar resposta
+                respostas[cliente] = {
+                    "deseja_relatorio": deseja_relatorio,
+                    "modulos": modulos_selecionados,
+                    "nota_consultor": nota_consultor
+                }
             
-            # Configurações detalhadas para "Sim"
-            modulos_selecionados = []
-            nota_consultor = ""
-            
-            if deseja_relatorio == "Sim":
-                st.markdown("**Módulos a incluir no relatório:**")
-                
-                col_fc, col_dre, col_ind = st.columns(3)
-                
-                with col_fc:
-                    fc_check = st.checkbox(
-                        "FC", 
-                        key=f"fc_{i}",
-                    )
-                with col_dre:
-                    dre_check = st.checkbox(
-                        "DRE", 
-                        key=f"dre_{i}",
-
-                    )
-                with col_ind:
-                    ind_check = st.checkbox(
-                        "Indicadores", 
-                        key=f"ind_{i}",
-
-                    )
-                
-                # Construir lista de módulos
-                if fc_check:
-                    modulos_selecionados.append("FC")
-                if dre_check:
-                    modulos_selecionados.append("DRE")
-                if ind_check:
-                    modulos_selecionados.append("Indicadores")
-                
-                # Campo de observações
-                nota_consultor = st.text_area(
-                    "Nota do Consultor:",
-                    placeholder="Digite aqui as suas observações adicionais para o relatório...",
-                    height=80,
-                    key=f"nota_{i}",
-                )
-                
-                # Validação
-                if not modulos_selecionados:
-                    st.markdown('<div class="warning-message">Selecione pelo menos um módulo para gerar o relatório</div>', unsafe_allow_html=True)
-                else:
-                    st.markdown(f'<div class="success-message">Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
-            
-            # Armazenar resposta
-            respostas[cliente] = {
-                "deseja_relatorio": deseja_relatorio,
-                "modulos": modulos_selecionados,
-                "nota_consultor": nota_consultor
-            }
-        
-        st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
     
     return respostas
-
 
 def processar_formulario_backend(respostas):
     """
@@ -574,7 +619,9 @@ def main():
     # Formulário principal
     respostas = formulario_principal()
     
-    if respostas:        
+    # Só mostrar o botão de envio se houver respostas (ou seja, se um consultor foi selecionado)
+    if respostas:
+        st.markdown("---")    
         # Verificar se há respostas válidas
         respostas_validas = {k: v for k, v in respostas.items() if v["deseja_relatorio"] != "Selecione uma opção"}
         
@@ -588,10 +635,12 @@ def main():
                     dados_exportacao = processar_formulario_backend(respostas)
                     if dados_exportacao:
                         st.session_state.dados_processados = dados_exportacao
-        
-        # Mostrar confirmação se já foi processado
-        if 'dados_processados' in st.session_state:
-            exibir_confirmacao_envio()
+                        # Força o rerun para esconder o botão de envio e mostrar apenas a confirmação
+                        st.rerun()
+
+    # Mostrar confirmação se já foi processado
+    if 'dados_processados' in st.session_state:
+        exibir_confirmacao_envio()
 
 if __name__ == "__main__":
     main()
