@@ -28,25 +28,43 @@ def configurar_google_sheets():
     Configura a conexão com o Google Sheets
     """
     try:
-        # Verificar se o arquivo de credenciais existe
-        if not os.path.exists("api-do-drive.json"):
-            st.error("❌ Arquivo 'api-do-drive.json' não encontrado na pasta atual")
-            return None
-        
         # Definir escopos necessários
         scopes = [
             "https://www.googleapis.com/auth/spreadsheets",
             "https://www.googleapis.com/auth/drive"
         ]
         
-        # Carregar credenciais do arquivo JSON
-        credentials = Credentials.from_service_account_file(
-            "api-do-drive.json", 
-            scopes=scopes
-        )
+        # Tentar usar secrets do Streamlit primeiro (para produção)
+        try:
+            credentials_dict = st.secrets["gcp_service_account"]
+            credentials = Credentials.from_service_account_info(
+                credentials_dict, 
+                scopes=scopes
+            )
+        except (KeyError, FileNotFoundError):
+            # Fallback para arquivo local (para desenvolvimento)
+            if os.path.exists("api-do-drive.json"):
+                credentials = Credentials.from_service_account_file(
+                    "api-do-drive.json", 
+                    scopes=scopes
+                )
+            else:
+                st.error("❌ Credenciais não encontradas. Configure os secrets no Streamlit Cloud ou adicione o arquivo 'api-do-drive.json' localmente.")
+                return None
         
         # Autorizar cliente
         client = gspread.authorize(credentials)
+        
+        # Testar conexão tentando acessar a planilha
+        try:
+            sheet_id = "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw"
+            test_spreadsheet = client.open_by_key(sheet_id)
+            test_worksheet = test_spreadsheet.worksheet("Respostas Formulário")
+            # Se chegou até aqui, a conexão está funcionando
+        except Exception as e:
+            st.error(f"❌ Erro ao acessar a planilha: {str(e)}")
+            st.error("🔍 Verifique se o ID da planilha está correto e se as permissões estão configuradas")
+            return None
         
         return client
     except FileNotFoundError as e:
@@ -67,9 +85,12 @@ def enviar_para_google_sheets(dados_exportacao):
     Envia os dados do formulário para o Google Sheets
     """
     try:
-        
         # Configurar conexão
         client = configurar_google_sheets()
+        
+        if client is None:
+            st.error("❌ Não foi possível conectar ao Google Sheets")
+            return False
             
         # Abrir a planilha
         sheet_id = "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw"
@@ -103,7 +124,9 @@ def enviar_para_google_sheets(dados_exportacao):
         
         return True
         
-    except Exception:
+    except Exception as e:
+        st.error(f"❌ Erro ao enviar dados para o Google Sheets: {str(e)}")
+        st.error(f"🔧 Tipo do erro: {type(e).__name__}")
         return False
 
 def configurar_pagina():
@@ -328,7 +351,7 @@ def inicializar_clientes():
     """
     # Definir lista fixa de clientes diretamente no código
     if 'clientes' not in st.session_state:
-        clientes_args = ["Império das Cadeiras", "Linha por Linha"]
+        clientes_args = ["Casa da Manicure", "VMB Advocacia", "Sallus", "Laboratório de Análises Clínicas Labcenter", "Kairo Ícaro Advogados Associados", "Milhã Net"]
         st.session_state.clientes = clientes_args
 
 def formulario_principal():
@@ -470,8 +493,13 @@ def processar_formulario_backend(respostas):
     
     # Enviar dados para Google Sheets
     sucesso_sheets = enviar_para_google_sheets(dados_exportacao)
-
-    return dados_exportacao
+    
+    # Só retornar dados se o envio foi bem-sucedido
+    if sucesso_sheets:
+        return dados_exportacao
+    else:
+        st.error("❌ Falha ao enviar os dados para o Google Sheets. Tente novamente.")
+        return None
 
 def exibir_confirmacao_envio():
     """
