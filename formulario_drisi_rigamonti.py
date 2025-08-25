@@ -527,17 +527,6 @@ def exibir_acesso_negado():
         <p style="font-size: 1.2rem; color: #666; margin-top: 2rem;">
             Você não tem permissão para acessar este formulário.
         </p>
-        <p style="font-size: 1rem; color: #999; margin-top: 1rem;">
-            Este formulário é restrito apenas para consultores autorizados.
-        </p>
-        <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 1rem; margin-top: 2rem;">
-            <p style="font-size: 0.9rem; color: #495057; margin-bottom: 0.5rem;">
-                <strong>💡 Para acessar:</strong> Use o URL com o parâmetro correto
-            </p>
-            <code style="background-color: #e9ecef; padding: 0.25rem 0.5rem; border-radius: 4px; font-family: monospace;">
-                ?is_consultant=true
-            </code>
-        </div>
     </div>
     """, unsafe_allow_html=True)
 
