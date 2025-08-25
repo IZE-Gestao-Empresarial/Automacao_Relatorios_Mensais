@@ -1,1 +1,17 @@
+# Arquivos de credenciais
 api-do-drive.json
+.streamlit/secrets.toml
+
+# Arquivos Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
