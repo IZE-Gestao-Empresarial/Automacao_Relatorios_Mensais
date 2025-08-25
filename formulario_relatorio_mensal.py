@@ -86,6 +86,7 @@ CONSULTORES_CLIENTES = {
 def configurar_google_sheets():
     """
     Configura a conexão com o Google Sheets
+    Retorna (client, sheet_id) se bem-sucedido, (None, None) caso contrário
     """
     try:
         # Definir escopos necessários
@@ -96,7 +97,8 @@ def configurar_google_sheets():
         
         # Tentar usar secrets do Streamlit primeiro (para produção)
         try:
-            credentials_dict = st.secrets["gcp_service_account"]
+            credentials_dict = st.secrets["api-google-drive"]
+            sheet_id = st.secrets["google_sheet_id"]
             credentials = Credentials.from_service_account_info(
                 credentials_dict, 
                 scopes=scopes
@@ -108,37 +110,39 @@ def configurar_google_sheets():
                     "api-do-drive.json", 
                     scopes=scopes
                 )
+                # Para desenvolvimento local, você pode definir o sheet_id aqui
+                # ou criar um arquivo de configuração separado
+                sheet_id = st.secrets.get("google_sheet_id", "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw")
             else:
                 st.error("❌ Credenciais não encontradas. Configure os secrets no Streamlit Cloud ou adicione o arquivo 'api-do-drive.json' localmente.")
-                return None
+                return None, None
         
         # Autorizar cliente
         client = gspread.authorize(credentials)
         
         # Testar conexão tentando acessar a planilha
         try:
-            sheet_id = "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw"
             test_spreadsheet = client.open_by_key(sheet_id)
             test_worksheet = test_spreadsheet.worksheet("Respostas Formulário")
             # Se chegou até aqui, a conexão está funcionando
         except Exception as e:
             st.error(f"❌ Erro ao acessar a planilha: {str(e)}")
             st.error("🔍 Verifique se o ID da planilha está correto e se as permissões estão configuradas")
-            return None
+            return None, None
         
-        return client
+        return client, sheet_id
     except FileNotFoundError as e:
         st.error(f"❌ Arquivo de credenciais não encontrado: {e}")
-        return None
+        return None, None
     except json.JSONDecodeError as e:
         st.error(f"❌ Erro ao ler arquivo JSON de credenciais: {e}")
         st.error("🔍 Verifique se o arquivo 'api-do-drive.json' está com formato válido")
-        return None
+        return None, None
     except Exception as e:
         st.error(f"❌ Erro ao configurar Google Sheets:")
         st.error(f"📋 Detalhes: {str(e)}")
         st.error(f"🔧 Tipo do erro: {type(e).__name__}")
-        return None
+        return None, None
 
 def enviar_para_google_sheets(dados_exportacao):
     """
@@ -146,14 +150,13 @@ def enviar_para_google_sheets(dados_exportacao):
     """
     try:
         # Configurar conexão
-        client = configurar_google_sheets()
+        client, sheet_id = configurar_google_sheets()
         
-        if client is None:
+        if client is None or sheet_id is None:
             st.error("❌ Não foi possível conectar ao Google Sheets")
             return False
             
         # Abrir a planilha
-        sheet_id = "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw"
         spreadsheet = client.open_by_key(sheet_id)
         worksheet = spreadsheet.worksheet("Respostas Formulário")
         
@@ -379,7 +382,7 @@ def verificar_permissoes_planilha():
     5. ✅ Clique em "Enviar"
     
     **Verifique também:**
-    - ✅ A planilha tem o ID correto: `13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw`
+    - ✅ A planilha tem o ID correto configurado nos secrets
     - ✅ Existe uma aba chamada exatamente "Respostas Formulário"
     """)
 
