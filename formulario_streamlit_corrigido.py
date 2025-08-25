@@ -501,11 +501,57 @@ def exibir_confirmacao_envio():
             st.rerun()
     
 
+def verificar_acesso():
+    """
+    Verifica se o parâmetro is_consultant=true está presente na URL
+    """
+    try:
+        query_params = st.query_params
+        is_consultant = query_params.get('is_consultant', 'false')
+    except AttributeError:
+        # Fallback para versão mais antiga do Streamlit
+        query_params = st.experimental_get_query_params()
+        is_consultant = query_params.get('is_consultant', ['false'])
+        if isinstance(is_consultant, list):
+            is_consultant = is_consultant[0] if is_consultant else 'false'
+    
+    return str(is_consultant).lower() == 'true'
+
+def exibir_acesso_negado():
+    """
+    Exibe tela de acesso negado
+    """
+    st.markdown("""
+    <div style="text-align: center; padding: 3rem 0; color: #FF6900;">
+        <h1>🚫 Acesso Negado</h1>
+        <p style="font-size: 1.2rem; color: #666; margin-top: 2rem;">
+            Você não tem permissão para acessar este formulário.
+        </p>
+        <p style="font-size: 1rem; color: #999; margin-top: 1rem;">
+            Este formulário é restrito apenas para consultores autorizados.
+        </p>
+        <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 1rem; margin-top: 2rem;">
+            <p style="font-size: 0.9rem; color: #495057; margin-bottom: 0.5rem;">
+                <strong>💡 Para acessar:</strong> Use o URL com o parâmetro correto
+            </p>
+            <code style="background-color: #e9ecef; padding: 0.25rem 0.5rem; border-radius: 4px; font-family: monospace;">
+                ?is_consultant=true
+            </code>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 def main():
     """
     Função principal da aplicação Streamlit
     """
     configurar_pagina()
+    
+    # Verificar acesso antes de exibir o formulário
+    if not verificar_acesso():
+        exibir_acesso_negado()
+        return
+    
     cabecalho()
     
     # Formulário principal
