@@ -22,64 +22,99 @@ from google.oauth2.service_account import Credentials
 # Dicionário de consultores e seus respectivos clientes
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
 CONSULTORES_CLIENTES = {
-    "Leonardo Souto": [
-        "Ativa Tecidos", "Mundo das Pedras", "Levens e Lineker",
-        "Qualipint", "Comercial 3 Irmãos", "R7 Motors"
-    ],
-    "Drisi Rigamonti": [
-        "Império das Cadeiras", "Linha por Linha"
-    ],
-    "Tiago Alves de Oliveira": [
-        "Fio de Amor", "Saquecred", "Connect Energia Solar"
-    ],
-    "Lucas Oliveira": [
-        "Cloud Treinamentos (INITD LTDA)", "Zion", "Martins Magazine", "Siligyn"
-    ],
-    "Romulo Chaul": [
-        "PavFacil", "MAD Engenharia", "Nobre Casa", "M F Construcoes e Utilidades"
-    ],
-    "Ariana Fernandes": [
-        "Casa da Manicure", "VMB Advocacia", "Sallus",
-        "Laboratório de Análises Clínicas Labcenter", "Kairo Ícaro Advogados Associados", "Milhã Net"
-    ],
-    "Ana Paula B Duarte": [
-        "Criar Agronegócios", "Sementes 3 Pinheiros", "RM Moto Peças",
-        "Multifiltros", "Sanear Brasil", "MF Comércio de Caminhões"
-    ],
-    "Matheus Firmino": [
-        "Expertabi Assessoria Internacional"
-    ],
-    "Nury Sato": [
-        "Euro e Cia", "J E L Serviços Médicos", "Silveira de Oliveira dos Santos Advogados",
-        "Dias e Lima Advogados", "EG Transportes e Logísticas", "Petfeel Petcenter"
-    ],
-    "Danilo Vaz": [
-        "BBZ Advocacia", "Leonardo Rainan e Rodrigo Pinho advogados associados",
-        "Superna Beauty & Tech", "OPT.DOC. Gestão de Consultórios"
-    ],
-    "Nath Toledo": [
-        "Grupo RedeSul"
-    ],
-    "William Alves da Silva": [
-        "Doutor 7", "TOKLAR", "Dom Gabriel",
-        "Zoom Veículos", "Sap Restaurante e Eventos", "Afinidade Distribuidora"
-    ],
-    "Guilherme Teixeira": [
-        "Peterson & Escobar ADV", "Pingo Distribuidora", "Maia & Morgado Advogados Associados",
-        "AR Advocacia Empresarial", "Ilir Advogados", "Renda Mais Transporte", "Vinhal Batista Imoveis"
-    ],
-    "Adeilton Rufino da Silva": [
-        "Telerad", "JP Recicla", "Auto Posto Crisma", "Projector"
-    ],
-    "Pedro de Carvalho Marques": [
-        "Summer Auto Peças", "Boug Acessórios", "Vitrine 360", "Marcia Pinto Gastronomia"
-    ],
-    "Gabriel Matias Vieira": [
-        "Embratecc"
-    ],
-    "deborafigueredo.ize@gmail.com": [
-        "Grupo Ótica Atual", "Pizzaria Kallebe", "Cresol", "Imperial Tapetes e Interiores"
-    ]
+  "Leonardo Souto": [
+    "Ativa Tecidos",
+  ],
+  "Drisi Rigamonti": [
+    "Império das Cadeiras",
+    "Linha por Linha"
+  ],
+  "Tiago Alves de Oliveira": [
+    "Fio de Amor",
+  ],
+  "Lucas Oliveira": [
+    "Cloud Treinamentos (INITD LTDA)",
+  ],
+  "Romulo Chaul": [
+    "PavFacil",
+    "MAD Engenharia",
+    "Nobre Casa",
+    "M F Construcoes e Utilidades"
+  ],
+  "Ariana Fernandes": [
+    "Casa da Manicure",
+    "VMB Advocacia",
+    "Sallus",
+    "Laboratório de Análises Clínicas Labcenter",
+    "Kairo Ícaro Advogados Associados",
+    "Milhã Net"
+  ],
+  "Ana Paula B Duarte": [
+    "Criar Agronegócios",
+    "Sementes 3 Pinheiros",
+    "RM Moto Peças",
+    "Multifiltros",
+    "Sanear Brasil",
+    "MF Comércio de Caminhões"
+  ],
+  "Matheus Firmino": [
+    "Expertabi Assessoria Internacional"
+  ],
+  "Nury Sato": [
+    "Euro e Cia",
+    "J E L Serviços Médicos",
+    "Silveira de Oliveira dos Santos Advogados",
+    "Dias e Lima Advogados",
+    "EG Transportes e Logísticas",
+    "Petfeel Petcenter"
+  ],
+  "Danilo Vaz": [
+    "BBZ Advocacia",
+    "Leonardo Rainan e Rodrigo Pinho advogados associados",
+    "Superna Beauty & Tech",
+    "OPT.DOC. Gestão de Consultórios"
+  ],
+  "Nath Toledo": [
+    "Grupo RedeSul"
+  ],
+  "William Alves da Silva": [
+    "Doutor 7",
+    "TOKLAR",
+    "Dom Gabriel",
+    "Zoom Veículos",
+    "Sap Restaurante e Eventos",
+    "Afinidade Distribuidora"
+  ],
+  "Guilherme Teixeira": [
+    "Peterson & Escobar ADV",
+    "Pingo Distribuidora",
+    "Maia & Morgado Advogados Associados",
+    "AR Advocacia Empresarial",
+    "Ilir Advogados",
+    "Renda Mais Transporte",
+    "Vinhal Batista Imoveis"
+  ],
+  "Adeilton Rufino da Silva": [
+    "Telerad",
+    "JP Recicla",
+    "Auto Posto Crisma",
+    "Projector"
+  ],
+  "Pedro de Carvalho Marques": [
+    "Summer Auto Peças",
+    "Boug Acessórios",
+    "Vitrine 360",
+    "Marcia Pinto Gastronomia"
+  ],
+  "Gabriel Matias Vieira": [
+    "Embratecc"
+  ],
+  "deborafigueredo.ize@gmail.com": [
+    "Grupo Ótica Atual",
+    "Pizzaria Kallebe",
+    "Cresol",
+    "Imperial Tapetes e Interiores"
+  ]
 }
 
 
