@@ -24,11 +24,6 @@ from google.oauth2.service_account import Credentials
 CONSULTORES_CLIENTES = {
         "Leonardo Souto": [
             "Ativa Tecidos",
-            "Mundo das Pedras",
-            "Levens e Lineker",
-            "Qualipint",
-            "Comercial 3 Irmãos",
-            "R7 Motors"
         ],
         "Drisi Rigamonti": [
             "Império das Cadeiras",
