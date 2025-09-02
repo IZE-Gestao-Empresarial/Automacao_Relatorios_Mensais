@@ -81,7 +81,6 @@ CONSULTORES_CLIENTES = {
   "Nath Toledo": [
     "Grupo RedeSul",
     "Gustavo LTDA",
-    "Ugor LTDA",
     "Victor LTDA",
     "Jonathan LTDA",
     "Bela"
