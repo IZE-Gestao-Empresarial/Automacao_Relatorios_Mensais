@@ -144,18 +144,58 @@ def configurar_google_sheets():
                 scopes=scopes
             )
         except (KeyError, FileNotFoundError):
-            # Fallback para arquivo local (para desenvolvimento)
-            if os.path.exists("api-do-drive.json"):
-                credentials = Credentials.from_service_account_file(
-                    "api-do-drive.json", 
-                    scopes=scopes
-                )
-                # Para desenvolvimento local, você pode definir o sheet_id aqui
-                # ou criar um arquivo de configuração separado
-                sheet_id = st.secrets.get("google_sheet_id", "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw")
-            else:
-                st.error("❌ Credenciais não encontradas. Configure os secrets no Streamlit Cloud ou adicione o arquivo 'api-do-drive.json' localmente.")
+            # Fallback para arquivo secrets.toml local (para desenvolvimento)
+            try:
+                import toml
+                
+                # Tentar ler o arquivo secrets.toml
+                if os.path.exists(".streamlit/secrets.toml"):
+                    secrets = toml.load(".streamlit/secrets.toml")
+                    
+                    # Verificar se as chaves necessárias existem
+                    if "api-google-drive" not in secrets:
+                        raise KeyError("Seção 'api-google-drive' não encontrada no secrets.toml")
+                    if "google_sheet_id" not in secrets:
+                        raise KeyError("Campo 'google_sheet_id' não encontrado no secrets.toml")
+                    
+                    credentials_dict = secrets["api-google-drive"]
+                    sheet_id = secrets["google_sheet_id"]  # Está no nível raiz do TOML
+                    credentials = Credentials.from_service_account_info(
+                        credentials_dict, 
+                        scopes=scopes
+                    )
+                else:
+                    # Último fallback para api-do-drive.json (compatibilidade)
+                    if os.path.exists("api-do-drive.json"):
+                        credentials = Credentials.from_service_account_file(
+                            "api-do-drive.json", 
+                            scopes=scopes
+                        )
+                        # Para desenvolvimento local com JSON, usar sheet_id padrão ou dos secrets
+                        try:
+                            sheet_id = st.secrets.get("google_sheet_id", "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw")
+                        except:
+                            sheet_id = "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw"
+                    else:
+                        st.error("❌ Credenciais não encontradas. Configure os secrets no Streamlit Cloud, adicione '.streamlit/secrets.toml' ou 'api-do-drive.json' localmente.")
+                        return None, None
+            except ImportError:
+                st.error("❌ Biblioteca 'toml' não encontrada. Instale com: pip install toml")
                 return None, None
+            except Exception as toml_error:
+                st.error(f"❌ Erro ao ler secrets.toml: {str(toml_error)}")
+                # Fallback para api-do-drive.json se secrets.toml falhar
+                if os.path.exists("api-do-drive.json"):
+                    credentials = Credentials.from_service_account_file(
+                        "api-do-drive.json", 
+                        scopes=scopes
+                    )
+                    try:
+                        sheet_id = st.secrets.get("google_sheet_id", "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw")
+                    except:
+                        sheet_id = "13jj-F3gBIkRoLPjT05x2A_JVXa6BlrXQWpvdRLVkmcw"
+                else:
+                    return None, None
         
         # Autorizar cliente
         client = gspread.authorize(credentials)
@@ -176,7 +216,7 @@ def configurar_google_sheets():
         return None, None
     except json.JSONDecodeError as e:
         st.error(f"❌ Erro ao ler arquivo JSON de credenciais: {e}")
-        st.error("🔍 Verifique se o arquivo 'api-do-drive.json' está com formato válido")
+        st.error("🔍 Verifique se o arquivo de credenciais está com formato válido")
         return None, None
     except Exception as e:
         st.error(f"❌ Erro ao configurar Google Sheets:")
