@@ -22,99 +22,104 @@ from google.oauth2.service_account import Credentials
 # Dicionário de consultores e seus respectivos clientes
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
 CONSULTORES_CLIENTES = {
-  "Leonardo Souto": [
-    "Ativa Tecidos",
-    "Mundo das Pedras",
-    "Qualipint",
-    "Comercial 3 Irmãos",
-    "R7 Motors"
-  ],
-  "Drisi Rigamonti": [
-    "Linha por Linha",
-    "Império das Cadeiras"
-  ],
-  "Tiago Alves de Oliveira": [
-    "Fio de Amor",
-    "Connect Energia Solar"
-  ],
-  "Lucas Oliveira": [
-    "Zion",
-    "Siligyn"
-  ],
-  "Romulo Chaul": [
-    "PavFacil",
-    "MAD Engenharia",
-    "Nobre Casa",
-    "M F Construcoes e Utilidades"
-  ],
-  "Ariana Fernandes": [
-    "Casa da Manicure",
-    "Sallus",
-    "Kairo Ícaro Advogados Associados",
-    "Milhã Net"
-  ],
-  "Ana Paula B Duarte": [
-    "Criar Agronegócios",
-    "Sementes 3 Pinheiros",
-    "RM Moto Peças",
-    "Multifiltros",
-    "Sanear Brasil",
-    "MF Comércio de Caminhões"
-  ],
-  "Matheus Firmino": [
-    "Expertabi Assessoria Internacional"
-  ],
-  "Nury Sato": [
-    "Euro e Cia",
-    "J E L Serviços Médicos",
-    "Silveira de Oliveira dos Santos Advogados",
-    "Dias e Lima Advogados",
-    "EG Transportes e Logísticas",
-    "Petfeel Petcenter"
-  ],
-  "Danilo Vaz": [
-    "BBZ Advocacia",
-    "Leonardo Rainan e Rodrigo Pinho advogados associados",
-    "Superna Beauty & Tech",
-    "OPT.DOC. Gestão de Consultórios"
-  ],
-  "Nath Toledo": [
-    "Grupo RedeSul",
-  ],
-  "William Alves da Silva": [
-    "Doutor 7",
-    "TOKLAR",
-    "Dom Gabriel",
-    "Sap Restaurante e Eventos",
-    "Afinidade Distribuidora",
-    "Cac Silva"
-  ],
-  "Guilherme Teixeira": [
-    "Peterson & Escobar ADV",
-    "Pingo Distribuidora",
-    "Maia & Morgado Advogados Associados",
-    "Renda Mais Transporte",
-    "Vinhal Batista Imoveis"
-  ],
-  "Adeilton Rufino da Silva": [
-    "JP Recicla",
-    "Auto Posto Crisma",
-    "Projector"
-  ],
-  "Pedro de Carvalho Marques": [
-    "Summer Auto Peças",
-    "Boug Acessórios",
-    "Vitrine 360"
-  ],
-  "Gabriel Matias Vieira": [
-    "Embratecc"
-  ],
-  "deborafigueredo.ize@gmail.com": [
-    "Pizzaria Kallebe",
-    "Cresol",
-    "Imperial Tapetes e Interiores"
-  ]
-}
+        "Leonardo Souto": [
+            "Ativa Tecidos",
+            "Mundo das Pedras",
+            "Qualipint",
+            "Comercial 3 Irmãos",
+            "R7 Motors"
+        ],
+        "Drisi Rigamonti": [
+            "Linha por Linha",
+            "Império das Cadeiras"
+        ],
+        "Tiago Alves de Oliveira": [
+            "Fio de Amor",
+            "Connect Energia Solar"
+        ],
+        "Lucas Oliveira": [
+            "Zion",
+            "Siligyn"
+        ],
+        "Romulo Chaul": [
+            "PavFacil",
+            "MAD Engenharia",
+            "Nobre Casa",
+            "M F Construcoes e Utilidades"
+        ],
+        "Ariana Fernandes": [
+            "Casa da Manicure",
+            "Sallus",
+            "Kairo Ícaro Advogados Associados",
+            "Milhã Net"
+        ],
+        "Ana Paula B Duarte": [
+            "Criar Agronegócios",
+            "Sementes 3 Pinheiros",
+            "RM Moto Peças",
+            "Multifiltros",
+            "Sanear Brasil",
+            "MF Comércio de Caminhões"
+        ],
+        "Matheus Firmino": [
+            "Expertabi Assessoria Internacional"
+        ],
+        "Nury Sato": [
+            "Euro e Cia",
+            "J E L Serviços Médicos",
+            "Silveira de Oliveira dos Santos Advogados",
+            "Dias e Lima Advogados",
+            "EG Transportes e Logísticas",
+            "Petfeel Petcenter"
+        ],
+        "Danilo Vaz": [
+            "BBZ Advocacia",
+            "Leonardo Rainan e Rodrigo Pinho advogados associados",
+            "Superna Beauty & Tech",
+            "OPT.DOC. Gestão de Consultórios"
+        ],
+        "Nath Toledo": [
+            "Grupo RedeSul",
+            "Gustavo LTDA",
+            "Ugor LTDA",
+            "Victor LTDA",
+            "Jonathan LTDA",
+            "Bela"
+        ],
+        "William Alves da Silva": [
+            "Doutor 7",
+            "TOKLAR",
+            "Dom Gabriel",
+            "Sap Restaurante e Eventos",
+            "Afinidade Distribuidora",
+            "Cac Silva"
+        ],
+        "Guilherme Teixeira": [
+            "Peterson & Escobar ADV",
+            "Pingo Distribuidora",
+            "Maia & Morgado Advogados Associados",
+            "Renda Mais Transporte",
+            "Vinhal Batista Imoveis"
+        ],
+        "Adeilton Rufino da Silva": [
+            "JP Recicla",
+            "Auto Posto Crisma",
+            "Projector"
+        ],
+        "Pedro de Carvalho Marques": [
+            "Summer Auto Peças",
+            "Boug Acessórios",
+            "Vitrine 360"
+        ],
+        "Gabriel Matias Vieira": [
+            "Embratecc"
+        ],
+        "deborafigueredo.ize@gmail.com": [
+            "Pizzaria Kallebe",
+            "Cresol",
+            "Imperial Tapetes e Interiores"
+        ]
+    }
 
 
 def configurar_google_sheets():
