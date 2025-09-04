@@ -24,20 +24,21 @@ from google.oauth2.service_account import Credentials
 CONSULTORES_CLIENTES = {
         "Leonardo Souto": [
             "Ativa Tecidos",
+            "Mundo das Pedras",
+            "Qualipint",
+            "Comercial 3 Irmãos",
+            "R7 Motors"
         ],
         "Drisi Rigamonti": [
-            "Império das Cadeiras",
-            "Linha por Linha"
+            "Linha por Linha",
+            "Império das Cadeiras"
         ],
         "Tiago Alves de Oliveira": [
             "Fio de Amor",
-            "Saquecred",
             "Connect Energia Solar"
         ],
         "Lucas Oliveira": [
-            "Cloud Treinamentos (INITD LTDA)",
             "Zion",
-            "Martins Magazine",
             "Siligyn"
         ],
         "Romulo Chaul": [
@@ -48,9 +49,7 @@ CONSULTORES_CLIENTES = {
         ],
         "Ariana Fernandes": [
             "Casa da Manicure",
-            "VMB Advocacia",
             "Sallus",
-            "Laboratório de Análises Clínicas Labcenter",
             "Kairo Ícaro Advogados Associados",
             "Milhã Net"
         ],
@@ -80,27 +79,25 @@ CONSULTORES_CLIENTES = {
             "OPT.DOC. Gestão de Consultórios"
         ],
         "Nath Toledo": [
-            "Grupo RedeSul"
+            "Grupo RedeSul","Ugor LTDA",
+            "Victor LTDA","Bela"
         ],
         "William Alves da Silva": [
             "Doutor 7",
             "TOKLAR",
             "Dom Gabriel",
-            "Zoom Veículos",
             "Sap Restaurante e Eventos",
-            "Afinidade Distribuidora"
+            "Afinidade Distribuidora",
+            "Cac Silva"
         ],
         "Guilherme Teixeira": [
             "Peterson & Escobar ADV",
             "Pingo Distribuidora",
             "Maia & Morgado Advogados Associados",
-            "AR Advocacia Empresarial",
-            "Ilir Advogados",
             "Renda Mais Transporte",
             "Vinhal Batista Imoveis"
         ],
         "Adeilton Rufino da Silva": [
-            "Telerad",
             "JP Recicla",
             "Auto Posto Crisma",
             "Projector"
@@ -108,14 +105,12 @@ CONSULTORES_CLIENTES = {
         "Pedro de Carvalho Marques": [
             "Summer Auto Peças",
             "Boug Acessórios",
-            "Vitrine 360",
-            "Marcia Pinto Gastronomia"
+            "Vitrine 360"
         ],
         "Gabriel Matias Vieira": [
             "Embratecc"
         ],
         "deborafigueredo.ize@gmail.com": [
-            "Grupo Ótica Atual",
             "Pizzaria Kallebe",
             "Cresol",
             "Imperial Tapetes e Interiores"
