@@ -79,7 +79,7 @@ CONSULTORES_CLIENTES = {
             "OPT.DOC. Gestão de Consultórios"
         ],
         "Nath Toledo": [
-            "Grupo RedeSul","Ugor LTDA",],
+            "Grupo RedeSul",],
         "William Alves da Silva": [
             "Doutor 7",
             "TOKLAR",
