@@ -82,9 +82,7 @@ CONSULTORES_CLIENTES = {
             "Grupo RedeSul",
             "Gustavo LTDA",
             "Ugor LTDA",
-            "Victor LTDA",
-            "Jonathan LTDA",
-            "Bela"
+            "Victor LTDA","Bela"
         ],
         "William Alves da Silva": [
             "Doutor 7",
