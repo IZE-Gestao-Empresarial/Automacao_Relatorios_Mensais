@@ -114,7 +114,9 @@ CONSULTORES_CLIENTES = {
         "Nath Toledo": [
             "Grupo RedeSul",
             "Expanzio [Unidade 1]",
-            "Expanzio [Unidade 2]"
+            "Expanzio [Unidade 2]",
+            "Gustavo LTDA",
+            "Jonathan LTDA"
         ],
         "William Alves da Silva": [
             "Doutor 7",
