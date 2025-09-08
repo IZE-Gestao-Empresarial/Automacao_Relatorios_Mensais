@@ -35,7 +35,7 @@ CONSULTORES_CLIENTES = {
         ],
         "Drisi Rigamonti": [
             "Linha por Linha",
-            "Império das Cadeiras",
+
             "Biomassa"
         ],
         "Tiago Alves de Oliveira": [
