@@ -113,8 +113,7 @@ CONSULTORES_CLIENTES = {
         ],
         "Nath Toledo": [
             "Grupo RedeSul",
-            "Expanzio [Unidade 1]",
-            "Expanzio [Unidade 2]",
+
             "Gustavo LTDA",
             "Jonathan LTDA"
         ],
@@ -162,7 +161,6 @@ CONSULTORES_CLIENTES = {
             "Imperial Tapetes e Interiores"
         ]
     }
-
 
 def configurar_google_sheets():
     """
@@ -696,7 +694,6 @@ def exibir_confirmacao_envio():
             
             # Reexecutar aplicação
             st.rerun()
-    
 
 def verificar_acesso():
     """
