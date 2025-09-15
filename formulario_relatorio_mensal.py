@@ -27,19 +27,32 @@ CONSULTORES_CLIENTES = {
         "Leonardo Souto": [
             "Ativa Tecidos",
             "Mundo das Pedras",
+            "Levens e Lineker",
             "Qualipint",
             "Comercial 3 Irmãos",
-            "R7 Motors"
+            "R7 Motors",
+            "DAZAN EQUIPAMENTOS",
+            "FG AUTO CENTER",
+            "Valor Distribuição"
         ],
         "Drisi Rigamonti": [
             "Linha por Linha",
-            "Império das Cadeiras"
+
+            "Biomassa"
         ],
         "Tiago Alves de Oliveira": [
             "Fio de Amor",
-            "Connect Energia Solar"
+            "Daniel Guimarães Advocacia",
+            "Saquecred",
+            "A S DE SOUZA PROJETOS AMBIENTAIS",
+            "HOTEL VILLAGIO D'ITALIA",
+            "Crescendo na Fé Cursos Online",
+            "Connect Energia Solar",
+            "SQD BEACH SPORTS",
+            "Rs 2v Ventures Empreendimentos"
         ],
         "Lucas Oliveira": [
+            "Cloud Treinamentos",
             "Zion",
             "Siligyn"
         ],
@@ -51,39 +64,62 @@ CONSULTORES_CLIENTES = {
         ],
         "Ariana Fernandes": [
             "Casa da Manicure",
+            "VMB Advocacia",
+            "VET FAUNA PET SHOP",
             "Sallus",
+            "Laboratório de Análises Clínicas Labcenter",
             "Kairo Ícaro Advogados Associados",
-            "Milhã Net"
+            "Milhã Net",
+            "LADISCON MARKETING DIGITAL",
+            "Fabricio Salfer Sociedade Individual de Advocacia"
         ],
         "Ana Paula B Duarte": [
             "Criar Agronegócios",
             "Sementes 3 Pinheiros",
+            "MelkenPUB",
             "RM Moto Peças",
             "Multifiltros",
+            "Sideraço S/A",
             "Sanear Brasil",
-            "MF Comércio de Caminhões"
+            "MF Comércio de Caminhões",
+            "Baixada do Sol Restaurante e Churrascaria"
         ],
         "Matheus Firmino": [
-            "Expertabi Assessoria Internacional"
+            "Expertabi Assessoria Internacional",
+            "Roma Comunicação"
         ],
         "Nury Sato": [
-            "Euro e Cia",
+            "Euro e Cia [Matriz]",
+            "Euro e Cia [Florianopolis]",
+            "Euro e Cia [Infoprodutos]",
             "J E L Serviços Médicos",
             "Silveira de Oliveira dos Santos Advogados",
+            "D&J Urbanas Dedetização e Higienização",
             "Dias e Lima Advogados",
             "EG Transportes e Logísticas",
-            "Petfeel Petcenter"
+            "Petfeel Petcenter",
+            "Nebraska",
+            "Cia Sat Gerenciamento Via Satelite"
         ],
         "Danilo Vaz": [
             "BBZ Advocacia",
+            "REMAX GOL FINANCEIRO GERAL",
+            "Diogo Magalhães Sociedade Individual de Advocacia",
+            "Renan Maldonado Advogados",
+
+            "New Shape RO Academia",
             "Leonardo Rainan e Rodrigo Pinho advogados associados",
+            "NCO Advogados",
             "Superna Beauty & Tech",
             "OPT.DOC. Gestão de Consultórios",
             "Firme e Forte - Segurança e Terceirização"
         ],
         "Nath Toledo": [
-            "Grupo RedeSul","Ugor LTDA",
-            "Victor LTDA","Bela"
+            "Grupo RedeSul",
+            "Expanzio [Unidade 1]",
+            "Expanzio [Unidade 2]",
+            "Gustavo LTDA",
+            "Jonathan LTDA"
         ],
         "William Alves da Silva": [
             "Doutor 7",
@@ -91,29 +127,39 @@ CONSULTORES_CLIENTES = {
             "Dom Gabriel",
             "Sap Restaurante e Eventos",
             "Afinidade Distribuidora",
+            "IR IMPORTS",
             "Cac Silva"
         ],
         "Guilherme Teixeira": [
             "Peterson & Escobar ADV",
+            "R - FLEX",
             "Pingo Distribuidora",
             "Maia & Morgado Advogados Associados",
+            "AR Advocacia Empresarial",
+            "Ilir Advogados",
+            "Fretou Brasil Logística",
             "Renda Mais Transporte",
             "Vinhal Batista Imoveis"
         ],
         "Adeilton Rufino da Silva": [
+            "Telerad",
             "JP Recicla",
             "Auto Posto Crisma",
-            "Projector"
+            "Projector",
+            "TSM COMERCIO DE SEMIJOIAS"
         ],
         "Pedro de Carvalho Marques": [
             "Summer Auto Peças",
             "Boug Acessórios",
-            "Vitrine 360"
+            "Vitrine 360",
+            "Marcia Pinto Gastronomia"
         ],
         "Gabriel Matias Vieira": [
-            "Embratecc"
+            "Embratecc",
+            "Giga Móveis"
         ],
         "deborafigueredo.ize@gmail.com": [
+            "Grupo Ótica Atual",
             "Pizzaria Kallebe",
             "Cresol",
             "Imperial Tapetes e Interiores"
@@ -806,7 +852,6 @@ def exibir_confirmacao_envio():
             
             # Reexecutar aplicação
             st.rerun()
-    
 
 def verificar_acesso():
     """
