@@ -18,6 +18,8 @@ import threading
 import time
 import gspread
 from google.oauth2.service_account import Credentials
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 # Dicionário de consultores e seus respectivos clientes
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
@@ -76,7 +78,8 @@ CONSULTORES_CLIENTES = {
             "BBZ Advocacia",
             "Leonardo Rainan e Rodrigo Pinho advogados associados",
             "Superna Beauty & Tech",
-            "OPT.DOC. Gestão de Consultórios"
+            "OPT.DOC. Gestão de Consultórios",
+            "Firme e Forte - Segurança e Terceirização"
         ],
         "Nath Toledo": [
             "Grupo RedeSul","Ugor LTDA",
@@ -116,6 +119,159 @@ CONSULTORES_CLIENTES = {
             "Imperial Tapetes e Interiores"
         ]
     }
+
+
+def configurar_banco_dados():
+    """
+    Configura a conexão com o banco de dados PostgreSQL
+    Retorna conexão se bem-sucedido, None caso contrário
+    """
+    try:
+        # Tentar usar secrets do Streamlit primeiro (para produção)
+        try:
+            db_config = st.secrets["database"]
+            connection_params = {
+                'dbname': db_config["DB_NAME"],
+                'user': db_config["DB_USER"],
+                'password': db_config["DB_PASSWORD"],
+                'host': db_config["DB_HOST"],
+                'port': db_config["DB_PORT"]
+            }
+        except (KeyError, FileNotFoundError):
+            # Fallback para arquivo secrets.toml local (para desenvolvimento)
+            try:
+                import toml
+                
+                if os.path.exists(".streamlit/secrets.toml"):
+                    secrets = toml.load(".streamlit/secrets.toml")
+                    
+                    if "database" not in secrets:
+                        raise KeyError("Seção 'database' não encontrada no secrets.toml")
+                    
+                    db_config = secrets["database"]
+                    connection_params = {
+                        'dbname': db_config["DB_NAME"],
+                        'user': db_config["DB_USER"],
+                        'password': db_config["DB_PASSWORD"],
+                        'host': db_config["DB_HOST"],
+                        'port': db_config["DB_PORT"]
+                    }
+                else:
+                    st.error("❌ Credenciais do banco de dados não encontradas. Configure os secrets.")
+                    return None
+            except ImportError:
+                st.error("❌ Biblioteca 'toml' não encontrada. Instale com: pip install toml")
+                return None
+            except Exception as toml_error:
+                st.error(f"❌ Erro ao ler secrets.toml: {str(toml_error)}")
+                return None
+        
+        # Tentar conectar ao banco
+        connection = psycopg2.connect(**connection_params)
+        connection.autocommit = True  # Para commits automáticos
+        
+        # Testar a conexão
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+            cursor.fetchone()
+        
+        return connection
+        
+    except psycopg2.Error as e:
+        st.error(f"❌ Erro ao conectar ao banco de dados: {str(e)}")
+        return None
+    except Exception as e:
+        st.error(f"❌ Erro ao configurar banco de dados:")
+        st.error(f"📋 Detalhes: {str(e)}")
+        st.error(f"🔧 Tipo do erro: {type(e).__name__}")
+        return None
+
+def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
+    """
+    Envia os dados do formulário para o banco de dados PostgreSQL
+    """
+    try:
+        # Configurar conexão
+        connection = configurar_banco_dados()
+        
+        if connection is None:
+            st.error("❌ Não foi possível conectar ao banco de dados")
+            return False
+        
+        with connection.cursor() as cursor:
+            # Inserir dados para cada cliente com resposta "Sim"
+            for cliente_dados in dados_exportacao["clientes_sim"]:
+                # Buscar o ID do cliente pelo nome
+                select_sql = "SELECT id_cliente FROM cliente WHERE nome = %s"
+                cursor.execute(select_sql, (cliente_dados["cliente"],))
+                resultado = cursor.fetchone()
+                
+                if resultado is None:
+                    st.warning(f"⚠️ Cliente '{cliente_dados['cliente']}' não encontrado na tabela cliente. Pulando...")
+                    continue
+                
+                id_cliente = resultado[0]
+                
+                insert_sql = """
+                INSERT INTO resposta_formularios 
+                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor)
+                VALUES (CURRENT_DATE, %s, %s, %s, %s)
+                """
+                
+                modulos_str = ", ".join(cliente_dados["modulos"]) if cliente_dados["modulos"] else "Nenhum"
+                
+                cursor.execute(insert_sql, (
+                    id_cliente,
+                    True,  # enviar_relatorio = True
+                    modulos_str,
+                    cliente_dados["nota_consultor"] if cliente_dados["nota_consultor"] else ""
+                ))
+            
+            # Inserir dados para cada cliente com resposta "Não"
+            for cliente_nao in dados_exportacao["clientes_nao"]:
+                # Buscar o ID do cliente pelo nome
+                select_sql = "SELECT id_cliente FROM cliente WHERE nome = %s"
+                cursor.execute(select_sql, (cliente_nao,))
+                resultado = cursor.fetchone()
+                
+                if resultado is None:
+                    st.warning(f"⚠️ Cliente '{cliente_nao}' não encontrado na tabela cliente. Pulando...")
+                    continue
+                
+                id_cliente = resultado[0]
+                
+                insert_sql = """
+                INSERT INTO resposta_formularios 
+                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor)
+                VALUES (CURRENT_DATE, %s, %s, %s, %s)
+                """
+                
+                cursor.execute(insert_sql, (
+                    id_cliente,
+                    False,  # enviar_relatorio = False
+                    "",  # modulos vazio
+                    ""   # nota_consultor vazio
+                ))
+            
+            # Confirmar transação
+            connection.commit()
+        
+        st.success(f"✅ Dados salvos no banco de dados! Total de registros: {len(dados_exportacao['clientes_sim']) + len(dados_exportacao['clientes_nao'])}")
+        return True
+        
+    except psycopg2.Error as e:
+        st.error(f"❌ Erro ao salvar no banco de dados: {str(e)}")
+        if connection:
+            connection.rollback()
+        return False
+    except Exception as e:
+        st.error(f"❌ Erro inesperado ao salvar dados: {str(e)}")
+        if connection:
+            connection.rollback()
+        return False
+    finally:
+        if connection:
+            connection.close()
 
 
 def configurar_google_sheets():
@@ -578,9 +734,9 @@ def formulario_principal():
     
     return respostas
 
-def processar_formulario_backend(respostas):
+def processar_formulario_backend(respostas, consultor_selecionado):
     """
-    Processa as respostas e envia os dados para o Google Sheets
+    Processa as respostas e envia os dados para o banco de dados PostgreSQL
     """
     # Validar se há respostas
     respostas_validas = {k: v for k, v in respostas.items() if v["deseja_relatorio"] != "Selecione uma opção"}
@@ -614,14 +770,14 @@ def processar_formulario_backend(respostas):
         "taxa_solicitacao": (len(clientes_sim) / len(respostas_validas)) * 100 if len(respostas_validas) > 0 else 0
     }
     
-    # Enviar dados para Google Sheets
-    sucesso_sheets = enviar_para_google_sheets(dados_exportacao)
+    # Enviar dados para o banco de dados PostgreSQL
+    sucesso_banco = enviar_para_banco_dados(dados_exportacao, consultor_selecionado)
     
     # Só retornar dados se o envio foi bem-sucedido
-    if sucesso_sheets:
+    if sucesso_banco:
         return dados_exportacao
     else:
-        st.error("❌ Falha ao enviar os dados para o Google Sheets. Tente novamente.")
+        st.error("❌ Falha ao enviar os dados para o banco de dados. Tente novamente.")
         return None
 
 def exibir_confirmacao_envio():
@@ -710,7 +866,7 @@ def main():
             
             with col2:
                 if st.button("📤 Enviar Formulário", type="primary", use_container_width=True):
-                    dados_exportacao = processar_formulario_backend(respostas)
+                    dados_exportacao = processar_formulario_backend(respostas, st.session_state.consultor_select)
                     if dados_exportacao:
                         st.session_state.dados_processados = dados_exportacao
                         # Força o rerun para esconder o botão de envio e mostrar apenas a confirmação
