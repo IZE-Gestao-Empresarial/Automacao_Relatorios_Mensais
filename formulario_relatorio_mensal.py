@@ -104,7 +104,7 @@ CONSULTORES_CLIENTES = {
             "REMAX GOL FINANCEIRO GERAL",
             "Diogo Magalhães Sociedade Individual de Advocacia",
             "Renan Maldonado Advogados",
-            "Firme e Forte - Segurança e Terceirização",
+
             "New Shape RO Academia",
             "Leonardo Rainan e Rodrigo Pinho advogados associados",
             "NCO Advogados",
