@@ -120,7 +120,6 @@ CONSULTORES_CLIENTES = {
         ],
         "William Alves da Silva": [
 
-            "Dom Gabriel",
             "Sap Restaurante e Eventos",
             "Cac Silva",
             "Camilo Auto Peças"
