@@ -120,6 +120,7 @@ CONSULTORES_CLIENTES = {
         ],
         "William Alves da Silva": [
 
+            "Sap Restaurante e Eventos",
             "Cac Silva",
             "Camilo Auto Peças"
         ],
