@@ -119,7 +119,7 @@ CONSULTORES_CLIENTES = {
             "MelkenPUB"
         ],
         "William Alves da Silva": [
-            "Doutor 7",
+
             "Dom Gabriel",
             "Sap Restaurante e Eventos",
             "Cac Silva",
@@ -174,7 +174,6 @@ CONSULTORES_CLIENTES = {
             "EG Transportes e Logísticas"
         ]
     }
-
 
 def configurar_banco_dados():
     """
@@ -327,7 +326,6 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
     finally:
         if connection:
             connection.close()
-
 
 def configurar_google_sheets():
     """
