@@ -111,7 +111,7 @@ CONSULTORES_CLIENTES = {
             "Cia Sat Gerenciamento Via Satelite"
         ],
         "Ylienney Archil": [
-            "Grupo RedeSul",
+
             "J E L Serviços Médicos",
             "VMB Advocacia"
         ],
