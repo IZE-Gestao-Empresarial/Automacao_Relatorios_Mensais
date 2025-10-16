@@ -112,7 +112,6 @@ CONSULTORES_CLIENTES = {
         ],
         "Ylienney Archil": [
 
-            "J E L Serviços Médicos",
             "VMB Advocacia"
         ],
         "Kaio Rodrigues": [
