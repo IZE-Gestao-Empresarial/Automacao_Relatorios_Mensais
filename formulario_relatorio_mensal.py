@@ -103,7 +103,6 @@ CONSULTORES_CLIENTES = {
         "Danilo Vaz": [
             "BBZ Advocacia",
             "Silveira de Oliveira dos Santos Advogados",
-            "REMAX GOL FINANCEIRO GERAL",
 
             "Renan Maldonado Advogados",
             "Firme e Forte - Segurança e Terceirização",
