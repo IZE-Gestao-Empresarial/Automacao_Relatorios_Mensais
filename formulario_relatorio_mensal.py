@@ -83,7 +83,7 @@ CONSULTORES_CLIENTES = {
             "Milhã Net",
             "LADISCON MARKETING DIGITAL",
             "Fabricio Salfer Sociedade Individual de Advocacia",
-            "Nebraska",
+
             "Body & Fit"
         ],
         "Ana Paula B Duarte": [
