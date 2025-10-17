@@ -33,7 +33,7 @@ CONSULTORES_CLIENTES = {
             "FG AUTO CENTER"
         ],
         "Drisi Rigamonti": [
-            "Império das Cadeiras",
+
             "Biomassa"
         ],
         "Tiago Alves de Oliveira": [
