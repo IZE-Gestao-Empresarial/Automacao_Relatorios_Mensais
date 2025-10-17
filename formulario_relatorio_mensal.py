@@ -46,7 +46,7 @@ CONSULTORES_CLIENTES = {
             "Connect Energia Solar",
             "Petfeel Petcenter",
             "Cabrera's",
-            "SQD BEACH SPORTS",
+
             "Rs 2v Ventures Empreendimentos",
             "TOTAL AR"
         ],
