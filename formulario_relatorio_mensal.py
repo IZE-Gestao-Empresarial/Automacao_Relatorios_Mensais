@@ -146,7 +146,7 @@ CONSULTORES_CLIENTES = {
             "Summer Auto Peças",
 
             "NUTRI REIS",
-            "Vitrine 360",
+
             "Marcia Pinto Gastronomia",
             "Santrack",
             "Flávia Ayres"
