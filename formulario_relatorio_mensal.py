@@ -108,7 +108,7 @@ CONSULTORES_CLIENTES = {
             "Renan Maldonado Advogados",
             "Firme e Forte - Segurança e Terceirização",
             "Leonardo Rainan e Rodrigo Pinho advogados associados",
-            "NCO Advogados",
+
             "OPT.DOC. Gestão de Consultórios",
             "Cia Sat Gerenciamento Via Satelite"
         ],
