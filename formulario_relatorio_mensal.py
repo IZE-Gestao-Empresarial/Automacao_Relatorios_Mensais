@@ -40,7 +40,7 @@ CONSULTORES_CLIENTES = {
             "Fio de Amor",
             "Daniel Guimarães Advocacia",
             "Saquecred",
-            "A S DE SOUZA PROJETOS AMBIENTAIS",
+
             "HOTEL VILLAGIO D'ITALIA",
             "Crescendo na Fé Cursos Online",
             "Connect Energia Solar",
