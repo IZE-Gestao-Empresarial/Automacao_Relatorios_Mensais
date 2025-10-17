@@ -158,9 +158,8 @@ CONSULTORES_CLIENTES = {
             "Grupo Ótica Atual",
             "Pizzaria Kallebe",
 
-            "Longevitale",
-            "Imperial Tapetes e Interiores"
-        ],
+            "Longevitale"
+            ],
         "Nury Sato": [
             "D&J Urbanas Dedetização e Higienização"
         ],
