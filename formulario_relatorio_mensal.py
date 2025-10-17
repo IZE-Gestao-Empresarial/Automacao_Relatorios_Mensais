@@ -91,8 +91,7 @@ CONSULTORES_CLIENTES = {
             "Sideraço S/A",
             "Sanear Brasil",
             "MF Comércio de Caminhões",
-            "Baixada do Sol Restaurante e Churrascaria",
-            "Fabrício Pereira Ludtke"
+            "Baixada do Sol Restaurante e Churrascaria"
             ],
         "Matheus Firmino": [
             "Expertabi Assessoria Internacional",
