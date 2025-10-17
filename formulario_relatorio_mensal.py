@@ -144,7 +144,7 @@ CONSULTORES_CLIENTES = {
         ],
         "Pedro de Carvalho Marques": [
             "Summer Auto Peças",
-            "Boug Acessórios",
+
             "NUTRI REIS",
             "Vitrine 360",
             "Marcia Pinto Gastronomia",
