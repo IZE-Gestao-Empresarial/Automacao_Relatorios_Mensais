@@ -112,7 +112,7 @@ CONSULTORES_CLIENTES = {
             "VMB Advocacia"
         ],
         "Kaio Rodrigues": [
-            "MelkenPUB"
+
         ],
         "William Alves da Silva": [
             "Camilo Auto Peças",
