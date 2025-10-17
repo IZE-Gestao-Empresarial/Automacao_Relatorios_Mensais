@@ -47,7 +47,8 @@ CONSULTORES_CLIENTES = {
             "Petfeel Petcenter",
             "Cabrera's",
             "SQD BEACH SPORTS",
-            "Rs 2v Ventures Empreendimentos"
+            "Rs 2v Ventures Empreendimentos",
+            "TOTAL AR"
         ],
         "Lucas Oliveira": [
             "Cloud Treinamentos",
