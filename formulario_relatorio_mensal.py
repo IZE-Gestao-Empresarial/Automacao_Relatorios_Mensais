@@ -115,9 +115,9 @@ CONSULTORES_CLIENTES = {
             "MelkenPUB"
         ],
         "William Alves da Silva": [
-
-            "Cac Silva",
-            "Camilo Auto Peças"
+            "Camilo Auto Peças",
+            "AGRI FACAS",
+            "Doutor 7"
         ],
         "Guilherme Teixeira": [
             "Peterson & Escobar ADV",
