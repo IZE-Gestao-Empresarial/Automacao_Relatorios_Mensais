@@ -154,7 +154,7 @@ CONSULTORES_CLIENTES = {
         ],
         "deborafigueredo.ize@gmail.com": [
             "Siligyn",
-            "Grupo Ótica Atual",
+
             "Pizzaria Kallebe",
 
             "Longevitale"
