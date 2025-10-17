@@ -67,7 +67,8 @@ CONSULTORES_CLIENTES = {
             "Drogaria Menor Preço",
             "La Casa de Hambúrguer",
             "Blend BR [1]",
-            "Blend BR [2]"
+            "Blend BR [2]",
+            "Pontes Sports"
         ],
         "Vitor": [
             "Levens e Lineker"
