@@ -56,7 +56,7 @@ CONSULTORES_CLIENTES = {
             "Smart Glass"
         ],
         "Romulo Chaul": [
-            "PavFacil",
+
             "Euro e Cia [Matriz]",
             "Euro e Cia [Florianopolis]",
             "Euro e Cia [Infoprodutos]",
