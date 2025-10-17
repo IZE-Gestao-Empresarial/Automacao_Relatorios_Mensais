@@ -115,7 +115,7 @@ CONSULTORES_CLIENTES = {
 
         ],
         "William Alves da Silva": [
-            "Camilo Auto Peças",
+
             "AGRI FACAS"
             ],
         "Guilherme Teixeira": [
