@@ -93,9 +93,8 @@ CONSULTORES_CLIENTES = {
             "Sanear Brasil",
             "MF Comércio de Caminhões",
             "Baixada do Sol Restaurante e Churrascaria",
-            "Fabrício Pereira Ludtke",
-            "RKM Hidráulica"
-        ],
+            "Fabrício Pereira Ludtke"
+            ],
         "Matheus Firmino": [
             "Expertabi Assessoria Internacional",
             "Roma Comunicação"
