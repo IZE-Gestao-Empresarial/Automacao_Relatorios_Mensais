@@ -27,7 +27,7 @@ CONSULTORES_CLIENTES = {
         "Leonardo Souto": [
             "Ativa Tecidos",
             "Mundo das Pedras",
-            "Comercial 3 Irmãos",
+
             "R7 Motors",
             "DAZAN EQUIPAMENTOS",
             "FG AUTO CENTER"
