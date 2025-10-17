@@ -25,7 +25,7 @@ from psycopg2.extras import RealDictCursor
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
 CONSULTORES_CLIENTES = {
         "Leonardo Souto": [
-            "Ativa Tecidos",
+
             "Mundo das Pedras",
 
             "R7 Motors",
