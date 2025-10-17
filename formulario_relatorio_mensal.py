@@ -86,7 +86,7 @@ CONSULTORES_CLIENTES = {
             "Body & Fit"
         ],
         "Ana Paula B Duarte": [
-            "Criar Agronegócios",
+
             "Multifiltros",
             "Sideraço S/A",
             "Sanear Brasil",
