@@ -116,9 +116,8 @@ CONSULTORES_CLIENTES = {
         ],
         "William Alves da Silva": [
             "Camilo Auto Peças",
-            "AGRI FACAS",
-            "Doutor 7"
-        ],
+            "AGRI FACAS"
+            ],
         "Guilherme Teixeira": [
             "Peterson & Escobar ADV",
             "Maia & Morgado Advogados Associados",
