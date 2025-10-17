@@ -77,7 +77,7 @@ CONSULTORES_CLIENTES = {
             "Casa da Manicure",
             "VET FAUNA PET SHOP",
             "Sallus",
-            "Laboratório de Análises Clínicas Labcenter",
+
             "Kairo Ícaro Advogados Associados",
             "Dias e Lima Advogados",
             "Milhã Net",
