@@ -39,7 +39,6 @@ CONSULTORES_CLIENTES = {
         "Tiago Alves de Oliveira": [
             "Fio de Amor",
             "Daniel Guimarães Advocacia",
-            "Saquecred",
 
             "HOTEL VILLAGIO D'ITALIA",
             "Crescendo na Fé Cursos Online",
