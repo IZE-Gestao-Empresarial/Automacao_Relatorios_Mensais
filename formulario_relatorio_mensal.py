@@ -145,8 +145,6 @@ CONSULTORES_CLIENTES = {
         "Pedro de Carvalho Marques": [
             "Summer Auto Peças",
 
-            "NUTRI REIS",
-
             "Marcia Pinto Gastronomia",
             "Santrack",
             "Flávia Ayres"
