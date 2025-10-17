@@ -82,7 +82,6 @@ CONSULTORES_CLIENTES = {
             "Dias e Lima Advogados",
             "Milhã Net",
             "LADISCON MARKETING DIGITAL",
-            "Fabricio Salfer Sociedade Individual de Advocacia",
 
             "Body & Fit"
         ],
