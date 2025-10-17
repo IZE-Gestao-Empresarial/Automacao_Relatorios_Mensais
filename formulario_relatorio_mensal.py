@@ -159,7 +159,7 @@ CONSULTORES_CLIENTES = {
             "Siligyn",
             "Grupo Ótica Atual",
             "Pizzaria Kallebe",
-            "Cresol",
+
             "Longevitale",
             "Imperial Tapetes e Interiores"
         ],
