@@ -127,9 +127,8 @@ CONSULTORES_CLIENTES = {
         ],
         "Gabriel Matias Vieira": [
             "R - FLEX",
-            "Embratecc",
-            "Giga Móveis"
-        ],
+            "Embratecc"
+            ],
         "Adeilton Rufino da Silva": [
             "Telerad",
             "Distribuidora Hortybom",
