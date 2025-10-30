@@ -20,6 +20,47 @@ import gspread
 from google.oauth2.service_account import Credentials
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import uuid
+import asyncio
+import re
+
+def limpar_emojis_e_caracteres_especiais(texto):
+    """
+    Remove emojis e caracteres especiais do texto, mantendo apenas caracteres alfanuméricos,
+    pontuação básica e espaços em branco.
+    """
+    if not texto:
+        return texto
+    
+    # Padrão para remover emojis e outros caracteres especiais Unicode
+    # Mantém letras, números, pontuação básica e espaços
+    emoji_pattern = re.compile(
+        "["
+        "\U0001F600-\U0001F64F"  # emoticons
+        "\U0001F300-\U0001F5FF"  # symbols & pictographs
+        "\U0001F680-\U0001F6FF"  # transport & map symbols
+        "\U0001F1E0-\U0001F1FF"  # flags (iOS)
+        "\U00002702-\U000027B0"  # dingbats
+        "\U000024C2-\U0001F251"  # enclosed characters
+        "\U0001F900-\U0001F9FF"  # supplemental symbols and pictographs
+        "\U0001FA70-\U0001FAFF"  # symbols and pictographs extended-a
+        "\U00002600-\U000026FF"  # miscellaneous symbols
+        "\U00002700-\U000027BF"  # dingbats
+        "]+", 
+        flags=re.UNICODE
+    )
+    
+    # Remove emojis
+    texto_limpo = emoji_pattern.sub('', texto)
+    
+    # Remove caracteres de controle e outros caracteres não imprimíveis
+    # mas mantém quebras de linha, tabs e espaços
+    texto_limpo = re.sub(r'[^\x20-\x7E\n\r\t\u00C0-\u017F\u0100-\u024F]', '', texto_limpo)
+    
+    # Remove espaços múltiplos e limpa o texto
+    texto_limpo = re.sub(r'\s+', ' ', texto_limpo).strip()
+    
+    return texto_limpo
 
 # Dicionário de consultores e seus respectivos clientes
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
@@ -231,14 +272,19 @@ def configurar_banco_dados():
 def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
     """
     Envia os dados do formulário para o banco de dados PostgreSQL
+    Retorna o ID do envio para tracking
     """
     try:
+        # Gerar ID único para este envio de formulário
+        id_envio_form = str(uuid.uuid4())
+        dados_exportacao["id_envio_form"] = id_envio_form
+        
         # Configurar conexão
         connection = configurar_banco_dados()
         
         if connection is None:
             st.error("❌ Não foi possível conectar ao banco de dados")
-            return False
+            return None
         
         with connection.cursor() as cursor:
             # Inserir dados para cada cliente com resposta "Sim"
@@ -256,8 +302,8 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
                 
                 insert_sql = """
                 INSERT INTO resposta_formularios 
-                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor)
-                VALUES (CURRENT_DATE, %s, %s, %s, %s)
+                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor, id_envio_form, log_error_fluxo)
+                VALUES (CURRENT_DATE, %s, %s, %s, %s, %s, %s)
                 """
                 
                 modulos_str = ", ".join(cliente_dados["modulos"]) if cliente_dados["modulos"] else "Nenhum"
@@ -266,7 +312,9 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
                     id_cliente,
                     True,  # enviar_relatorio = True
                     modulos_str,
-                    cliente_dados["nota_consultor"] if cliente_dados["nota_consultor"] else ""
+                    cliente_dados["nota_consultor"] if cliente_dados["nota_consultor"] else "",
+                    id_envio_form,
+                    False  # log_error_fluxo = False inicialmente
                 ))
             
             # Inserir dados para cada cliente com resposta "Não"
@@ -284,36 +332,135 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
                 
                 insert_sql = """
                 INSERT INTO resposta_formularios 
-                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor)
-                VALUES (CURRENT_DATE, %s, %s, %s, %s)
+                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor, id_envio_form, log_error_fluxo)
+                VALUES (CURRENT_DATE, %s, %s, %s, %s, %s, %s)
                 """
                 
                 cursor.execute(insert_sql, (
                     id_cliente,
                     False,  # enviar_relatorio = False
                     "",  # modulos vazio
-                    ""   # nota_consultor vazio
+                    "",   # nota_consultor vazio
+                    id_envio_form,
+                    False  # log_error_fluxo = False inicialmente
                 ))
             
             # Confirmar transação
             connection.commit()
         
-        st.success(f"✅ Dados salvos no banco de dados! Total de registros: {len(dados_exportacao['clientes_sim']) + len(dados_exportacao['clientes_nao'])}")
-        return True
+        return id_envio_form
         
     except psycopg2.Error as e:
         st.error(f"❌ Erro ao salvar no banco de dados: {str(e)}")
         if connection:
             connection.rollback()
-        return False
+        return None
     except Exception as e:
         st.error(f"❌ Erro inesperado ao salvar dados: {str(e)}")
         if connection:
             connection.rollback()
-        return False
+        return None
     finally:
         if connection:
             connection.close()
+
+def verificar_status_envio(id_envio_form):
+    """
+    Verifica o status do envio no banco de dados
+    Retorna: dict com informações do status
+    """
+    try:
+        connection = configurar_banco_dados()
+        if connection is None:
+            return {"erro": "Não foi possível conectar ao banco de dados"}
+        
+        with connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            # Verificar status dos relatórios enviados
+            status_sql = """
+            SELECT 
+                rf.id_cliente,
+                c.nome as cliente_nome,
+                rf.log_error_fluxo,
+                rm.enviado,
+                rf.modulos
+            FROM resposta_formularios rf
+            JOIN cliente c ON rf.id_cliente = c.id_cliente
+            LEFT JOIN relatorio_mensal rm ON rf.id_cliente = rm.id_cliente 
+                AND DATE(rm.data_criacao) = CURRENT_DATE
+            WHERE rf.id_envio_form = %s 
+                AND rf.enviar_relatorio = true
+            """
+            
+            cursor.execute(status_sql, (id_envio_form,))
+            resultados = cursor.fetchall()
+            
+            if not resultados:
+                return {"erro": "Nenhum registro encontrado para este envio"}
+            
+            status_clientes = []
+            for resultado in resultados:
+                cliente_status = {
+                    "cliente": resultado['cliente_nome'],
+                    "modulos": resultado['modulos'],
+                    "erro_fluxo": resultado['log_error_fluxo'],
+                    "enviado": resultado['enviado'] if resultado['enviado'] is not None else False,
+                    "status": "processando"
+                }
+                
+                # Determinar status final
+                if resultado['log_error_fluxo']:
+                    cliente_status["status"] = "erro"
+                elif resultado['enviado']:
+                    cliente_status["status"] = "sucesso"
+                else:
+                    cliente_status["status"] = "processando"
+                
+                status_clientes.append(cliente_status)
+            
+            return {"clientes": status_clientes}
+        
+    except Exception as e:
+        return {"erro": f"Erro ao verificar status: {str(e)}"}
+    finally:
+        if connection:
+            connection.close()
+
+def monitorar_envios_com_timeout(id_envio_form, timeout_minutos=5):
+    """
+    Monitora os envios por um período determinado
+    Retorna o status final após o timeout ou quando todos estiverem processados
+    """
+    timeout_segundos = timeout_minutos * 60
+    inicio = time.time()
+    
+    while (time.time() - inicio) < timeout_segundos:
+        status = verificar_status_envio(id_envio_form)
+        
+        if "erro" in status:
+            return status
+        
+        # Verificar se todos os relatórios foram processados (sucesso ou erro)
+        clientes = status.get("clientes", [])
+        todos_processados = all(
+            cliente["status"] in ["sucesso", "erro"] 
+            for cliente in clientes
+        )
+        
+        if todos_processados:
+            return status
+        
+        # Aguardar antes da próxima verificação
+        time.sleep(10)  # Verificar a cada 10 segundos
+    
+    # Timeout atingido - retornar status atual
+    status = verificar_status_envio(id_envio_form)
+    if "clientes" in status:
+        # Marcar clientes ainda processando como timeout
+        for cliente in status["clientes"]:
+            if cliente["status"] == "processando":
+                cliente["status"] = "timeout"
+    
+    return status
 
 def configurar_google_sheets():
     """
@@ -634,6 +781,71 @@ def configurar_pagina():
     .block-container {
         background-color: #fdf7f4 !important;
     }
+    
+    /* Estilo para status de envio */
+    .status-container {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(255, 105, 0, 0.1);
+        margin: 1rem 0;
+        border-left: 4px solid #FF6900;
+    }
+    
+    .status-item-success {
+        background: linear-gradient(135deg, #E8F5E8 0%, #D4F1D4 100%);
+        border-left: 4px solid #66BB6A;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border-radius: 8px;
+    }
+    
+    .status-item-error {
+        background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+        border-left: 4px solid #E57373;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border-radius: 8px;
+    }
+    
+    .status-item-timeout {
+        background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+        border-left: 4px solid #FFB74D;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border-radius: 8px;
+    }
+    
+    .status-item-processing {
+        background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+        border-left: 4px solid #42A5F5;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border-radius: 8px;
+    }
+    
+    /* Estilo para avisos sobre emojis */
+    .emoji-warning {
+        background-color: #FFF3CD !important;
+        border: 1px solid #FFEAA7 !important;
+        border-radius: 6px !important;
+        padding: 8px !important;
+        margin: 5px 0 !important;
+        font-size: 0.85rem !important;
+        color: #856404 !important;
+    }
+    
+    /* Melhorar visibilidade dos text areas */
+    .stTextArea > div > div > textarea {
+        border: 2px solid #FFE5D6 !important;
+        border-radius: 8px !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }
+    
+    .stTextArea > div > div > textarea:focus {
+        border-color: #FF6900 !important;
+        box-shadow: 0 0 0 3px rgba(255, 105, 0, 0.1) !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -756,7 +968,25 @@ def formulario_principal():
                         placeholder="Digite aqui as suas observações adicionais para o relatório...",
                         height=80,
                         key=f"nota_{cliente}",
+                        help="⚠️ Importante: Não utilize emojis nas notas do consultor. Eles serão automaticamente removidos."
                     )
+                    
+                    # Aviso visual sobre emojis
+                    st.markdown("""
+                    <div class="emoji-warning">
+                        <strong>⚠️ Atenção:</strong> Não utilize emojis nas notas do consultor O sistema remove automaticamente caracteres especiais.
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Verificar se há emojis na nota e mostrar aviso
+                    if nota_consultor:
+                        nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor)
+                        if nota_consultor != nota_limpa:
+                            st.warning(f"🧹 **Nota processada:** Emojis e caracteres especiais foram removidos automaticamente.")
+                            if nota_limpa.strip():
+                                st.info(f"📝 **Texto que será salvo:** \"{nota_limpa}\"")
+                            else:
+                                st.error("❌ **Atenção:** A nota ficou vazia após a remoção dos caracteres especiais.")
                     
                     # Validação
                     if not modulos_selecionados:
@@ -764,11 +994,12 @@ def formulario_principal():
                     else:
                         st.markdown(f'<div class="success-message">Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
                 
-                # Armazenar resposta
+                # Armazenar resposta (com limpeza da nota do consultor)
+                nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
                 respostas[cliente] = {
                     "deseja_relatorio": deseja_relatorio,
                     "modulos": modulos_selecionados,
-                    "nota_consultor": nota_consultor
+                    "nota_consultor": nota_limpa
                 }
             
             st.markdown("<br>", unsafe_allow_html=True)
@@ -791,10 +1022,12 @@ def processar_formulario_backend(respostas, consultor_selecionado):
     
     for cliente, dados in respostas_validas.items():
         if dados["deseja_relatorio"] == "Sim":
+            # Garantir que a nota do consultor esteja limpa antes de enviar
+            nota_limpa = limpar_emojis_e_caracteres_especiais(dados["nota_consultor"]) if dados["nota_consultor"] else ""
             clientes_sim.append({
                 "cliente": cliente,
                 "modulos": dados["modulos"],
-                "nota_consultor": dados["nota_consultor"]
+                "nota_consultor": nota_limpa
             })
         else:
             clientes_nao.append(cliente)
@@ -812,21 +1045,130 @@ def processar_formulario_backend(respostas, consultor_selecionado):
     }
     
     # Enviar dados para o banco de dados PostgreSQL
-    sucesso_banco = enviar_para_banco_dados(dados_exportacao, consultor_selecionado)
+    id_envio_form = enviar_para_banco_dados(dados_exportacao, consultor_selecionado)
     
     # Só retornar dados se o envio foi bem-sucedido
-    if sucesso_banco:
+    if id_envio_form:
+        dados_exportacao["id_envio_form"] = id_envio_form
         return dados_exportacao
     else:
         st.error("❌ Falha ao enviar os dados para o banco de dados. Tente novamente.")
         return None
+
+def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
+    """
+    Exibe o status do envio em tempo real com monitoramento
+    """
+    st.markdown("---")
+    st.markdown("### 📊 Status do Envio dos Relatórios")
+    
+    # Informações iniciais
+    st.info(f"� **Relatórios solicitados:** {len(clientes_solicitados)}")
+    st.info("⏳ **Aguarde enquanto processamos seus relatórios. Isso pode levar até 5 minutos.**")
+    
+    # Container para o status que será atualizado
+    status_placeholder = st.empty()
+    
+    with status_placeholder.container():
+        # Progress bar inicial
+        progress_bar = st.progress(0)
+        
+        # Iniciar monitoramento
+        with st.spinner("🔄 Processando envio dos relatórios..."):
+            status_final = monitorar_envios_com_timeout(id_envio_form, timeout_minutos=5)
+            progress_bar.progress(100)
+    
+    # Limpar o placeholder e exibir resultados finais
+    status_placeholder.empty()
+    
+    # Exibir resultados finais
+    if "erro" in status_final:
+        st.error(f"❌ **Erro no sistema:** {status_final['erro']}")
+        st.error("🔧 Entre em contato com a equipe de tecnologia imediatamente.")
+    else:
+        clientes = status_final.get("clientes", [])
+        
+        if not clientes:
+            st.warning("⚠️ Nenhum cliente encontrado para monitoramento.")
+            return
+        
+        # Separar por status
+        sucessos = [c for c in clientes if c["status"] == "sucesso"]
+        erros = [c for c in clientes if c["status"] == "erro"]
+        timeouts = [c for c in clientes if c["status"] == "timeout"]
+        processando = [c for c in clientes if c["status"] == "processando"]
+        
+        # Estatísticas em destaque
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("✅ Enviados", len(sucessos), delta=f"{len(sucessos)}/{len(clientes)}")
+        with col2:
+            st.metric("❌ Erros", len(erros), delta="Falhas" if len(erros) > 0 else "Nenhuma")
+        with col3:
+            st.metric("⏰ Timeout", len(timeouts), delta="Aguardando" if len(timeouts) > 0 else "Completo")
+        with col4:
+            st.metric("🔄 Processando", len(processando), delta="Em andamento" if len(processando) > 0 else "Finalizado")
+        
+        # Detalhes por status
+        if sucessos:
+            st.success(f"✅ **{len(sucessos)} relatório(s) enviado(s) com sucesso:**")
+            for cliente in sucessos:
+                st.markdown(f"""
+                <div class="status-item-success">
+                    <strong>{cliente['cliente']}</strong><br>
+                    📊 Módulos: {cliente['modulos']}<br>
+                    ✅ Status: Enviado com sucesso
+                </div>
+                """, unsafe_allow_html=True)
+        
+        if erros:
+            st.error(f"❌ **{len(erros)} relatório(s) com erro:**")
+            for cliente in erros:
+                st.markdown(f"""
+                <div class="status-item-error">
+                    <strong>{cliente['cliente']}</strong><br>
+                    ❌ Erro ao enviar o relatório<br>
+                    🔧 <strong>Ação:</strong> Favor entrar em contato com a equipe de tecnologia
+                </div>
+                """, unsafe_allow_html=True)
+        
+        if timeouts:
+            st.warning(f"⏰ **{len(timeouts)} relatório(s) ainda processando:**")
+            for cliente in timeouts:
+                st.markdown(f"""
+                <div class="status-item-timeout">
+                    <strong>{cliente['cliente']}</strong><br>
+                    ⏰ O processamento está demorando mais que o esperado<br>
+                    🔍 <strong>Ação:</strong> Verifique novamente em alguns minutos
+                </div>
+                """, unsafe_allow_html=True)
+        
+        if processando:
+            st.info(f"🔄 **{len(processando)} relatório(s) ainda em processamento:**")
+            for cliente in processando:
+                st.markdown(f"""
+                <div class="status-item-processing">
+                    <strong>{cliente['cliente']}</strong><br>
+                    🔄 Ainda sendo processado<br>
+                    ⏳ <strong>Status:</strong> Aguardando finalização
+                </div>
+                """, unsafe_allow_html=True)
+        
+        # Resumo final
+        if len(sucessos) == len(clientes):
+            st.balloons()
+            st.success("🎉 **Todos os relatórios foram enviados com sucesso!**")
+        elif len(erros) > 0:
+            st.error("⚠️ **Alguns relatórios apresentaram erro. Entre em contato com a equipe de tecnologia.**")
+        elif len(timeouts) > 0 or len(processando) > 0:
+            st.warning("⏳ **Alguns relatórios ainda estão sendo processados. Aguarde ou verifique novamente mais tarde.**")
 
 def exibir_confirmacao_envio():
     """
     Exibe confirmação simples de envio com opção de novo formulário
     """
     st.markdown("---")
-    st.success("✅ **Formulário enviado com sucesso!**")
     
     # Botão estilizado para novo formulário
     st.markdown("<br>", unsafe_allow_html=True)
@@ -909,11 +1251,24 @@ def main():
                     dados_exportacao = processar_formulario_backend(respostas, st.session_state.consultor_select)
                     if dados_exportacao:
                         st.session_state.dados_processados = dados_exportacao
-                        # Força o rerun para esconder o botão de envio e mostrar apenas a confirmação
+                        # Força o rerun para mostrar o status de envio
                         st.rerun()
 
-    # Mostrar confirmação se já foi processado
+    # Mostrar status de envio se já foi processado
     if 'dados_processados' in st.session_state:
+        dados_processados = st.session_state.dados_processados
+        
+        # Se há clientes com relatórios para enviar, mostrar status em tempo real
+        if dados_processados.get("clientes_sim") and dados_processados.get("id_envio_form"):
+            exibir_status_envio_realtime(
+                dados_processados["id_envio_form"],
+                dados_processados["clientes_sim"]
+            )
+        else:
+            # Se não há relatórios para enviar, apenas mostrar confirmação simples
+            st.success("✅ **Formulário processado com sucesso!**")
+        
+        # Botão para novo formulário
         exibir_confirmacao_envio()
 
 if __name__ == "__main__":
