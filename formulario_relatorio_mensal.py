@@ -390,7 +390,7 @@ def verificar_status_envio(id_envio_form):
             FROM resposta_formularios rf
             JOIN cliente c ON rf.id_cliente = c.id_cliente
             LEFT JOIN relatorio_mensal rm ON rf.id_cliente = rm.id_cliente 
-                AND DATE(rm.data_criacao) = CURRENT_DATE
+                AND DATE(rm.data_de_envio) = CURRENT_DATE
             WHERE rf.id_envio_form = %s 
                 AND rf.enviar_relatorio = true
             """
