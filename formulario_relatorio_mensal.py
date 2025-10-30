@@ -73,6 +73,10 @@ CONSULTORES_CLIENTES = {
             "DAZAN EQUIPAMENTOS",
             "FG AUTO CENTER"
         ],
+        "Nathalia Toledo": [
+
+            "Linha por Linha",
+        ],
         "Drisi Rigamonti": [
 
             "Biomassa"
