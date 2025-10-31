@@ -1110,8 +1110,7 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
     
     # Informações iniciais
     st.info(f"**Relatórios solicitados:** {quantidade_relatorios}")
-    st.info(f"⏳ **Tempo estimado:** ~{int(tempo_estimado_minutos)} minutos ({quantidade_relatorios} relatório{'s' if quantidade_relatorios > 1 else ''} × 3.5 min)")
-    st.warning("💡 **Acompanhe o progresso abaixo.** A página será atualizada automaticamente a cada 10 segundos.")
+    st.info(f"⏳ **Tempo estimado:** ~{int(tempo_estimado_minutos)} minutos.")
     
     # Container para o status que será atualizado em tempo real
     status_container = st.empty()
