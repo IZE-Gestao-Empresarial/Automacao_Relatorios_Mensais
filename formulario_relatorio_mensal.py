@@ -1183,14 +1183,15 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
             
             if processando:
                 with st.expander(f"🔄 {len(processando)} relatório(s) em processamento", expanded=True):
-                    for cliente in processando:
-                        st.markdown(f"""
-                        <div class="status-item-processing">
-                            <strong>{cliente['cliente']}</strong><br>
-                            📊 Módulos: {cliente['modulos']}<br>
-                            � Status: Processando...
-                        </div>
-                        """, unsafe_allow_html=True)
+                    with st.spinner("⏳ Processando relatórios..."):
+                        for cliente in processando:
+                            st.markdown(f"""
+                            <div class="status-item-processing">
+                                <strong>{cliente['cliente']}</strong><br>
+                                📊 Módulos: {cliente['modulos']}<br>
+                                ⏳ Status: Processando...
+                            </div>
+                            """, unsafe_allow_html=True)
             
             if erros:
                 with st.expander(f"❌ {len(erros)} relatório(s) com erro", expanded=False):
