@@ -76,6 +76,7 @@ CONSULTORES_CLIENTES = {
         "Nathalia Toledo": [
 
             "Linha por Linha",
+            "Rs 2v Ventures Empreendimentos",
         ],
         "Drisi Rigamonti": [
 
