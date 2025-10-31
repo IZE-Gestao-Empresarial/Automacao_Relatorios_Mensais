@@ -436,20 +436,31 @@ def verificar_status_envio(id_envio_form):
 def monitorar_envios_com_timeout(id_envio_form, timeout_minutos=5):
     """
     Monitora os envios por um período determinado
+    Reseta o timeout sempre que houver progresso no processamento
     Retorna o status final após o timeout ou quando todos estiverem processados
     """
     timeout_segundos = timeout_minutos * 60
-    inicio = time.time()
+    ultimo_progresso = time.time()  # Rastreia o momento do último progresso
+    status_anterior = None
     
     # Log inicial para debug
     print(f"[DEBUG] Iniciando monitoramento para ID: {id_envio_form}")
     
-    while (time.time() - inicio) < timeout_segundos:
+    while (time.time() - ultimo_progresso) < timeout_segundos:
         status = verificar_status_envio(id_envio_form)
         
         if "erro" in status:
             print(f"[DEBUG] Erro encontrado: {status['erro']}")
             return status
+        
+        # Verificar se houve mudança no status (progresso)
+        status_atual_str = str(sorted([(c['cliente'], c['status']) for c in status.get("clientes", [])]))
+        status_anterior_str = str(sorted([(c['cliente'], c['status']) for c in status_anterior.get("clientes", [])])) if status_anterior else None
+        
+        if status_atual_str != status_anterior_str:
+            ultimo_progresso = time.time()  # Resetar o timeout quando há progresso
+            print(f"[DEBUG] Progresso detectado! Timeout resetado.")
+            status_anterior = status.copy() if isinstance(status, dict) else status
         
         # Verificar se todos os relatórios foram processados (sucesso ou erro)
         clientes = status.get("clientes", [])
@@ -468,10 +479,16 @@ def monitorar_envios_com_timeout(id_envio_form, timeout_minutos=5):
             print(f"[DEBUG] Todos os relatórios foram processados")
             return status
         
+        # Calcular tempo restante
+        tempo_decorrido = time.time() - ultimo_progresso
+        tempo_restante = timeout_segundos - tempo_decorrido
+        print(f"[DEBUG] Tempo sem progresso: {tempo_decorrido:.1f}s / Timeout em: {tempo_restante:.1f}s")
+        
         # Aguardar antes da próxima verificação
         time.sleep(10)  # Verificar a cada 10 segundos
     
     # Timeout atingido - retornar status atual e marcar timeouts
+    print(f"[DEBUG] Timeout atingido após {timeout_minutos} minutos sem progresso")
     status = verificar_status_envio(id_envio_form)
     if "clientes" in status:
         # Marcar clientes ainda processando como timeout
@@ -1087,34 +1104,37 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
     st.markdown("---")
     st.markdown("### 📊 Status do Envio dos Relatórios")
     
+    # Calcular tempo estimado baseado na quantidade de relatórios
+    quantidade_relatorios = len(clientes_solicitados)
+    tempo_estimado_minutos = (quantidade_relatorios * 3.5) + 1  # 3.5 min por relatório + margem
+    
     # Informações iniciais
-    st.info(f"**Relatórios solicitados:** {len(clientes_solicitados)}")
-    st.info("⏳ **Aguarde enquanto processamos seus relatórios. Isso pode levar até 5 minutos.**")
+    st.info(f"**Relatórios solicitados:** {quantidade_relatorios}")
+    st.info(f"⏳ **Tempo estimado:** ~{int(tempo_estimado_minutos)} minutos ({quantidade_relatorios} relatório{'s' if quantidade_relatorios > 1 else ''} × 3.5 min)")
+    st.warning("💡 **Acompanhe o progresso abaixo.** A página será atualizada automaticamente a cada 10 segundos.")
     
-    # Container para o status que será atualizado
-    status_placeholder = st.empty()
+    # Container para o status que será atualizado em tempo real
+    status_container = st.empty()
+    metrics_container = st.empty()
+    detalhes_container = st.empty()
     
-    with status_placeholder.container():
-        # Progress bar inicial
-        progress_bar = st.progress(0)
+    # Monitoramento em tempo real
+    timeout_segundos = 5 * 60  # 5 minutos sem progresso
+    ultimo_progresso = time.time()
+    status_anterior = None
+    
+    while (time.time() - ultimo_progresso) < timeout_segundos:
+        status = verificar_status_envio(id_envio_form)
         
-        # Iniciar monitoramento
-        with st.spinner("🔄 Processando envio dos relatórios..."):
-            status_final = monitorar_envios_com_timeout(id_envio_form, timeout_minutos=5)
-            progress_bar.progress(100)
-    
-    # Limpar o placeholder e exibir resultados finais
-    status_placeholder.empty()
-    
-    # Exibir resultados finais
-    if "erro" in status_final:
-        st.error(f"❌ **Erro no sistema:** {status_final['erro']}")
-        st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)", unsafe_allow_html=True)
-    else:
-        clientes = status_final.get("clientes", [])
+        if "erro" in status:
+            status_container.error(f"❌ **Erro no sistema:** {status['erro']}")
+            st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)", unsafe_allow_html=True)
+            return
+        
+        clientes = status.get("clientes", [])
         
         if not clientes:
-            st.warning("⚠️ Nenhum cliente encontrado para monitoramento.")
+            status_container.warning("⚠️ Nenhum cliente encontrado para monitoramento.")
             return
         
         # Separar por status
@@ -1123,73 +1143,115 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
         timeouts = [c for c in clientes if c["status"] == "timeout"]
         processando = [c for c in clientes if c["status"] == "processando"]
         
-        # Estatísticas em destaque
-        col1, col2, col3, col4 = st.columns(4)
+        # Verificar se houve progresso
+        status_atual_str = str(sorted([(c['cliente'], c['status']) for c in clientes]))
+        status_anterior_str = str(sorted([(c['cliente'], c['status']) for c in status_anterior.get("clientes", [])])) if status_anterior else None
         
-        with col1:
-            st.metric("✅ Enviados", len(sucessos), delta=f"{len(sucessos)}/{len(clientes)}")
-        with col2:
-            st.metric("❌ Erros", len(erros), delta="Falhas" if len(erros) > 0 else "Nenhuma")
-        with col3:
-            st.metric("⏰ Timeout", len(timeouts), delta="Aguardando" if len(timeouts) > 0 else "Completo")
-        with col4:
-            st.metric("🔄 Processando", len(processando), delta="Em andamento" if len(processando) > 0 else "Finalizado")
+        if status_atual_str != status_anterior_str:
+            ultimo_progresso = time.time()  # Resetar timeout
+            status_anterior = status.copy() if isinstance(status, dict) else status
         
-        # Detalhes por status
-        if sucessos:
-            st.success(f"✅ **{len(sucessos)} relatório(s) enviado(s) com sucesso:**")
-            for cliente in sucessos:
-                st.markdown(f"""
-                <div class="status-item-success">
-                    <strong>{cliente['cliente']}</strong><br>
-                    📊 Módulos: {cliente['modulos']}<br>
-                    ✅ Status: Enviado com sucesso
-                </div>
-                """, unsafe_allow_html=True)
+        # Atualizar métricas em tempo real
+        with metrics_container.container():
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("✅ Enviados", f"{len(sucessos)}/{len(clientes)}")
+            with col2:
+                st.metric("❌ Erros", len(erros))
+            with col3:
+                st.metric("⏰ Timeout", len(timeouts))
+            with col4:
+                st.metric("🔄 Processando", len(processando))
         
-        if erros:
-            st.error(f"❌ **{len(erros)} relatório(s) com erro:**")
-            for cliente in erros:
-                st.markdown(f"""
-                <div class="status-item-error">
-                    <strong>{cliente['cliente']}</strong><br>
-                    ❌ Erro ao enviar o relatório<br>
-                    🔧 <strong>Ação:</strong> <a href="https://wa.me/556193691072" target="_blank">Clique aqui para contatar a equipe de tecnologia via WhatsApp</a>
-                </div>
-                """, unsafe_allow_html=True)
+        # Exibir detalhes em tempo real
+        with detalhes_container.container():
+            # Barra de progresso visual
+            progresso_percentual = (len(sucessos) + len(erros) + len(timeouts)) / len(clientes)
+            st.progress(progresso_percentual, text=f"Progresso: {int(progresso_percentual * 100)}%")
+            
+            # Detalhes por status
+            if sucessos:
+                with st.expander(f"✅ {len(sucessos)} relatório(s) enviado(s) com sucesso", expanded=True):
+                    for cliente in sucessos:
+                        st.markdown(f"""
+                        <div class="status-item-success">
+                            <strong>{cliente['cliente']}</strong><br>
+                            📊 Módulos: {cliente['modulos']}<br>
+                            ✅ Status: Enviado com sucesso
+                        </div>
+                        """, unsafe_allow_html=True)
+            
+            if processando:
+                with st.expander(f"🔄 {len(processando)} relatório(s) em processamento", expanded=True):
+                    for cliente in processando:
+                        st.markdown(f"""
+                        <div class="status-item-processing">
+                            <strong>{cliente['cliente']}</strong><br>
+                            📊 Módulos: {cliente['modulos']}<br>
+                            � Status: Processando...
+                        </div>
+                        """, unsafe_allow_html=True)
+            
+            if erros:
+                with st.expander(f"❌ {len(erros)} relatório(s) com erro", expanded=False):
+                    for cliente in erros:
+                        st.markdown(f"""
+                        <div class="status-item-error">
+                            <strong>{cliente['cliente']}</strong><br>
+                            ❌ Erro ao enviar o relatório<br>
+                            🔧 <strong>Ação:</strong> <a href="https://wa.me/556193691072" target="_blank">Clique aqui para contatar a equipe de tecnologia via WhatsApp</a>
+                        </div>
+                        """, unsafe_allow_html=True)
+            
+            if timeouts:
+                with st.expander(f"⏰ {len(timeouts)} relatório(s) com timeout", expanded=False):
+                    for cliente in timeouts:
+                        st.markdown(f"""
+                        <div class="status-item-error">
+                            <strong>{cliente['cliente']}</strong><br>
+                            ⏰ Timeout: O processamento demorou mais que 5 minutos<br>
+                            <strong>Ação:</strong> <a href="https://wa.me/556193691072" target="_blank">Clique aqui para contatar a equipe de tecnologia via WhatsApp</a>
+                        </div>
+                        """, unsafe_allow_html=True)
         
-        if timeouts:
-            st.error(f"⏰ **{len(timeouts)} relatório(s) com timeout:**")
-            for cliente in timeouts:
-                st.markdown(f"""
-                <div class="status-item-error">
-                    <strong>{cliente['cliente']}</strong><br>
-                    ⏰ Timeout: O processamento demorou mais que 5 minutos<br>
-                    <strong>Ação:</strong> <a href="https://wa.me/556193691072" target="_blank">Clique aqui para contatar a equipe de tecnologia via WhatsApp</a>
-                </div>
-                """, unsafe_allow_html=True)
+        # Verificar se todos foram processados
+        todos_processados = all(
+            cliente["status"] in ["sucesso", "erro", "timeout"]
+            for cliente in clientes
+        )
         
-        if processando:
-            st.info(f"🔄 **{len(processando)} relatório(s) ainda em processamento:**")
-            for cliente in processando:
-                st.markdown(f"""
-                <div class="status-item-processing">
-                    <strong>{cliente['cliente']}</strong><br>
-                    🔄 Ainda sendo processado<br>
-                    ⏳ <strong>Status:</strong> Aguardando finalização
-                </div>
-                """, unsafe_allow_html=True)
+        if todos_processados:
+            # Exibir resumo final
+            with status_container.container():
+                if len(sucessos) == len(clientes):
+                    st.balloons()
+                    st.success("🎉 **Todos os relatórios foram enviados com sucesso!**")
+                elif len(erros) > 0 or len(timeouts) > 0:
+                    total_problemas = len(erros) + len(timeouts)
+                    st.error(f"⚠️ **{total_problemas} relatório(s) apresentaram problemas.**")
+                    st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)", unsafe_allow_html=True)
+            return
         
-        # Resumo final
-        if len(sucessos) == len(clientes):
-            st.balloons()
-            st.success("🎉 **Todos os relatórios foram enviados com sucesso!**")
-        elif len(erros) > 0 or len(timeouts) > 0:
-            total_problemas = len(erros) + len(timeouts)
-            st.error(f"⚠️ **{total_problemas} relatório(s) apresentaram problemas.**")
-            st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)", unsafe_allow_html=True)
-        elif len(processando) > 0:
-            st.warning("⏳ **Alguns relatórios ainda estão sendo processados. Aguarde ou verifique novamente mais tarde.**")
+        # Aguardar 10 segundos antes da próxima atualização
+        time.sleep(10)
+    
+    # Timeout atingido - marcar os que ainda estão processando
+    status = verificar_status_envio(id_envio_form)
+    if "clientes" in status:
+        for cliente in status["clientes"]:
+            if cliente["status"] == "processando":
+                cliente["status"] = "timeout"
+    
+    # Atualizar uma última vez com os timeouts
+    clientes = status.get("clientes", [])
+    sucessos = [c for c in clientes if c["status"] == "sucesso"]
+    erros = [c for c in clientes if c["status"] == "erro"]
+    timeouts = [c for c in clientes if c["status"] == "timeout"]
+    
+    with status_container.container():
+        st.error("⏰ **Timeout:** Alguns relatórios demoraram mais de 5 minutos sem progresso.")
+        st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)", unsafe_allow_html=True)
 
 def exibir_confirmacao_envio():
     """
