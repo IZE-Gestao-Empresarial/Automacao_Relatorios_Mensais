@@ -46,6 +46,7 @@ CONSULTORES_CLIENTES = {
             "Petfeel Petcenter",
             "Cabrera's",
 
+            "Rs 2v Ventures Empreendimentos",
             "TOTAL AR"
         ],
         "Lucas Oliveira": [
