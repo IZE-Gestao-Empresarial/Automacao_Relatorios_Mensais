@@ -403,11 +403,14 @@ def verificar_status_envio(id_envio_form):
             
             status_clientes = []
             for resultado in resultados:
+                # Garantir que sempre temos um nome de cliente
+                nome_cliente = resultado['cliente_nome'] if resultado['cliente_nome'] else f"Cliente ID: {resultado['id_cliente']}"
+                
                 cliente_status = {
-                    "cliente": resultado['cliente_nome'],
-                    "modulos": resultado['modulos'],
-                    "erro_fluxo": resultado['log_error_fluxo'],
-                    "enviado": resultado['enviado'] if resultado['enviado'] is not None else False,
+                    "cliente": nome_cliente,
+                    "modulos": resultado['modulos'] if resultado['modulos'] else "Não especificado",
+                    "erro_fluxo": bool(resultado['log_error_fluxo']),
+                    "enviado": bool(resultado['enviado']) if resultado['enviado'] is not None else False,
                     "status": "processando"
                 }
                 
@@ -437,32 +440,49 @@ def monitorar_envios_com_timeout(id_envio_form, timeout_minutos=5):
     timeout_segundos = timeout_minutos * 60
     inicio = time.time()
     
+    # Log inicial para debug
+    print(f"[DEBUG] Iniciando monitoramento para ID: {id_envio_form}")
+    
     while (time.time() - inicio) < timeout_segundos:
         status = verificar_status_envio(id_envio_form)
         
         if "erro" in status:
+            print(f"[DEBUG] Erro encontrado: {status['erro']}")
             return status
         
         # Verificar se todos os relatórios foram processados (sucesso ou erro)
         clientes = status.get("clientes", [])
+        print(f"[DEBUG] Status atual - {len(clientes)} clientes encontrados")
+        
+        # Log do status de cada cliente para debug
+        for cliente in clientes:
+            print(f"[DEBUG] Cliente: {cliente.get('cliente', 'Nome não encontrado')} - Status: {cliente.get('status', 'Status não encontrado')}")
+        
         todos_processados = all(
             cliente["status"] in ["sucesso", "erro"] 
             for cliente in clientes
         )
         
         if todos_processados:
+            print(f"[DEBUG] Todos os relatórios foram processados")
             return status
         
         # Aguardar antes da próxima verificação
         time.sleep(10)  # Verificar a cada 10 segundos
     
-    # Timeout atingido - retornar status atual
+    # Timeout atingido - retornar status atual e marcar timeouts
     status = verificar_status_envio(id_envio_form)
     if "clientes" in status:
         # Marcar clientes ainda processando como timeout
         for cliente in status["clientes"]:
             if cliente["status"] == "processando":
                 cliente["status"] = "timeout"
+                # Garantir que o nome do cliente esteja presente
+                if not cliente.get("cliente"):
+                    cliente["cliente"] = "Cliente não identificado"
+    elif "erro" not in status:
+        # Se não há clientes mas também não há erro, é um timeout geral
+        return {"erro": "Timeout: Não foi possível verificar o status dos relatórios após 5 minutos"}
     
     return status
 
@@ -1138,13 +1158,13 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
                 """, unsafe_allow_html=True)
         
         if timeouts:
-            st.warning(f"⏰ **{len(timeouts)} relatório(s) ainda processando:**")
+            st.error(f"⏰ **{len(timeouts)} relatório(s) com timeout:**")
             for cliente in timeouts:
                 st.markdown(f"""
-                <div class="status-item-timeout">
+                <div class="status-item-error">
                     <strong>{cliente['cliente']}</strong><br>
-                    ⏰ O processamento está demorando mais que o esperado<br>
-                    🔍 <strong>Ação:</strong> Verifique novamente em alguns minutos
+                    ⏰ Timeout: O processamento demorou mais que 5 minutos<br>
+                    � <strong>Ação:</strong> Entre em contato com a equipe de tecnologia imediatamente
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -1163,9 +1183,12 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
         if len(sucessos) == len(clientes):
             st.balloons()
             st.success("🎉 **Todos os relatórios foram enviados com sucesso!**")
-        elif len(erros) > 0:
-            st.error("⚠️ **Alguns relatórios apresentaram erro. Entre em contato com a equipe de tecnologia.**")
-        elif len(timeouts) > 0 or len(processando) > 0:
+        elif len(erros) > 0 or len(timeouts) > 0:
+            total_problemas = len(erros) + len(timeouts)
+            st.error(f"⚠️ **{total_problemas} relatório(s) apresentaram problemas. Entre em contato com a equipe de tecnologia imediatamente.**")
+            if len(timeouts) > 0:
+                st.error(f"⏰ **{len(timeouts)} relatório(s) ultrapassaram o tempo limite de processamento.**")
+        elif len(processando) > 0:
             st.warning("⏳ **Alguns relatórios ainda estão sendo processados. Aguarde ou verifique novamente mais tarde.**")
 
 def exibir_confirmacao_envio():
