@@ -1087,7 +1087,7 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
     st.markdown("### 📊 Status do Envio dos Relatórios")
     
     # Informações iniciais
-    st.info(f"� **Relatórios solicitados:** {len(clientes_solicitados)}")
+    st.info(f"**Relatórios solicitados:** {len(clientes_solicitados)}")
     st.info("⏳ **Aguarde enquanto processamos seus relatórios. Isso pode levar até 5 minutos.**")
     
     # Container para o status que será atualizado
@@ -1108,7 +1108,7 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
     # Exibir resultados finais
     if "erro" in status_final:
         st.error(f"❌ **Erro no sistema:** {status_final['erro']}")
-        st.error("🔧 Entre em contato com a equipe de tecnologia imediatamente.")
+        st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/5561936910072)", unsafe_allow_html=True)
     else:
         clientes = status_final.get("clientes", [])
         
@@ -1153,7 +1153,7 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
                 <div class="status-item-error">
                     <strong>{cliente['cliente']}</strong><br>
                     ❌ Erro ao enviar o relatório<br>
-                    🔧 <strong>Ação:</strong> Favor entrar em contato com a equipe de tecnologia
+                    🔧 <strong>Ação:</strong> <a href="https://wa.me/5561936910072" target="_blank" style="color: #25D366; font-weight: bold;">Clique aqui para contatar a equipe de tecnologia via WhatsApp</a>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -1164,7 +1164,7 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
                 <div class="status-item-error">
                     <strong>{cliente['cliente']}</strong><br>
                     ⏰ Timeout: O processamento demorou mais que 5 minutos<br>
-                    � <strong>Ação:</strong> Entre em contato com a equipe de tecnologia imediatamente
+                    <strong>Ação:</strong> <a href="https://wa.me/5561936910072" target="_blank" style="color: #25D366; font-weight: bold;">Clique aqui para contatar a equipe de tecnologia via WhatsApp</a>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -1185,7 +1185,8 @@ def exibir_status_envio_realtime(id_envio_form, clientes_solicitados):
             st.success("🎉 **Todos os relatórios foram enviados com sucesso!**")
         elif len(erros) > 0 or len(timeouts) > 0:
             total_problemas = len(erros) + len(timeouts)
-            st.error(f"⚠️ **{total_problemas} relatório(s) apresentaram problemas. Entre em contato com a equipe de tecnologia imediatamente.**")
+            st.error(f"⚠️ **{total_problemas} relatório(s) apresentaram problemas.**")
+            st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/5561936910072)", unsafe_allow_html=True)
             if len(timeouts) > 0:
                 st.error(f"⏰ **{len(timeouts)} relatório(s) ultrapassaram o tempo limite de processamento.**")
         elif len(processando) > 0:
