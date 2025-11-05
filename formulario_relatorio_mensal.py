@@ -68,6 +68,7 @@ CONSULTORES_CLIENTES = {
         "Tiago Alves de Oliveira": [
             "A S DE SOUZA PROJETOS AMBIENTAIS",
             "Cabrera's",
+            "Clínica Sulpté – Emagrecimento e Estética",
             "Connect Energia Solar",
             "Crescendo na Fé Cursos Online",
             "Daniel Guimarães Advocacia",
@@ -75,6 +76,7 @@ CONSULTORES_CLIENTES = {
             "HOTEL VILLAGIO D'ITALIA",
             "LG DOS SANTOS (SACX)",
             "Petfeel Petcenter",
+            "Rs 2v Ventures Empreendimentos",
             "Saquecred",
             "SQD BEACH SPORTS",
             "TOTAL AR"
@@ -91,15 +93,6 @@ CONSULTORES_CLIENTES = {
             "Pet Delivery",
             "Quintal Gastronomia",
             "Sap Restaurante e Eventos"
-        ],
-        "Rayane Caroline Cândida de Amorim Oliveira": [
-            "AR Advocacia Empresarial",
-            "EG Transportes e Logísticas",
-            "MACARRONADA ITALIANA",
-            "Peterson & Escobar ADV",
-            "Projector",
-            "Renda Mais Transporte",
-            "Telerad"
         ],
         "Romulo Chaul": [
             "Atacadão das Confecções Comércio",
@@ -121,7 +114,8 @@ CONSULTORES_CLIENTES = {
         "Carlos Vinicius Rodrigues Veras": [
             "Ativa Tecidos",
             "Distribuidora Hortybom",
-            "Levens e Lineker"
+            "Levens e Lineker",
+            "The Imobiliaria"
         ],
         "Danilo Vaz": [
             "Atm Coating",
@@ -154,6 +148,7 @@ CONSULTORES_CLIENTES = {
             "Usina Burguer"
         ],
         "Ana Paula B Duarte": [
+            "Bellagio Exportação de Café",
             "Clínica Crescer",
             "Criar Agronegócios",
             "Fabrício Pereira Ludtke",
@@ -206,12 +201,23 @@ CONSULTORES_CLIENTES = {
             "DAZAN EQUIPAMENTOS",
             "FG AUTO CENTER",
             "Help Chick Comercio de Roupas",
+            "MCZ Gestão Empresarial",
             "Mundo das Pedras",
             "Sillmed Indústria e Comércio de Produtos em Silicone",
             "Toruk Sushi"
         ],
         "Nury Sato": [
             "D&J Urbanas Dedetização e Higienização"
+        ],
+        "Rayane Caroline Cândida de Amorim Oliveira": [
+            "AR Advocacia Empresarial",
+            "EG Transportes e Logísticas",
+            "MACARRONADA ITALIANA",
+            "Peterson & Escobar ADV",
+            "Projector",
+            "Renda Mais Transporte",
+            "Telerad",
+            "Vivaz - Centro de Reabilitacao e Estetica Avancada"
         ],
         "Matheus Firmino": [
             "Expertabi Assessoria Internacional",
