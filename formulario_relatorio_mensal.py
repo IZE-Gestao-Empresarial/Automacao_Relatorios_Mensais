@@ -217,7 +217,8 @@ CONSULTORES_CLIENTES = {
             "Projector",
             "Renda Mais Transporte",
             "Telerad",
-            "Vivaz - Centro de Reabilitacao e Estetica Avancada"
+            "Vivaz - Centro de Reabilitacao e Estetica Avancada",
+            "Lorenzi Soluções"
         ],
         "Matheus Firmino": [
             "Expertabi Assessoria Internacional",
