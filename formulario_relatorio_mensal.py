@@ -949,6 +949,13 @@ def formulario_principal():
         options=lista_consultores,
         key="consultor_select"
     )
+    
+    # Observação importante sobre validação manual
+    st.info("""
+    ⚠️ **Importante:** Por favor, para garantia de qualidade, acesse a [Plataforma da IZE](https://app.grupoize.com/login) e gere o relatório manualmente para verificar se está tudo certo. 
+    
+    Em caso de erro, entre em contato com a equipe de tecnologia: [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)
+    """)
 
     respostas = {}
     
