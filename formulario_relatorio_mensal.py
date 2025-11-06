@@ -65,147 +65,176 @@ def limpar_emojis_e_caracteres_especiais(texto):
 # Dicionário de consultores e seus respectivos clientes
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
 CONSULTORES_CLIENTES = {
-        "Leonardo Souto": [
-
-            "Mundo das Pedras",
-
-            "R7 Motors",
-            "DAZAN EQUIPAMENTOS",
-            "FG AUTO CENTER"
-        ],
-        "Nathalia Toledo": [
-
-            "Linha por Linha",
+        "Tiago Alves de Oliveira": [
+            "A S DE SOUZA PROJETOS AMBIENTAIS",
+            "Cabrera's",
+            "Clínica Sulpté – Emagrecimento e Estética",
+            "Connect Energia Solar",
+            "Crescendo na Fé Cursos Online",
+            "Daniel Guimarães Advocacia",
+            "Fio de Amor",
+            "HOTEL VILLAGIO D'ITALIA",
+            "LG DOS SANTOS (SACX)",
+            "Petfeel Petcenter",
             "Rs 2v Ventures Empreendimentos",
+            "Saquecred",
+            "SQD BEACH SPORTS",
+            "TOTAL AR"
+        ],
+        "William Alves da Silva": [
+            "AGRI FACAS",
+            "Alliada Elétrica",
+            "Cac Silva",
+            "Camilo Auto Peças",
+            "Dom Gabriel",
+            "Doutor 7",
+            "JP Recicla",
+            "LATICINIOS KI SABOR LTDA",
+            "Pet Delivery",
+            "Quintal Gastronomia",
+            "Sap Restaurante e Eventos"
+        ],
+        "Romulo Chaul": [
+            "Atacadão das Confecções Comércio",
+            "Bella Cat",
+            "Blend BR [1]",
+            "Blend BR [2]",
+            "Drogaria Menor Preço",
+            "Euro e Cia [Matriz]",
+            "Euro e Cia [Florianopolis]",
+            "Euro e Cia [Infoprodutos]",
+            "Jonck (Euro)",
+            "La Casa de Hambúrguer",
+            "M F Construcoes e Utilidades",
+            "MAD Engenharia",
+            "PavFacil",
+            "Pontes Sports",
+            "R J Macedo Agropecuária"
+        ],
+        "Carlos Vinicius Rodrigues Veras": [
+            "Ativa Tecidos",
+            "Distribuidora Hortybom",
+            "Levens e Lineker",
+            "The Imobiliaria"
+        ],
+        "Danilo Vaz": [
+            "Atm Coating",
+            "BBZ Advocacia",
+            "Diogo Magalhães Sociedade Individual de Advocacia",
+            "Firme e Forte - Segurança e Terceirização",
+            "Leonardo Rainan e Rodrigo Pinho advogados associados",
+            "NCO Advogados",
+            "OPT.DOC. Gestão de Consultórios",
+            "REMAX GOL FINANCEIRO GERAL",
+            "Renan Maldonado Advogados",
+            "Silveira de Oliveira dos Santos Advogados",
+            "Vinhal Batista Imoveis"
+        ],
+        "Gabriel Matias Vieira": [
+            "Auto Posto Crisma",
+            "Embratecc",
+            "Giga Móveis",
+            "R - FLEX",
+            "TSM COMERCIO DE SEMIJOIAS"
+        ],
+        "deborafigueredo.ize@gmail.com": [
+            "Bachi Steakhouse",
+            "Cresol",
+            "Elem S Confeccoes",
+            "Grupo Ótica Atual",
+            "Imperial Tapetes e Interiores",
+            "Longevitale",
+            "Siligyn",
+            "Usina Burguer"
+        ],
+        "Ana Paula B Duarte": [
+            "Bellagio Exportação de Café",
+            "Clínica Crescer",
+            "Criar Agronegócios",
+            "Fabrício Pereira Ludtke",
+            "Loja Maili [1]",
+            "Loja Maili [2]",
+            "MF Comércio de Caminhões",
+            "RKM Hidráulica",
+            "Sanear Brasil",
+            "Sideraço S/A"
         ],
         "Drisi Rigamonti": [
-
-            "Biomassa"
+            "Biomassa",
+            "Império das Cadeiras"
         ],
-        "Tiago Alves de Oliveira": [
-            "Fio de Amor",
-            "Daniel Guimarães Advocacia",
-
-            "HOTEL VILLAGIO D'ITALIA",
-            "Crescendo na Fé Cursos Online",
-            "Connect Energia Solar",
-            "Petfeel Petcenter",
-            "Cabrera's",
-
-            "Rs 2v Ventures Empreendimentos",
-            "TOTAL AR"
+        "Ariana Fernandes": [
+            "Body & Fit",
+            "Casa da Manicure",
+            "Dias e Lima Advogados",
+            "Fabricio Salfer Sociedade Individual de Advocacia",
+            "Freitas & Associados",
+            "Kairo Ícaro Advogados Associados",
+            "Laboratório de Análises Clínicas Labcenter",
+            "Loja NYS",
+            "Milhã Net",
+            "Nebraska",
+            "Sallus"
+        ],
+        "Pedro de Carvalho Marques": [
+            "Boug Acessórios",
+            "Flávia Ayres",
+            "Marcia Pinto Gastronomia",
+            "NUTRI REIS",
+            "Santrack",
+            "Summer Auto Peças",
+            "Vitrine 360"
+        ],
+        "Vinícius Petini de Almeida": [
+            "Castro e Rocha",
+            "Ilir Advogados",
+            "Maia & Morgado Advogados Associados",
+            "PUKARUMI"
         ],
         "Lucas Oliveira": [
             "Cloud Treinamentos",
             "Pingo Distribuidora",
             "Smart Glass"
         ],
-        "Romulo Chaul": [
-
-            "Euro e Cia [Matriz]",
-            "Euro e Cia [Florianopolis]",
-            "Euro e Cia [Infoprodutos]",
-            "MAD Engenharia",
-            "Atacadão das Confecções Comércio",
-            "Nobre Casa",
-            "M F Construcoes e Utilidades",
-            "Drogaria Menor Preço",
-            "La Casa de Hambúrguer",
-            "Blend BR [1]",
-            "Blend BR [2]",
-            "Pontes Sports"
-        ],
-        "Vitor": [
-            "Levens e Lineker"
-        ],
-        "Ariana Fernandes": [
-            "Casa da Manicure",
-            "VET FAUNA PET SHOP",
-            "Sallus",
-
-            "Kairo Ícaro Advogados Associados",
-            "Dias e Lima Advogados",
-            "Milhã Net",
-            "LADISCON MARKETING DIGITAL",
-
-            "Body & Fit"
-        ],
-        "Ana Paula B Duarte": [
-
-            "Multifiltros",
-            "Sideraço S/A",
-            "Sanear Brasil",
-            "MF Comércio de Caminhões",
-            "Baixada do Sol Restaurante e Churrascaria"
-            ],
-        "Matheus Firmino": [
-            "Expertabi Assessoria Internacional",
-            "Roma Comunicação"
-        ],
-        "Danilo Vaz": [
-            "BBZ Advocacia",
-
-            "Renan Maldonado Advogados",
-            "Firme e Forte - Segurança e Terceirização",
-            "Leonardo Rainan e Rodrigo Pinho advogados associados",
-
-            "OPT.DOC. Gestão de Consultórios",
-            "Cia Sat Gerenciamento Via Satelite"
-        ],
-        "Ylienney Archil": [
-
-            "VMB Advocacia"
-        ],
-        "Kaio Rodrigues": [
-
-        ],
-        "William Alves da Silva": [
-
-            "AGRI FACAS"
-            ],
-        "Guilherme Teixeira": [
-            "Peterson & Escobar ADV",
-            "Maia & Morgado Advogados Associados",
-            "AR Advocacia Empresarial",
-            "Ilir Advogados",
-            "Fretou Brasil Logística",
-            "Vinhal Batista Imoveis"
-        ],
-        "Gabriel Matias Vieira": [
-            "R - FLEX",
-            "Embratecc"
-            ],
-        "Adeilton Rufino da Silva": [
-            "Telerad",
-            "Distribuidora Hortybom",
-            "JP Recicla",
-            "Auto Posto Crisma",
-            "Projector",
-            "TSM COMERCIO DE SEMIJOIAS",
-            "MACARRONADA ITALIANA",
-            "R J Macedo Agropecuária",
+        "Leonardo Souto": [
+            "Comercial 3 Irmãos",
+            "DAZAN EQUIPAMENTOS",
+            "FG AUTO CENTER",
+            "Help Chick Comercio de Roupas",
+            "MCZ Gestão Empresarial",
+            "Mundo das Pedras",
+            "Sillmed Indústria e Comércio de Produtos em Silicone",
             "Toruk Sushi"
         ],
-        "Pedro de Carvalho Marques": [
-            "Summer Auto Peças",
-
-            "Marcia Pinto Gastronomia",
-            "Santrack",
-            "Flávia Ayres"
-        ],
-        "deborafigueredo.ize@gmail.com": [
-            "Siligyn",
-
-            "Pizzaria Kallebe",
-
-            "Longevitale"
-            ],
         "Nury Sato": [
             "D&J Urbanas Dedetização e Higienização"
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
+            "AR Advocacia Empresarial",
+            "EG Transportes e Logísticas",
+            "MACARRONADA ITALIANA",
+            "Peterson & Escobar ADV",
+            "Projector",
             "Renda Mais Transporte",
-            "EG Transportes e Logísticas"
+            "Telerad",
+            "Vivaz - Centro de Reabilitacao e Estetica Avancada"
+        ],
+        "Matheus Firmino": [
+            "Expertabi Assessoria Internacional",
+            "Roma Comunicação"
+        ],
+        "Guilherme Teixeira": [
+            "Fretou Brasil Logística",
+            "Qualylife"
+        ],
+        "Ylienney Archil": [
+            "Grupo RedeSul",
+            "J E L Serviços Médicos",
+            "Nutralive",
+            "VMB Advocacia"
+        ],
+        "Kaio Rodrigues": [
+            "Limonada"
         ]
     }
 
