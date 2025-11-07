@@ -23,6 +23,8 @@ from psycopg2.extras import RealDictCursor
 import uuid
 import asyncio
 import re
+import requests
+from io import BytesIO
 
 def limpar_emojis_e_caracteres_especiais(texto):
     """
@@ -61,6 +63,125 @@ def limpar_emojis_e_caracteres_especiais(texto):
     texto_limpo = re.sub(r'\s+', ' ', texto_limpo).strip()
     
     return texto_limpo
+
+# Configurações da API de Relatórios
+API_RELATORIOS_URL = "https://ize-relatorios-api-1052359947797.southamerica-east1.run.app"
+API_KEY = "tj8DbJ0bDYDwqLKhF4rEDKaoOW6KxIC6ofeDtc44aA_0XlOEZcu49zAQKYylodOZ"
+
+# Cache para armazenar os IDs dos clientes
+if 'clientes_ids_cache' not in st.session_state:
+    st.session_state.clientes_ids_cache = {}
+
+def buscar_ids_clientes():
+    """
+    Busca os IDs dos clientes da API
+    Retorna um dicionário {nome_cliente: id_cliente}
+    """
+    if st.session_state.clientes_ids_cache:
+        return st.session_state.clientes_ids_cache
+    
+    try:
+        url = f"{API_RELATORIOS_URL}/v1/clientes"
+        headers = {
+            "X-API-Key": API_KEY,
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.get(url, headers=headers, timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            clientes_dict = {cliente["nome"]: cliente["id_cliente"] for cliente in data.get("clientes", [])}
+            st.session_state.clientes_ids_cache = clientes_dict
+            return clientes_dict
+        else:
+            st.error(f"❌ Erro ao buscar IDs dos clientes: {response.status_code}")
+            return {}
+    except requests.exceptions.Timeout:
+        st.error("❌ Timeout ao buscar IDs dos clientes. Tente novamente.")
+        return {}
+    except Exception as e:
+        st.error(f"❌ Erro ao buscar IDs dos clientes: {str(e)}")
+        return {}
+
+def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_consultor=""):
+    """
+    Gera o PDF do relatório via API
+    Retorna o conteúdo do PDF em bytes ou None em caso de erro
+    """
+    try:
+        # Mapear módulos selecionados para IDs de relatórios
+        # FC = 1,2,3,4,5 | DRE = 6 | Indicadores = 7 | Nota do Consultor = 8
+        relatorios_ids = []
+        
+        for modulo in modulos_selecionados:
+            if modulo == "FC":
+                relatorios_ids.extend([1, 2, 3, 4, 5])
+            elif modulo == "DRE":
+                relatorios_ids.append(6)
+            elif modulo == "Indicadores":
+                relatorios_ids.append(7)
+        
+        # Adicionar ID 8 se houver nota do consultor
+        if nota_consultor and nota_consultor.strip():
+            relatorios_ids.append(8)
+        
+        if not relatorios_ids:
+            st.error("❌ Nenhum módulo válido selecionado para gerar o PDF")
+            return None
+        
+        # Obter mês e ano atuais
+        data_atual = datetime.now()
+        mes_atual = data_atual.month
+        ano_atual = data_atual.year
+        
+        # Construir payload
+        payload = {
+            "id_cliente": [id_cliente],
+            "mes": mes_atual,
+            "ano": ano_atual,
+            "relatorios": relatorios_ids
+        }
+        
+        # Adicionar nota do consultor se houver
+        if nota_consultor and nota_consultor.strip():
+            payload["analise_text"] = nota_consultor
+        
+        # Fazer requisição - CORRIGIDO para ser idêntico ao exemplo
+        url = f"{API_RELATORIOS_URL}/v1/relatorios/pdf"
+        headers = {
+            "X-API-Key": API_KEY
+        }
+        
+        response = requests.post(url, json=payload, headers=headers, timeout=240)
+        
+        if response.status_code == 200:
+            return response.content
+        else:
+            # Mensagem de erro amigável ao usuário
+            st.error("❌ Não foi possível gerar o relatório em PDF")
+            
+            # Tentar extrair mensagem específica da API
+            try:
+                error_data = response.json()
+                if 'detail' in error_data and isinstance(error_data['detail'], dict):
+                    # Extrair mensagem humanizada se disponível
+                    mensagem_api = error_data['detail'].get('message', '')
+                    if mensagem_api:
+                        st.warning(f"ℹ️ {mensagem_api}")
+            except:
+                pass  # Ignora erros ao tentar parsear JSON
+            
+            # Link para contato com suporte
+            st.markdown("🔧 **Entre em contato com a equipe de tecnologia:** [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)", unsafe_allow_html=True)
+            return None
+            
+    except requests.exceptions.Timeout:
+        st.error("❌ Timeout ao gerar PDF. O relatório pode demorar alguns minutos para ser gerado.")
+        return None
+    except Exception as e:
+        st.error(f"❌ Erro ao gerar PDF do relatório: {str(e)}")
+        return None
 
 # Dicionário de consultores e seus respectivos clientes
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
@@ -912,6 +1033,42 @@ def configurar_pagina():
         border-color: #FF6900 !important;
         box-shadow: 0 0 0 3px rgba(255, 105, 0, 0.1) !important;
     }
+    
+    /* Estilo para expanders */
+    .streamlit-expanderHeader {
+        background-color: #FFF4E6 !important;
+        border-radius: 8px !important;
+        border: 1px solid #FFE5D6 !important;
+        font-weight: 500 !important;
+    }
+    
+    .streamlit-expanderHeader:hover {
+        background-color: #FFE5D6 !important;
+        border-color: #FF6900 !important;
+    }
+    
+    /* Estilo para botões de download */
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3) !important;
+        height: 2.8rem !important;
+    }
+    
+    .stDownloadButton > button:hover {
+        background: linear-gradient(135deg, #43A047 0%, #4CAF50 100%) !important;
+        box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    /* Estilo para spinner customizado */
+    .stSpinner > div {
+        border-top-color: #FF6900 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -973,19 +1130,17 @@ def formulario_principal():
         options=lista_consultores,
         key="consultor_select"
     )
-    
-    # Observação importante sobre validação manual
-    st.info("""
-    ⚠️ **Importante:** Por favor, para garantia de qualidade, acesse a [Plataforma da IZE](https://app.grupoize.com/login) e gere o relatório manualmente para verificar se está tudo certo. 
-    
-    Em caso de erro, entre em contato com a equipe de tecnologia: [Clique aqui para abrir o WhatsApp](https://wa.me/556193691072)
-    """)
 
     respostas = {}
     
     # Etapa 2: Exibir o formulário para os clientes do consultor selecionado
     if consultor_selecionado != "Selecione um consultor":
         st.markdown(f"### Clientes de: {consultor_selecionado}")
+        
+        # Buscar IDs dos clientes no início
+        with st.spinner("🔄 Carregando informações dos clientes..."):
+            clientes_ids = buscar_ids_clientes()
+        
         clientes_do_consultor = CONSULTORES_CLIENTES[consultor_selecionado]
         
         for cliente in clientes_do_consultor:
@@ -1065,7 +1220,83 @@ def formulario_principal():
                     if not modulos_selecionados:
                         st.markdown('<div class="warning-message">Selecione pelo menos um módulo para gerar o relatório</div>', unsafe_allow_html=True)
                     else:
-                        st.markdown(f'<div class="success-message">Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="success-message">✅ Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
+                        
+                        # Verificar se o cliente tem ID na API
+                        id_cliente = clientes_ids.get(cliente)
+                        
+                        if id_cliente:
+                            # Container de pré-visualização com design melhorado
+                            st.markdown("<br>", unsafe_allow_html=True)
+                            
+                            with st.expander("📄 Pré-visualizar Relatório", expanded=False):
+                                st.markdown("""
+                                <div style="padding: 0.5rem 0;">
+                                    <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                        💡 <strong>Dica:</strong> Clique no botão abaixo para gerar e baixar uma prévia 
+                                        do relatório que será enviado para este cliente. Isso permite verificar 
+                                        se todas as informações estão corretas antes do envio oficial.
+                                    </p>
+                                </div>
+                                """, unsafe_allow_html=True)
+                                
+                                st.markdown("<br>", unsafe_allow_html=True)
+                                
+                                # Criar chave única para armazenar estado do PDF
+                                pdf_key = f"pdf_gerado_{cliente}"
+                                
+                                # Botão para gerar PDF
+                                if st.button(
+                                    "📁 Gerar Prévia do PDF", 
+                                    key=f"btn_gerar_{cliente}", 
+                                    use_container_width=True,
+                                    help="Clique para gerar o relatório em PDF"
+                                ):
+                                    with st.spinner(f"⏳ Gerando relatório para **{cliente}**... Aguarde, isso pode levar alguns minutos."):
+                                        nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
+                                        pdf_content = gerar_pdf_relatorio(id_cliente, cliente, modulos_selecionados, nota_limpa)
+                                        
+                                        if pdf_content:
+                                            # Armazenar PDF no session state
+                                            st.session_state[pdf_key] = pdf_content
+                                            st.success("✅ Relatório gerado com sucesso!")
+                                            st.rerun()
+                                
+                                # Se o PDF já foi gerado, mostrar botão de download
+                                if pdf_key in st.session_state:
+                                    st.markdown("<br>", unsafe_allow_html=True)
+                                    
+                                    # Gerar nome do arquivo
+                                    data_atual = datetime.now()
+                                    mes_nome = data_atual.strftime("%B")
+                                    ano = data_atual.year
+                                    nome_arquivo = f"Relatorio_{cliente.replace(' ', '_')}_{mes_nome}_{ano}.pdf"
+                                    
+                                    # Mostrar informações do arquivo
+                                    tamanho_kb = len(st.session_state[pdf_key]) / 1024
+                                    st.info(f"📊 **Relatório pronto:** {nome_arquivo} ({tamanho_kb:.1f} KB)")
+                                    
+                                    # Botão de download estilizado
+                                    col_download, col_reset = st.columns([3, 1])
+                                    
+                                    with col_download:
+                                        st.download_button(
+                                            label=f"💾 Baixar {nome_arquivo}",
+                                            data=st.session_state[pdf_key],
+                                            file_name=nome_arquivo,
+                                            mime="application/pdf",
+                                            key=f"download_button_{cliente}",
+                                            use_container_width=True,
+                                            help="Clique para fazer o download do relatório"
+                                        )
+                                    
+                                    with col_reset:
+                                        if st.button("🔄", key=f"reset_{cliente}", help="Gerar novamente"):
+                                            del st.session_state[pdf_key]
+                                            st.rerun()
+                        else:
+                            st.markdown("<br>", unsafe_allow_html=True)
+                            st.warning(f"⚠️ **Atenção:** O cliente '{cliente}' não foi encontrado na base de dados da API. Não é possível gerar prévia do relatório.")
                 
                 # Armazenar resposta (com limpeza da nota do consultor)
                 nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
