@@ -195,7 +195,7 @@ def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_con
 # A estrutura de lista com um dicionário foi simplificada para apenas um dicionário
 CONSULTORES_CLIENTES = {
         "Tiago Alves de Oliveira": [
-            "A S DE SOUZA PROJETOS AMBIENTAIS",
+
             "Cabrera's",
 
             "Crescendo na Fé Cursos Online",
