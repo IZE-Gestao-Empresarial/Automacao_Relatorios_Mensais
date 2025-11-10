@@ -205,7 +205,7 @@ CONSULTORES_CLIENTES = {
             "LG DOS SANTOS (SACX)",
             "Petfeel Petcenter",
             "Saquecred",
-            "SQD BEACH SPORTS",
+
             "TOTAL AR"
         ],
         "William Alves da Silva": [
