@@ -197,7 +197,7 @@ CONSULTORES_CLIENTES = {
         "Tiago Alves de Oliveira": [
             "A S DE SOUZA PROJETOS AMBIENTAIS",
             "Cabrera's",
-            "Clínica Sulpté – Emagrecimento e Estética",
+
             "Crescendo na Fé Cursos Online",
             "Daniel Guimarães Advocacia",
             "Fio de Amor",
