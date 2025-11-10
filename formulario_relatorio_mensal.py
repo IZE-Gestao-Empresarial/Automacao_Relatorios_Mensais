@@ -214,7 +214,7 @@ CONSULTORES_CLIENTES = {
             "Camilo Auto Peças",
             "Dom Gabriel",
             "Doutor 7",
-            "JP Recicla",
+
             "LATICINIOS KI SABOR LTDA",
             "Quintal Gastronomia",
             "Sap Restaurante e Eventos"
