@@ -267,7 +267,7 @@ CONSULTORES_CLIENTES = {
             "Techcell Celulares",
             "Grupo Ótica Atual",
             "Imperial Tapetes e Interiores",
-            "Longevitale",
+
             "Siligyn",
             "Usina Burguer"
         ],
