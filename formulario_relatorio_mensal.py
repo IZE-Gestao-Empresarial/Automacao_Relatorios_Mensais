@@ -87,7 +87,7 @@ def buscar_ids_clientes():
             "Content-Type": "application/json"
         }
         
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=20)
         
         if response.status_code == 200:
             data = response.json()
