@@ -256,7 +256,7 @@ CONSULTORES_CLIENTES = {
         "deborafigueredo.ize@gmail.com": [
             "Bachi Steakhouse",
             "Cresol",
-            "Elem S Confeccoes",
+
             "Grupo Ótica Atual",
             "Imperial Tapetes e Interiores",
             "Longevitale",
