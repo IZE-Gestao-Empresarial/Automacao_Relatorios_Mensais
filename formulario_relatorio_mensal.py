@@ -130,16 +130,24 @@ def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_con
             st.error("❌ Nenhum módulo válido selecionado para gerar o PDF")
             return None
         
-        # Obter mês e ano atuais
+        # Obter mês e ano do mês anterior
         data_atual = datetime.now()
-        mes_atual = data_atual.month
-        ano_atual = data_atual.year
+        
+        # Calcular mês anterior
+        if data_atual.month == 1:
+            # Se estamos em janeiro, o mês anterior é dezembro do ano passado
+            mes_anterior = 12
+            ano_anterior = data_atual.year - 1
+        else:
+            # Caso contrário, apenas subtrair 1 do mês
+            mes_anterior = data_atual.month - 1
+            ano_anterior = data_atual.year
         
         # Construir payload
         payload = {
             "id_cliente": [id_cliente],
-            "mes": mes_atual,
-            "ano": ano_atual,
+            "mes": mes_anterior,
+            "ano": ano_anterior,
             "relatorios": relatorios_ids
         }
         
