@@ -196,7 +196,7 @@ def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_con
 CONSULTORES_CLIENTES = {
         "Tiago Alves de Oliveira": [
 
-            "Liceu Francano"
+            "Liceu Francano",
             "Daniel Guimarães Advocacia",
 
             "HOTEL VILLAGIO D'ITALIA",
