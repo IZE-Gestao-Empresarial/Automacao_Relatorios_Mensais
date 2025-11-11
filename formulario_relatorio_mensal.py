@@ -282,7 +282,7 @@ CONSULTORES_CLIENTES = {
             "Império das Cadeiras"
         ],
         "Ariana Fernandes": [
-            "Body & Fit",
+
             "Casa da Manicure",
 
             "Fabricio Salfer Sociedade Individual de Advocacia",
