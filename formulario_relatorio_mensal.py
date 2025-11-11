@@ -269,7 +269,7 @@ CONSULTORES_CLIENTES = {
         "Ana Paula B Duarte": [
             "Bellagio Exportação de Café",
             "Clínica Crescer",
-            "Criar Agronegócios",
+
             "Fabrício Pereira Ludtke",
             "Loja Maili [1]",
             "Loja Maili [2]",
