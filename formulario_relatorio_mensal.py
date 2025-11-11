@@ -204,7 +204,6 @@ CONSULTORES_CLIENTES = {
             "Petfeel Petcenter"
             ],
         "William Alves da Silva": [
-            "Alliada Elétrica",
 
             "Dom Gabriel",
 
