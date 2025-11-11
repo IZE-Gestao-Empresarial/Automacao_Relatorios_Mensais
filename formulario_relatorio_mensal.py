@@ -202,10 +202,8 @@ CONSULTORES_CLIENTES = {
             "HOTEL VILLAGIO D'ITALIA",
             "LG DOS SANTOS (SACX)",
             "Petfeel Petcenter",
-            "Saquecred",
-
-            "TOTAL AR"
-        ],
+            "Saquecred"
+            ],
         "William Alves da Silva": [
             "Alliada Elétrica",
 
