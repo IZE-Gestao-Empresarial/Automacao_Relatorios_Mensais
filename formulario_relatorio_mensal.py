@@ -290,9 +290,8 @@ CONSULTORES_CLIENTES = {
             "Kairo Ícaro Advogados Associados",
             "Loja NYS",
             "Milhã Net",
-            "Nebraska",
-            "Sallus"
-        ],
+            "Nebraska"
+            ],
         "Pedro de Carvalho Marques": [
             "Boug Acessórios",
             "Flávia Ayres",
