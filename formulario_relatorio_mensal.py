@@ -197,6 +197,7 @@ CONSULTORES_CLIENTES = {
         "Tiago Alves de Oliveira": [
 
             "Crescendo na Fé Cursos Online",
+            "Liceu Francano"
             "Daniel Guimarães Advocacia",
             "Fio de Amor",
             "HOTEL VILLAGIO D'ITALIA",
@@ -213,7 +214,8 @@ CONSULTORES_CLIENTES = {
 
             "LATICINIOS KI SABOR LTDA",
             "Quintal Gastronomia",
-            "Sap Restaurante e Eventos"
+            "Sap Restaurante e Eventos",
+            "Carpas Brasil"
         ],
         "Romulo Chaul": [
             "Atacadão das Confecções Comércio",
