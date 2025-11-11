@@ -198,7 +198,7 @@ CONSULTORES_CLIENTES = {
 
             "Liceu Francano"
             "Daniel Guimarães Advocacia",
-            "Fio de Amor",
+
             "HOTEL VILLAGIO D'ITALIA",
             "LG DOS SANTOS (SACX)",
             "Petfeel Petcenter",
