@@ -284,7 +284,7 @@ CONSULTORES_CLIENTES = {
         "Ariana Fernandes": [
             "Body & Fit",
             "Casa da Manicure",
-            "Dias e Lima Advogados",
+
             "Fabricio Salfer Sociedade Individual de Advocacia",
             "Freitas & Associados",
             "Kairo Ícaro Advogados Associados",
