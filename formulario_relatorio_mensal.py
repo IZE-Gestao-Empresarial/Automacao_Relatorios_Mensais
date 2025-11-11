@@ -206,7 +206,6 @@ CONSULTORES_CLIENTES = {
         "William Alves da Silva": [
             "Alliada Elétrica",
 
-            "Camilo Auto Peças",
             "Dom Gabriel",
             "Doutor 7",
 
