@@ -207,7 +207,6 @@ CONSULTORES_CLIENTES = {
             "Alliada Elétrica",
 
             "Dom Gabriel",
-            "Doutor 7",
 
             "LATICINIOS KI SABOR LTDA",
             "Quintal Gastronomia",
