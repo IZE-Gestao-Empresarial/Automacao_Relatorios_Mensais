@@ -320,7 +320,7 @@ CONSULTORES_CLIENTES = {
             "FG AUTO CENTER",
             "Help Chick Comercio de Roupas",
             "MCZ Gestão Empresarial",
-            "Mundo das Pedras",
+
             "Sillmed Indústria e Comércio de Produtos em Silicone",
             "Toruk Sushi"
         ],
