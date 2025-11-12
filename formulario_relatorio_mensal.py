@@ -291,7 +291,7 @@ CONSULTORES_CLIENTES = {
             "Nebraska"
             ],
         "Pedro de Carvalho Marques": [
-            "Boug Acessórios",
+
             "Flávia Ayres",
             "Marcia Pinto Gastronomia",
             "NUTRI REIS",
