@@ -208,9 +208,8 @@ CONSULTORES_CLIENTES = {
 
             "LATICINIOS KI SABOR LTDA",
             "Quintal Gastronomia",
-            "Sap Restaurante e Eventos",
-            "Carpas Brasil"
-        ],
+            "Sap Restaurante e Eventos"
+            ],
         "Romulo Chaul": [
             "Atacadão das Confecções Comércio",
             "Bella Cat",
