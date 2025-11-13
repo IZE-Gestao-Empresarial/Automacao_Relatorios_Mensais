@@ -341,7 +341,7 @@ CONSULTORES_CLIENTES = {
             "Qualylife"
         ],
         "Ylienney Archil": [
-            "Grupo RedeSul",
+
             "J E L Serviços Médicos",
             "Nutralive",
             "VMB Advocacia"
