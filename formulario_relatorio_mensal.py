@@ -242,7 +242,7 @@ CONSULTORES_CLIENTES = {
             "OPT.DOC. Gestão de Consultórios",
 
             "Renan Maldonado Advogados",
-            "Silveira de Oliveira dos Santos Advogados",
+
             "Vinhal Batista Imoveis"
         ],
         "Gabriel Matias Vieira": [
