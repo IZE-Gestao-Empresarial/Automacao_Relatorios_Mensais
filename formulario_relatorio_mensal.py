@@ -278,8 +278,7 @@ CONSULTORES_CLIENTES = {
             "Freitas & Associados",
 
             "Loja NYS",
-            "Milhã Net",
-            "Nebraska"
+            "Milhã Net"
             ],
         "Pedro de Carvalho Marques": [
 
