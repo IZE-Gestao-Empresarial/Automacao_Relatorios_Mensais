@@ -287,7 +287,9 @@ CONSULTORES_CLIENTES = {
 
             "NUTRI REIS",
             "Santrack",
-            "Summer Auto Peças"
+            "Summer Auto Peças",
+            "V.C MARTINS RESTAURANTE",
+            "Rei da Pizza"
             ],
         "Vinícius Petini de Almeida": [
             "Castro e Rocha",
