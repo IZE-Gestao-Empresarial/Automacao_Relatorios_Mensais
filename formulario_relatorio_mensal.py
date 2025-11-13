@@ -211,7 +211,7 @@ CONSULTORES_CLIENTES = {
             "Sap Restaurante e Eventos"
             ],
         "Romulo Chaul": [
-            "Atacadão das Confecções Comércio",
+
             "Bella Cat",
             "Drogaria Menor Preço",
 
