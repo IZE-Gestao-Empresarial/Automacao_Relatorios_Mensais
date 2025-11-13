@@ -328,7 +328,7 @@ CONSULTORES_CLIENTES = {
             "MACARRONADA ITALIANA",
             "Peterson & Escobar ADV",
             "Projector",
-            "Renda Mais Transporte",
+
             "Telerad",
             "Vivaz - Centro de Reabilitacao e Estetica Avancada",
             "Lorenzi Soluções"
