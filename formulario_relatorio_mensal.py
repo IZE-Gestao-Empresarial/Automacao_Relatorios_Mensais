@@ -234,7 +234,6 @@ CONSULTORES_CLIENTES = {
             "BBZ Advocacia",
 
             "Firme e Forte - Segurança e Terceirização",
-            "Leonardo Rainan e Rodrigo Pinho advogados associados",
 
             "OPT.DOC. Gestão de Consultórios",
 
