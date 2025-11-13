@@ -256,7 +256,7 @@ CONSULTORES_CLIENTES = {
             "Usina Burguer"
         ],
         "Ana Paula B Duarte": [
-            "Bellagio Exportação de Café",
+
             "Clínica Crescer",
 
             "Fabrício Pereira Ludtke",
