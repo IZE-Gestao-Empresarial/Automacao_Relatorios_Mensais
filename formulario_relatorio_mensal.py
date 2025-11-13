@@ -314,8 +314,6 @@ CONSULTORES_CLIENTES = {
 
             "EG Transportes e Logísticas",
 
-            "Marcus Peterson Firma de Advogados",
-
             "Lorenzi Soluções"
         ],
         "Matheus Firmino": [
