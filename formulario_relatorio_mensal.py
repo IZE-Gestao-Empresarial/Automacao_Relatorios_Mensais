@@ -240,7 +240,7 @@ CONSULTORES_CLIENTES = {
             "Leonardo Rainan e Rodrigo Pinho advogados associados",
             "NCO Advogados",
             "OPT.DOC. Gestão de Consultórios",
-            "REMAX GOL FINANCEIRO GERAL",
+
             "Renan Maldonado Advogados",
             "Silveira de Oliveira dos Santos Advogados",
             "Vinhal Batista Imoveis"
