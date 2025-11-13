@@ -246,9 +246,8 @@ CONSULTORES_CLIENTES = {
             "Auto Posto Crisma",
             "Embratecc",
             "Giga Móveis",
-            "R - FLEX",
-            "TSM COMERCIO DE SEMIJOIAS"
-        ],
+            "R - FLEX"
+            ],
         "deborafigueredo.ize@gmail.com": [
             "Bachi Steakhouse",
 
