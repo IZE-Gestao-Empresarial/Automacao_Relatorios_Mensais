@@ -208,7 +208,8 @@ CONSULTORES_CLIENTES = {
 
             "LATICINIOS KI SABOR LTDA",
 
-            "Sap Restaurante e Eventos"
+            "Sap Restaurante e Eventos",
+            "Quitanda"
             ],
         "Romulo Chaul": [
 
@@ -331,6 +332,10 @@ CONSULTORES_CLIENTES = {
         "Guilherme Teixeira": [
 
             "Qualylife"
+        ],
+        "Guilherme Teixeira": [
+
+            "AÇAÍ FOOD JANAS"
         ],
         "Ylienney Archil": [
 
