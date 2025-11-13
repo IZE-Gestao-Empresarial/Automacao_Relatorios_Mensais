@@ -341,7 +341,7 @@ CONSULTORES_CLIENTES = {
             "VMB Advocacia"
         ],
         "Kaio Rodrigues": [
-            "Limonada"
+
         ]
     }
 
