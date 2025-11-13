@@ -315,7 +315,7 @@ CONSULTORES_CLIENTES = {
 
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
-            "AR Advocacia Empresarial",
+
             "EG Transportes e Logísticas",
 
             "Peterson & Escobar ADV",
