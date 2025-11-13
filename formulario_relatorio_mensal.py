@@ -241,7 +241,7 @@ CONSULTORES_CLIENTES = {
             "Vinhal Batista Imoveis"
         ],
         "Gabriel Matias Vieira": [
-            "Auto Posto Crisma",
+
             "Embratecc",
             "Giga Móveis",
             "R - FLEX"
