@@ -313,7 +313,7 @@ CONSULTORES_CLIENTES = {
             "Toruk Sushi"
         ],
         "Nury Sato": [
-            "D&J Urbanas Dedetização e Higienização"
+
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
             "AR Advocacia Empresarial",
