@@ -213,8 +213,6 @@ CONSULTORES_CLIENTES = {
         "Romulo Chaul": [
             "Atacadão das Confecções Comércio",
             "Bella Cat",
-            "Blend BR [1]",
-            "Blend BR [2]",
             "Drogaria Menor Preço",
             "Euro e Cia [Matriz]",
             "Euro e Cia [Florianopolis]",
@@ -271,7 +269,6 @@ CONSULTORES_CLIENTES = {
             "MF Comércio de Caminhões",
             "RKM Hidráulica",
             "Sanear Brasil",
-            "Sideraço S/A"
         ],
         "Drisi Rigamonti": [
             "Biomassa"
