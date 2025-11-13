@@ -287,7 +287,8 @@ CONSULTORES_CLIENTES = {
 
             "Summer Auto Peças",
             "V.C MARTINS RESTAURANTE",
-            "Rei da Pizza"
+            "Rei da Pizza",
+            "AÇAÍ FOOD JANAS"
             ],
         "Vinícius Petini de Almeida": [
             "Castro e Rocha",
@@ -328,10 +329,6 @@ CONSULTORES_CLIENTES = {
         "Guilherme Teixeira": [
 
             "Qualylife"
-        ],
-        "Guilherme Teixeira": [
-
-            "AÇAÍ FOOD JANAS"
         ],
         "Ylienney Archil": [
 
