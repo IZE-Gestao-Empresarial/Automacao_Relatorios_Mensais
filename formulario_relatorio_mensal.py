@@ -215,7 +215,7 @@ CONSULTORES_CLIENTES = {
             "Bella Cat",
             "Drogaria Menor Preço",
             "Euro e Cia [Matriz]",
-            "Euro e Cia [Florianopolis]",
+
             "Euro e Cia [Infoprodutos]",
             "Jonck (Euro)",
             "La Casa de Hambúrguer",
@@ -268,8 +268,8 @@ CONSULTORES_CLIENTES = {
             "Loja Maili [2]",
             "MF Comércio de Caminhões",
             "RKM Hidráulica",
-            "Sanear Brasil",
-        ],
+            "Sanear Brasil"
+            ],
         "Drisi Rigamonti": [
             "Biomassa"
             ],
