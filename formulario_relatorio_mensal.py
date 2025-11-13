@@ -323,7 +323,7 @@ CONSULTORES_CLIENTES = {
             "Lorenzi Soluções"
         ],
         "Matheus Firmino": [
-            "Expertabi - Diretoria",
+
             "Roma Comunicação"
         ],
         "Guilherme Teixeira": [
