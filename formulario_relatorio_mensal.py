@@ -214,6 +214,7 @@ CONSULTORES_CLIENTES = {
             "Atacadão das Confecções Comércio",
             "Bella Cat",
             "Drogaria Menor Preço",
+
             "Euro e Cia [Infoprodutos]",
             "La Casa de Hambúrguer",
             "MAD Engenharia",
@@ -232,7 +233,6 @@ CONSULTORES_CLIENTES = {
             "BBZ Advocacia",
 
             "Firme e Forte - Segurança e Terceirização",
-            "Leonardo Rainan e Rodrigo Pinho advogados associados",
 
             "OPT.DOC. Gestão de Consultórios",
 
@@ -244,9 +244,8 @@ CONSULTORES_CLIENTES = {
             "Auto Posto Crisma",
             "Embratecc",
             "Giga Móveis",
-            "R - FLEX",
-            "TSM COMERCIO DE SEMIJOIAS"
-        ],
+            "R - FLEX"
+            ],
         "deborafigueredo.ize@gmail.com": [
             "Bachi Steakhouse",
 
@@ -265,8 +264,8 @@ CONSULTORES_CLIENTES = {
             "Loja Maili [2]",
             "MF Comércio de Caminhões",
             "RKM Hidráulica",
-            "Sanear Brasil",
-        ],
+            "Sanear Brasil"
+            ],
         "Drisi Rigamonti": [
             "Biomassa"
             ],
@@ -284,7 +283,7 @@ CONSULTORES_CLIENTES = {
         "Pedro de Carvalho Marques": [
 
             "Flávia Ayres",
-            "Marcia Pinto Gastronomia",
+
             "NUTRI REIS",
             "Santrack",
             "Summer Auto Peças"
@@ -311,7 +310,7 @@ CONSULTORES_CLIENTES = {
             "Toruk Sushi"
         ],
         "Nury Sato": [
-            "D&J Urbanas Dedetização e Higienização"
+
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
             "AR Advocacia Empresarial",
