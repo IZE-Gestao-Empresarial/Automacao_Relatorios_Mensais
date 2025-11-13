@@ -274,9 +274,8 @@ CONSULTORES_CLIENTES = {
             "Sideraço S/A"
         ],
         "Drisi Rigamonti": [
-            "Biomassa",
-            "Império das Cadeiras"
-        ],
+            "Biomassa"
+            ],
         "Ariana Fernandes": [
 
             "Casa da Manicure",
