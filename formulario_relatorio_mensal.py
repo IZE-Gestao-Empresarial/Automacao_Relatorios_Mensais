@@ -214,7 +214,6 @@ CONSULTORES_CLIENTES = {
             "Atacadão das Confecções Comércio",
             "Bella Cat",
             "Drogaria Menor Preço",
-            "Euro e Cia [Matriz]",
 
             "Euro e Cia [Infoprodutos]",
             "Jonck (Euro)",
