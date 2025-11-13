@@ -273,8 +273,6 @@ CONSULTORES_CLIENTES = {
             ],
         "Ariana Fernandes": [
 
-            "Casa da Manicure",
-
             "Fabricio Salfer Sociedade Individual de Advocacia",
             "Freitas & Associados",
 
