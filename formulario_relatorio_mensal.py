@@ -235,7 +235,7 @@ CONSULTORES_CLIENTES = {
         "Danilo Vaz": [
 
             "BBZ Advocacia",
-            "Diogo Magalhães Sociedade Individual de Advocacia",
+
             "Firme e Forte - Segurança e Terceirização",
             "Leonardo Rainan e Rodrigo Pinho advogados associados",
             "NCO Advogados",
