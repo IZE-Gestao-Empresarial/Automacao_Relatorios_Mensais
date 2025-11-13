@@ -327,7 +327,6 @@ CONSULTORES_CLIENTES = {
             "EG Transportes e Logísticas",
 
             "Peterson & Escobar ADV",
-            "Projector",
 
             "Telerad",
             "Vivaz - Centro de Reabilitacao e Estetica Avancada",
