@@ -233,7 +233,7 @@ CONSULTORES_CLIENTES = {
             "The Imobiliaria"
         ],
         "Danilo Vaz": [
-            "Atm Coating",
+
             "BBZ Advocacia",
             "Diogo Magalhães Sociedade Individual de Advocacia",
             "Firme e Forte - Segurança e Terceirização",
