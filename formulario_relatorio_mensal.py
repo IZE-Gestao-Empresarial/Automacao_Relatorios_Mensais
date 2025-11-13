@@ -329,7 +329,7 @@ CONSULTORES_CLIENTES = {
             "Peterson & Escobar ADV",
 
             "Telerad",
-            "Vivaz - Centro de Reabilitacao e Estetica Avancada",
+
             "Lorenzi Soluções"
         ],
         "Matheus Firmino": [
