@@ -207,7 +207,7 @@ CONSULTORES_CLIENTES = {
             "Dom Gabriel",
 
             "LATICINIOS KI SABOR LTDA",
-            "Quintal Gastronomia",
+
             "Sap Restaurante e Eventos"
             ],
         "Romulo Chaul": [
