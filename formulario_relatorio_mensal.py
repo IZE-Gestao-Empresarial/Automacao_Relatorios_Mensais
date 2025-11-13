@@ -285,7 +285,6 @@ CONSULTORES_CLIENTES = {
 
             "Flávia Ayres",
 
-            "NUTRI REIS",
             "Santrack",
             "Summer Auto Peças",
             "V.C MARTINS RESTAURANTE",
