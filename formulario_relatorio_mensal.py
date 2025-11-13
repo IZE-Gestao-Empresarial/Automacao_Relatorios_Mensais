@@ -327,7 +327,7 @@ CONSULTORES_CLIENTES = {
             "Roma Comunicação"
         ],
         "Guilherme Teixeira": [
-            "Fretou Brasil Logística",
+
             "Qualylife"
         ],
         "Ylienney Archil": [
