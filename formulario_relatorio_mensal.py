@@ -295,9 +295,8 @@ CONSULTORES_CLIENTES = {
             "Marcia Pinto Gastronomia",
             "NUTRI REIS",
             "Santrack",
-            "Summer Auto Peças",
-            "Vitrine 360"
-        ],
+            "Summer Auto Peças"
+            ],
         "Vinícius Petini de Almeida": [
             "Castro e Rocha",
             "Ilir Advogados",
