@@ -314,7 +314,7 @@ CONSULTORES_CLIENTES = {
 
             "EG Transportes e Logísticas",
 
-            "Peterson & Escobar ADV",
+            "Marcus Peterson Firma de Advogados",
 
             "Lorenzi Soluções"
         ],
