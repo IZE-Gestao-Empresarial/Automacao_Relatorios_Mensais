@@ -285,7 +285,6 @@ CONSULTORES_CLIENTES = {
 
             "Flávia Ayres",
 
-            "Santrack",
             "Summer Auto Peças",
             "V.C MARTINS RESTAURANTE",
             "Rei da Pizza"
