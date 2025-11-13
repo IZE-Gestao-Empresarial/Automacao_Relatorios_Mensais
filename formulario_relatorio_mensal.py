@@ -276,7 +276,7 @@ CONSULTORES_CLIENTES = {
 
             "Fabricio Salfer Sociedade Individual de Advocacia",
             "Freitas & Associados",
-            "Kairo Ícaro Advogados Associados",
+
             "Loja NYS",
             "Milhã Net",
             "Nebraska"
