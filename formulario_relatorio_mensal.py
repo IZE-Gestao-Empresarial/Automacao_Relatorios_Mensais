@@ -320,8 +320,6 @@ CONSULTORES_CLIENTES = {
 
             "Peterson & Escobar ADV",
 
-            "Telerad",
-
             "Lorenzi Soluções"
         ],
         "Matheus Firmino": [
