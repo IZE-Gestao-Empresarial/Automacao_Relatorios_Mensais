@@ -285,7 +285,7 @@ CONSULTORES_CLIENTES = {
         "Vinícius Petini de Almeida": [
             "Castro e Rocha",
             "Ilir Advogados",
-            "Maia & Morgado Advogados Associados",
+
             "PUKARUMI"
         ],
         "Lucas Oliveira": [
