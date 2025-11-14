@@ -251,7 +251,6 @@ CONSULTORES_CLIENTES = {
             "Bachi Steakhouse",
 
             "Grupo Ótica Atual",
-            "Imperial Tapetes e Interiores",
 
             "Siligyn",
             "Usina Burguer"
