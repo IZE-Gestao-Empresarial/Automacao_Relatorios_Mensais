@@ -1300,9 +1300,15 @@ def processar_formulario_backend(respostas, consultor_selecionado):
     # Separar clientes por resposta
     clientes_sim = []
     clientes_nao = []
+    clientes_sem_modulos = []  # Lista para rastrear clientes sem módulos
     
     for cliente, dados in respostas_validas.items():
         if dados["deseja_relatorio"] == "Sim":
+            # VALIDAÇÃO CRÍTICA: Verificar se há módulos selecionados
+            if not dados["modulos"] or len(dados["modulos"]) == 0:
+                clientes_sem_modulos.append(cliente)
+                continue  # Pular este cliente
+            
             # Garantir que a nota do consultor esteja limpa antes de enviar
             nota_limpa = limpar_emojis_e_caracteres_especiais(dados["nota_consultor"]) if dados["nota_consultor"] else ""
             clientes_sim.append({
@@ -1312,6 +1318,19 @@ def processar_formulario_backend(respostas, consultor_selecionado):
             })
         else:
             clientes_nao.append(cliente)
+    
+    # Se houver clientes sem módulos, mostrar erro e impedir envio
+    if clientes_sem_modulos:
+        st.error(f"❌ **Erro de validação:** Os seguintes clientes foram marcados para envio mas não têm módulos selecionados:")
+        for cliente in clientes_sem_modulos:
+            st.error(f"   • {cliente}")
+        st.warning("⚠️ **Por favor, selecione pelo menos um módulo (FC, DRE ou Indicadores) para cada cliente que deseja enviar o relatório.**")
+        return None
+    
+    # Se não houver nenhum cliente com relatório válido, retornar None
+    if not clientes_sim and not clientes_nao:
+        st.warning("⚠️ Nenhum cliente válido para processar.")
+        return None
     
     # Dados para exportação
     dados_exportacao = {
@@ -1572,15 +1591,29 @@ def main():
         if not respostas_validas:
             st.warning("⚠️ Complete o formulário para pelo menos um cliente antes de enviar!")
         else:
-            col1, col2, col3 = st.columns([1, 2, 1])
+            # VALIDAÇÃO ADICIONAL: Verificar se clientes com "Sim" têm módulos selecionados
+            clientes_sem_modulos = []
+            for cliente, dados in respostas_validas.items():
+                if dados["deseja_relatorio"] == "Sim" and (not dados["modulos"] or len(dados["modulos"]) == 0):
+                    clientes_sem_modulos.append(cliente)
             
-            with col2:
-                if st.button("📤 Enviar Formulário", type="primary", use_container_width=True):
-                    dados_exportacao = processar_formulario_backend(respostas, st.session_state.consultor_select)
-                    if dados_exportacao:
-                        st.session_state.dados_processados = dados_exportacao
-                        # Força o rerun para mostrar o status de envio
-                        st.rerun()
+            # Mostrar aviso se houver clientes sem módulos
+            if clientes_sem_modulos:
+                st.markdown('<div class="error-message">❌ <strong>Atenção:</strong> Os seguintes clientes estão marcados para envio mas não têm módulos selecionados:</div>', unsafe_allow_html=True)
+                for cliente in clientes_sem_modulos:
+                    st.markdown(f'<div class="warning-message">   • <strong>{cliente}</strong> - Selecione pelo menos um módulo (FC, DRE ou Indicadores)</div>', unsafe_allow_html=True)
+                st.markdown('<div class="warning-message">⚠️ <strong>Corrija os erros acima antes de enviar o formulário.</strong></div>', unsafe_allow_html=True)
+            else:
+                # Só mostrar o botão de envio se tudo estiver válido
+                col1, col2, col3 = st.columns([1, 2, 1])
+                
+                with col2:
+                    if st.button("📤 Enviar Formulário", type="primary", use_container_width=True):
+                        dados_exportacao = processar_formulario_backend(respostas, st.session_state.consultor_select)
+                        if dados_exportacao:
+                            st.session_state.dados_processados = dados_exportacao
+                            # Força o rerun para mostrar o status de envio
+                            st.rerun()
 
     # Mostrar status de envio se já foi processado
     if 'dados_processados' in st.session_state:
