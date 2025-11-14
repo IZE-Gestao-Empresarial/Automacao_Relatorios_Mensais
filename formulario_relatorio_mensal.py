@@ -295,7 +295,7 @@ CONSULTORES_CLIENTES = {
         ],
         "Leonardo Souto": [
             "Comercial 3 Irmãos",
-            "DAZAN EQUIPAMENTOS",
+
             "FG AUTO CENTER",
             "Help Chick Comercio de Roupas",
             "MCZ Gestão Empresarial",
@@ -1191,7 +1191,6 @@ def formulario_principal():
                                 st.info(f"📝 **Texto que será salvo:** \"{nota_limpa}\"")
                             else:
                                 st.error("❌ **Atenção:** A nota ficou vazia após a remoção dos caracteres especiais.")
-                    
 
                         st.markdown(f'<div class="success-message">✅ Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
                         
