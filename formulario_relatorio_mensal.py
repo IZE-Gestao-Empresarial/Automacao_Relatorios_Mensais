@@ -325,7 +325,6 @@ CONSULTORES_CLIENTES = {
         ],
         "Ylienney Archil": [
 
-            "J E L Serviços Médicos",
             "Nutralive",
             "VMB Advocacia"
         ],
