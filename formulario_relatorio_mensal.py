@@ -1192,10 +1192,7 @@ def formulario_principal():
                             else:
                                 st.error("❌ **Atenção:** A nota ficou vazia após a remoção dos caracteres especiais.")
                     
-                    # Validação
-                    if not modulos_selecionados:
-                        st.markdown('<div class="warning-message">Selecione pelo menos um módulo para gerar o relatório</div>', unsafe_allow_html=True)
-                    else:
+
                         st.markdown(f'<div class="success-message">✅ Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
                         
                         # Verificar se o cliente tem ID na API
@@ -1598,10 +1595,17 @@ def main():
             
             # Mostrar aviso se houver clientes sem módulos
             if clientes_sem_modulos:
-                st.markdown('<div class="error-message">❌ <strong>Atenção:</strong> Os seguintes clientes estão marcados para envio mas não têm módulos selecionados:</div>', unsafe_allow_html=True)
+                # Construir mensagem completa em um único bloco com cor de atenção (amarelo/laranja)
+                mensagem_aviso = '<div class="warning-message">'
+                mensagem_aviso += '⚠️ <strong>Atenção:</strong> Os seguintes clientes estão marcados para envio mas não têm módulos selecionados:'
+                mensagem_aviso += '<ul style="margin: 0.8rem 0; padding-left: 1.5rem;">'
                 for cliente in clientes_sem_modulos:
-                    st.markdown(f'<div class="warning-message">   • <strong>{cliente}</strong> - Selecione pelo menos um módulo (FC, DRE ou Indicadores)</div>', unsafe_allow_html=True)
-                st.markdown('<div class="warning-message">⚠️ <strong>Corrija os erros acima antes de enviar o formulário.</strong></div>', unsafe_allow_html=True)
+                    mensagem_aviso += f'<li style="margin: 0.4rem 0;"><strong>{cliente}</strong> - Selecione pelo menos um módulo (FC, DRE ou Indicadores)</li>'
+                mensagem_aviso += '</ul>'
+                mensagem_aviso += '<strong>Corrija os itens acima antes de enviar o formulário.</strong>'
+                mensagem_aviso += '</div>'
+                
+                st.markdown(mensagem_aviso, unsafe_allow_html=True)
             else:
                 # Só mostrar o botão de envio se tudo estiver válido
                 col1, col2, col3 = st.columns([1, 2, 1])
