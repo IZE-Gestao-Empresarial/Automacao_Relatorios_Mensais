@@ -219,7 +219,7 @@ CONSULTORES_CLIENTES = {
             "La Casa de Hambúrguer",
             "MAD Engenharia",
             "PavFacil",
-            "Pontes Sports",
+
             "R J Macedo Agropecuária"
         ],
         "Carlos Vinicius Rodrigues Veras": [
