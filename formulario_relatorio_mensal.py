@@ -226,7 +226,8 @@ CONSULTORES_CLIENTES = {
             "Ativa Tecidos",
             "Distribuidora Hortybom",
             "Levens e Lineker",
-            "The Imobiliaria"
+            "The Imobiliaria",
+            "Oba Shops"
         ],
         "Danilo Vaz": [
 
@@ -251,7 +252,8 @@ CONSULTORES_CLIENTES = {
             "Grupo Ótica Atual",
 
             "Siligyn",
-            "Usina Burguer"
+            "Usina Burguer",
+            "Burian Vacinas e Imunização"
         ],
         "Ana Paula B Duarte": [
 
@@ -300,7 +302,9 @@ CONSULTORES_CLIENTES = {
             "MCZ Gestão Empresarial",
 
             "Sillmed Indústria e Comércio de Produtos em Silicone",
-            "Toruk Sushi"
+            "Toruk Sushi",
+            "Moto Chefe",
+            "Super Veiculos"
         ],
         "Nury Sato": [
 
