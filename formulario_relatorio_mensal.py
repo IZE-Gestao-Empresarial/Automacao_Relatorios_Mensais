@@ -268,8 +268,7 @@ CONSULTORES_CLIENTES = {
             "Sanear Brasil"
             ],
         "Drisi Rigamonti": [
-            "Biomassa",
-            "Litoral Medical"
+            "Biomassa"
             ],
         "Ariana Fernandes": [
 
