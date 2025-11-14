@@ -199,7 +199,7 @@ CONSULTORES_CLIENTES = {
             "Daniel Guimarães Advocacia",
 
             "HOTEL VILLAGIO D'ITALIA",
-            "LG DOS SANTOS (SACX)",
+
             "Petfeel Petcenter"
             ],
         "William Alves da Silva": [
