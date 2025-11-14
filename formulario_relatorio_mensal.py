@@ -283,7 +283,7 @@ CONSULTORES_CLIENTES = {
             "Rei da Pizza"
             ],
         "Vinícius Petini de Almeida": [
-            "Castro e Rocha",
+
             "Ilir Advogados",
 
             "PUKARUMI"
