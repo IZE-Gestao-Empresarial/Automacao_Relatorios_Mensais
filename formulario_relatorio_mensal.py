@@ -208,8 +208,7 @@ CONSULTORES_CLIENTES = {
 
             "LATICINIOS KI SABOR LTDA",
 
-            "Sap Restaurante e Eventos",
-            "Quitanda"
+            "Sap Restaurante e Eventos"
             ],
         "Romulo Chaul": [
 
