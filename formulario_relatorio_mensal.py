@@ -241,7 +241,8 @@ CONSULTORES_CLIENTES = {
         ],
         "Gabriel Matias Vieira": [
 
-            "R - FLEX"
+            "R - FLEX",
+            "Ivecenter Autopecas"
             ],
         "deborafigueredo.ize@gmail.com": [
             "Bachi Steakhouse",
@@ -250,7 +251,8 @@ CONSULTORES_CLIENTES = {
 
             "Siligyn",
             "Usina Burguer",
-            "Burian Vacinas e Imunização"
+            "Burian Vacinas e Imunização",
+            "N'BIS Lanchonete "
         ],
         "Ana Paula B Duarte": [
 
@@ -279,7 +281,8 @@ CONSULTORES_CLIENTES = {
             "Flávia Ayres",
 
             "V.C MARTINS RESTAURANTE",
-            "Rei da Pizza"
+            "Rei da Pizza",
+            "Sator"
             ],
         "Vinícius Petini de Almeida": [
 
