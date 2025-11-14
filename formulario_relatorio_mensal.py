@@ -298,7 +298,7 @@ CONSULTORES_CLIENTES = {
             "MCZ Gestão Empresarial",
 
             "Sillmed Indústria e Comércio de Produtos em Silicone",
-            "Toruk Sushi",
+
             "Moto Chefe",
             "Super Veiculos"
         ],
