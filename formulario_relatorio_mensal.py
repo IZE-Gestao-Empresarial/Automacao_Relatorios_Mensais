@@ -233,8 +233,6 @@ CONSULTORES_CLIENTES = {
 
             "BBZ Advocacia",
 
-            "Firme e Forte - Segurança e Terceirização",
-
             "OPT.DOC. Gestão de Consultórios",
 
             "Renan Maldonado Advogados",
