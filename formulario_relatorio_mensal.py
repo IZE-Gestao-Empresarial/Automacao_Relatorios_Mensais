@@ -270,8 +270,6 @@ CONSULTORES_CLIENTES = {
             ],
         "Ariana Fernandes": [
 
-            "Fabricio Salfer Sociedade Individual de Advocacia",
-
             "Loja NYS",
             "Milhã Net"
             ],
