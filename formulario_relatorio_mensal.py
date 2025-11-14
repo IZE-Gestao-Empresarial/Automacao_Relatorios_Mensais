@@ -294,7 +294,6 @@ CONSULTORES_CLIENTES = {
             "Smart Glass"
         ],
         "Leonardo Souto": [
-            "Comercial 3 Irmãos",
 
             "FG AUTO CENTER",
             "Help Chick Comercio de Roupas",
