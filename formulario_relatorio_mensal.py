@@ -242,7 +242,6 @@ CONSULTORES_CLIENTES = {
         ],
         "Gabriel Matias Vieira": [
 
-            "Embratecc",
             "Giga Móveis",
             "R - FLEX"
             ],
