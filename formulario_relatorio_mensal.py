@@ -294,7 +294,6 @@ CONSULTORES_CLIENTES = {
         ],
         "Leonardo Souto": [
 
-            "FG AUTO CENTER",
             "Help Chick Comercio de Roupas",
             "MCZ Gestão Empresarial",
 
