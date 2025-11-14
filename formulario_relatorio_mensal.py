@@ -243,7 +243,6 @@ CONSULTORES_CLIENTES = {
         ],
         "Gabriel Matias Vieira": [
 
-            "Embratecc",
             "R - FLEX"
             ],
         "deborafigueredo.ize@gmail.com": [
