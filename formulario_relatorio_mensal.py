@@ -251,7 +251,7 @@ CONSULTORES_CLIENTES = {
 
             "Siligyn",
             "Usina Burguer",
-            "Burian Vacinas e Imunização",
+
             "N'BIS Lanchonete "
         ],
         "Ana Paula B Duarte": [
