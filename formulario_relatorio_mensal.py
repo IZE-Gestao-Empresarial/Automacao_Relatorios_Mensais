@@ -107,10 +107,17 @@ def buscar_ids_clientes():
         st.error(f"❌ Erro ao buscar IDs dos clientes: {str(e)}")
         return {}
 
-def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_consultor=""):
+def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_consultor="", centro_custo=False):
     """
     Gera o PDF do relatório via API
     Retorna o conteúdo do PDF em bytes ou None em caso de erro
+    
+    Args:
+        id_cliente: ID do cliente
+        nome_cliente: Nome do cliente
+        modulos_selecionados: Lista de módulos selecionados
+        nota_consultor: Nota do consultor (opcional)
+        centro_custo: Se True, filtra por centro de custo (opcional)
     """
     try:
         # Mapear módulos selecionados para IDs de relatórios
@@ -151,7 +158,8 @@ def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_con
             "id_cliente": [id_cliente],
             "mes": mes_anterior,
             "ano": ano_anterior,
-            "relatorios": relatorios_ids
+            "relatorios": relatorios_ids,
+            "centro_custo": centro_custo
         }
         
         # Adicionar nota do consultor se houver
@@ -295,8 +303,8 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
                 
                 insert_sql = """
                 INSERT INTO resposta_formularios 
-                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor, id_envio_form, log_error_fluxo)
-                VALUES (CURRENT_DATE, %s, %s, %s, %s, %s, %s)
+                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor, id_envio_form, log_error_fluxo, centro_custo)
+                VALUES (CURRENT_DATE, %s, %s, %s, %s, %s, %s, %s)
                 """
                 
                 modulos_str = ", ".join(cliente_dados["modulos"]) if cliente_dados["modulos"] else "Nenhum"
@@ -307,7 +315,8 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
                     modulos_str,
                     cliente_dados["nota_consultor"] if cliente_dados["nota_consultor"] else "",
                     id_envio_form,
-                    False  # log_error_fluxo = False inicialmente
+                    False,  # log_error_fluxo = False inicialmente
+                    cliente_dados.get("centro_custo", False)  # centro_custo
                 ))
             
             # Inserir dados para cada cliente com resposta "Não"
@@ -325,8 +334,8 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
                 
                 insert_sql = """
                 INSERT INTO resposta_formularios 
-                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor, id_envio_form, log_error_fluxo)
-                VALUES (CURRENT_DATE, %s, %s, %s, %s, %s, %s)
+                (data_resposta, id_cliente, enviar_relatorio, modulos, nota_consultor, id_envio_form, log_error_fluxo, centro_custo)
+                VALUES (CURRENT_DATE, %s, %s, %s, %s, %s, %s, %s)
                 """
                 
                 cursor.execute(insert_sql, (
@@ -335,7 +344,8 @@ def enviar_para_banco_dados(dados_exportacao, consultor_selecionado):
                     "",  # modulos vazio
                     "",   # nota_consultor vazio
                     id_envio_form,
-                    False  # log_error_fluxo = False inicialmente
+                    False,  # log_error_fluxo = False inicialmente
+                    False   # centro_custo = False
                 ))
             
             # Confirmar transação
@@ -1058,91 +1068,100 @@ def formulario_principal():
                                 st.info(f"📝 **Texto que será salvo:** \"{nota_limpa}\"")
                             else:
                                 st.error("❌ **Atenção:** A nota ficou vazia após a remoção dos caracteres especiais.")
-
-                        st.markdown(f'<div class="success-message">✅ Módulos selecionados: {", ".join(modulos_selecionados)}</div>', unsafe_allow_html=True)
+                    
+                    # Opção de filtro por centro de custo
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    centro_custo = st.checkbox(
+                        "🏢 Filtrar relatório por Centro de Custo",
+                        key=f"centro_custo_{cliente}",
+                        help="Marque esta opção se deseja que o relatório seja filtrado pelos centro de custo."
+                    )
+                    
+                    # Verificar se o cliente tem ID na API
+                    id_cliente = clientes_ids.get(cliente)
+                    
+                    if id_cliente:
+                        # Container de pré-visualização com design melhorado
+                        st.markdown("<br>", unsafe_allow_html=True)
                         
-                        # Verificar se o cliente tem ID na API
-                        id_cliente = clientes_ids.get(cliente)
-                        
-                        if id_cliente:
-                            # Container de pré-visualização com design melhorado
+                        with st.expander("📄 Pré-visualizar Relatório", expanded=False):
+                            st.markdown("""
+                            <div style="padding: 0.5rem 0;">
+                                <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                    💡 <strong>Dica:</strong> Clique no botão abaixo para gerar e baixar uma prévia 
+                                    do relatório que será enviado para este cliente. Isso permite verificar 
+                                    se todas as informações estão corretas antes do envio oficial.
+                                </p>
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
                             st.markdown("<br>", unsafe_allow_html=True)
                             
-                            with st.expander("📄 Pré-visualizar Relatório", expanded=False):
-                                st.markdown("""
-                                <div style="padding: 0.5rem 0;">
-                                    <p style="margin: 0; color: #666; font-size: 0.9rem;">
-                                        💡 <strong>Dica:</strong> Clique no botão abaixo para gerar e baixar uma prévia 
-                                        do relatório que será enviado para este cliente. Isso permite verificar 
-                                        se todas as informações estão corretas antes do envio oficial.
-                                    </p>
-                                </div>
-                                """, unsafe_allow_html=True)
-                                
+                            # Criar chave única para armazenar estado do PDF
+                            pdf_key = f"pdf_gerado_{cliente}"
+                            
+                            # Botão para gerar PDF
+                            if st.button(
+                                "📁 Gerar Prévia do PDF", 
+                                key=f"btn_gerar_{cliente}", 
+                                use_container_width=True,
+                                help="Clique para gerar o relatório em PDF"
+                            ):
+                                with st.spinner(f"⏳ Gerando relatório para **{cliente}**... Aguarde, isso pode levar alguns minutos."):
+                                    nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
+                                    # Obter valor do centro_custo do session state
+                                    filtro_cc = st.session_state.get(f"centro_custo_{cliente}", False)
+                                    pdf_content = gerar_pdf_relatorio(id_cliente, cliente, modulos_selecionados, nota_limpa, filtro_cc)
+                                    
+                                    if pdf_content:
+                                        # Armazenar PDF no session state
+                                        st.session_state[pdf_key] = pdf_content
+                                        st.success("✅ Relatório gerado com sucesso!")
+                                        st.rerun()
+                            
+                            # Se o PDF já foi gerado, mostrar botão de download
+                            if pdf_key in st.session_state:
                                 st.markdown("<br>", unsafe_allow_html=True)
                                 
-                                # Criar chave única para armazenar estado do PDF
-                                pdf_key = f"pdf_gerado_{cliente}"
+                                # Gerar nome do arquivo
+                                data_atual = datetime.now()
+                                mes_nome = data_atual.strftime("%B")
+                                ano = data_atual.year
+                                nome_arquivo = f"Relatorio_{cliente.replace(' ', '_')}_{mes_nome}_{ano}.pdf"
                                 
-                                # Botão para gerar PDF
-                                if st.button(
-                                    "📁 Gerar Prévia do PDF", 
-                                    key=f"btn_gerar_{cliente}", 
-                                    use_container_width=True,
-                                    help="Clique para gerar o relatório em PDF"
-                                ):
-                                    with st.spinner(f"⏳ Gerando relatório para **{cliente}**... Aguarde, isso pode levar alguns minutos."):
-                                        nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
-                                        pdf_content = gerar_pdf_relatorio(id_cliente, cliente, modulos_selecionados, nota_limpa)
-                                        
-                                        if pdf_content:
-                                            # Armazenar PDF no session state
-                                            st.session_state[pdf_key] = pdf_content
-                                            st.success("✅ Relatório gerado com sucesso!")
-                                            st.rerun()
+                                # Mostrar informações do arquivo
+                                tamanho_kb = len(st.session_state[pdf_key]) / 1024
+                                st.info(f"📊 **Relatório pronto:** {nome_arquivo} ({tamanho_kb:.1f} KB)")
                                 
-                                # Se o PDF já foi gerado, mostrar botão de download
-                                if pdf_key in st.session_state:
-                                    st.markdown("<br>", unsafe_allow_html=True)
-                                    
-                                    # Gerar nome do arquivo
-                                    data_atual = datetime.now()
-                                    mes_nome = data_atual.strftime("%B")
-                                    ano = data_atual.year
-                                    nome_arquivo = f"Relatorio_{cliente.replace(' ', '_')}_{mes_nome}_{ano}.pdf"
-                                    
-                                    # Mostrar informações do arquivo
-                                    tamanho_kb = len(st.session_state[pdf_key]) / 1024
-                                    st.info(f"📊 **Relatório pronto:** {nome_arquivo} ({tamanho_kb:.1f} KB)")
-                                    
-                                    # Botão de download estilizado
-                                    col_download, col_reset = st.columns([3, 1])
-                                    
-                                    with col_download:
-                                        st.download_button(
-                                            label=f"💾 Baixar {nome_arquivo}",
-                                            data=st.session_state[pdf_key],
-                                            file_name=nome_arquivo,
-                                            mime="application/pdf",
-                                            key=f"download_button_{cliente}",
-                                            use_container_width=True,
-                                            help="Clique para fazer o download do relatório"
-                                        )
-                                    
-                                    with col_reset:
-                                        if st.button("🔄", key=f"reset_{cliente}", help="Gerar novamente"):
-                                            del st.session_state[pdf_key]
-                                            st.rerun()
-                        else:
-                            st.markdown("<br>", unsafe_allow_html=True)
-                            st.warning(f"⚠️ **Atenção:** O cliente '{cliente}' não foi encontrado na base de dados da API. Não é possível gerar prévia do relatório.")
+                                # Botão de download estilizado
+                                col_download, col_reset = st.columns([3, 1])
+                                
+                                with col_download:
+                                    st.download_button(
+                                        label=f"💾 Baixar {nome_arquivo}",
+                                        data=st.session_state[pdf_key],
+                                        file_name=nome_arquivo,
+                                        mime="application/pdf",
+                                        key=f"download_button_{cliente}",
+                                        use_container_width=True,
+                                        help="Clique para fazer o download do relatório"
+                                    )
+                                
+                                with col_reset:
+                                    if st.button("🔄", key=f"reset_{cliente}", help="Gerar novamente"):
+                                        del st.session_state[pdf_key]
+                                        st.rerun()
+                    else:
+                        st.markdown("<br>", unsafe_allow_html=True)
+                        st.warning(f"⚠️ **Atenção:** O cliente '{cliente}' não foi encontrado na base de dados da API. Não é possível gerar prévia do relatório.")
                 
                 # Armazenar resposta (com limpeza da nota do consultor)
                 nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
                 respostas[cliente] = {
                     "deseja_relatorio": deseja_relatorio,
                     "modulos": modulos_selecionados,
-                    "nota_consultor": nota_limpa
+                    "nota_consultor": nota_limpa,
+                    "centro_custo": st.session_state.get(f"centro_custo_{cliente}", False) if deseja_relatorio else False
                 }
             
             st.markdown("<br>", unsafe_allow_html=True)
@@ -1176,7 +1195,8 @@ def processar_formulario_backend(respostas, consultor_selecionado):
             clientes_sim.append({
                 "cliente": cliente,
                 "modulos": dados["modulos"],
-                "nota_consultor": nota_limpa
+                "nota_consultor": nota_limpa,
+                "centro_custo": dados.get("centro_custo", False)
             })
         else:
             clientes_nao.append(cliente)
