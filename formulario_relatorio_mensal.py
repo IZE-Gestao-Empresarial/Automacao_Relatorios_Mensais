@@ -1077,6 +1077,14 @@ def formulario_principal():
                         help="Marque esta opção se deseja que o relatório seja filtrado pelos centro de custo."
                     )
                     
+                    # Observação sobre filtro por centro de custo com indicadores
+                    st.markdown("""
+                    <p style="margin: 0.5rem 0; padding: 0.5rem; color: #666; font-size: 0.85rem; line-height: 1.4;">
+                        <em>Obs: Não recomendamos gerar o relatório filtrado por centro de custo com indicadores. 
+                        Atualmente o sistema não suporta esse tipo de filtro e o relatório pode não ser gerado como esperado.</em>
+                    </p>
+                    """, unsafe_allow_html=True)
+                    
                     # Verificar se o cliente tem ID na API
                     id_cliente = clientes_ids.get(cliente)
                     
