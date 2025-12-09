@@ -117,7 +117,7 @@ DICIONARIO_CLIENTES = {
         "Rayane Caroline Cândida de Amorim Oliveira": [
 
             "Telerad",
-            "AR Advocacia Empresarial",
+
             "Renda Mais Transporte",
             "Projector",
             "MACARRONADA ITALIANA",
