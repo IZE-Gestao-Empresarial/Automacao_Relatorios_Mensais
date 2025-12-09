@@ -115,7 +115,7 @@ DICIONARIO_CLIENTES = {
             "VMB Advocacia"
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
-            "Marcus Peterson Firma de Advogados",
+
             "Telerad",
             "AR Advocacia Empresarial",
             "Renda Mais Transporte",
