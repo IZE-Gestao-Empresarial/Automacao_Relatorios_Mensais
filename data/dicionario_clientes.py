@@ -92,7 +92,7 @@ DICIONARIO_CLIENTES = {
             "Body & Fit"
         ],
         "Matheus Firmino": [
-            "Expertabi - Diretoria",
+
             "Roma Comunicação"
         ],
         "Danilo Vaz": [
