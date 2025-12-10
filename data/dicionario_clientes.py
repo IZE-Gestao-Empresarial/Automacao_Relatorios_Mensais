@@ -132,7 +132,7 @@ DICIONARIO_CLIENTES = {
             "R - FLEX",
             "Embratecc",
             "Giga Móveis",
-            "Auto Posto Crisma",
+
             "TSM COMERCIO DE SEMIJOIAS",
             "Ivecenter Autopecas",
             "Berno"
