@@ -93,7 +93,6 @@ DICIONARIO_CLIENTES = {
         ],
         "Matheus Firmino": [
 
-            "Roma Comunicação"
         ],
         "Danilo Vaz": [
             "BBZ Advocacia",
