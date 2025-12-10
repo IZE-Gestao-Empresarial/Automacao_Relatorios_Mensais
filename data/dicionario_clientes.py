@@ -134,7 +134,7 @@ DICIONARIO_CLIENTES = {
             "Giga Móveis",
 
             "TSM COMERCIO DE SEMIJOIAS",
-            "Ivecenter Autopecas",
+
             "Berno"
         ],
         "Pedro de Carvalho Marques": [
