@@ -108,7 +108,7 @@ DICIONARIO_CLIENTES = {
             "Atm Coating"
         ],
         "Ylienney Archil": [
-            "Grupo RedeSul",
+
             "Nutralive",
 
             "VMB Advocacia"
