@@ -110,7 +110,7 @@ DICIONARIO_CLIENTES = {
         "Ylienney Archil": [
             "Grupo RedeSul",
             "Nutralive",
-            "J E L Serviços Médicos",
+
             "VMB Advocacia"
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
