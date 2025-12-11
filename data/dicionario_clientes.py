@@ -171,7 +171,7 @@ DICIONARIO_CLIENTES = {
             "D&J Urbanas Dedetização e Higienização"
         ],
         "Guilherme Teixeira": [
-            "Fretou Brasil Logística"
+
         ],
         "Ana Paula B Duarte": [
             "Sideraço S/A",
