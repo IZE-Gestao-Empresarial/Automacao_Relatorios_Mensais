@@ -155,7 +155,7 @@ DICIONARIO_CLIENTES = {
             "Elem S Confeccoes",
             "Usina Burguer",
             "Bachi Steakhouse",
-            "Cresol",
+
             "Techcell Celulares",
             "Longevitale",
             "Imperial Tapetes e Interiores",
