@@ -117,7 +117,6 @@ DICIONARIO_CLIENTES = {
 
             "Telerad",
 
-            "Renda Mais Transporte",
             "Projector",
             "MACARRONADA ITALIANA",
             "EG Transportes e Logísticas",
