@@ -157,7 +157,7 @@ DICIONARIO_CLIENTES = {
             "Bachi Steakhouse",
 
             "Techcell Celulares",
-            "Longevitale",
+
             "Imperial Tapetes e Interiores",
             "Tangerine Óculos"
         ],
