@@ -23,7 +23,6 @@ DICIONARIO_CLIENTES = {
             "JP Recicla",
             "AGRI FACAS",
             "Cac Silva",
-            "Camilo Auto Peças",
 
             "Quitanda"
         ],
