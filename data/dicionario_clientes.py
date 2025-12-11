@@ -25,7 +25,6 @@ DICIONARIO_CLIENTES = {
             "Cac Silva",
             "Camilo Auto Peças",
 
-            "Carpas Brasil",
             "Quitanda"
         ],
         "Tiago Alves de Oliveira": [
