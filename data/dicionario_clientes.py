@@ -129,8 +129,6 @@ DICIONARIO_CLIENTES = {
             "R - FLEX",
             "Embratecc",
 
-            "TSM COMERCIO DE SEMIJOIAS",
-
             "Berno"
         ],
         "Pedro de Carvalho Marques": [
