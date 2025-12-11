@@ -128,7 +128,6 @@ DICIONARIO_CLIENTES = {
         "Gabriel Matias Vieira": [
             "R - FLEX",
             "Embratecc",
-            "Giga Móveis",
 
             "TSM COMERCIO DE SEMIJOIAS",
 
