@@ -16,7 +16,7 @@ DICIONARIO_CLIENTES = {
             "Oba Shops"
         ],
         "William Alves da Silva": [
-            "Império das Cadeiras",
+
             "LATICINIOS KI SABOR LTDA",
             "Doutor 7",
             "Dom Gabriel",
