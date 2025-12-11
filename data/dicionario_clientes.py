@@ -24,7 +24,7 @@ DICIONARIO_CLIENTES = {
             "AGRI FACAS",
             "Cac Silva",
             "Camilo Auto Peças",
-            "Alliada Elétrica",
+
             "Carpas Brasil",
             "Quitanda"
         ],
