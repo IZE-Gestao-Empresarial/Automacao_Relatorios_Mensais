@@ -20,7 +20,6 @@ DICIONARIO_CLIENTES = {
             "LATICINIOS KI SABOR LTDA",
 
             "AGRI FACAS",
-            "Cac Silva",
 
             "Quitanda"
         ],
