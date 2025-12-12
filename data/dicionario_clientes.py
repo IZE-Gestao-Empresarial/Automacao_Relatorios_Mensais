@@ -92,7 +92,7 @@ DICIONARIO_CLIENTES = {
         ],
         "Danilo Vaz": [
             "BBZ Advocacia",
-            "REMAX GOL FINANCEIRO GERAL",
+
             "Diogo Magalhães Sociedade Individual de Advocacia",
             "Renan Maldonado Advogados",
 
