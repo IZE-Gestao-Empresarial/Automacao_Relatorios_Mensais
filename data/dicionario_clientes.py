@@ -92,9 +92,8 @@ DICIONARIO_CLIENTES = {
 
             "NCO Advogados",
             "OPT.DOC. Gestão de Consultórios",
-            "Vinhal Batista Imoveis",
-            "Atm Coating"
-        ],
+            "Vinhal Batista Imoveis"
+            ],
         "Ylienney Archil": [
 
             "VMB Advocacia"
