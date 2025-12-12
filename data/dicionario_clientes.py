@@ -93,7 +93,6 @@ DICIONARIO_CLIENTES = {
         "Danilo Vaz": [
             "BBZ Advocacia",
 
-            "Diogo Magalhães Sociedade Individual de Advocacia",
             "Renan Maldonado Advogados",
 
             "NCO Advogados",
