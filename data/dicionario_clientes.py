@@ -136,7 +136,6 @@ DICIONARIO_CLIENTES = {
         ],
         "Vinícius Petini de Almeida": [
 
-            "Ilir Advogados",
             "PUKARUMI",
             "Castro e Rocha"
         ],
