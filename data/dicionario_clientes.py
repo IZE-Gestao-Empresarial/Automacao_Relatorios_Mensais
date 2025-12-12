@@ -96,7 +96,6 @@ DICIONARIO_CLIENTES = {
             "Diogo Magalhães Sociedade Individual de Advocacia",
             "Renan Maldonado Advogados",
 
-            "Leonardo Rainan e Rodrigo Pinho advogados associados",
             "NCO Advogados",
             "OPT.DOC. Gestão de Consultórios",
             "Vinhal Batista Imoveis",
