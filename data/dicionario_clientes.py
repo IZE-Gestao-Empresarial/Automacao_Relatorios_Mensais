@@ -96,7 +96,7 @@ DICIONARIO_CLIENTES = {
             "Diogo Magalhães Sociedade Individual de Advocacia",
             "Renan Maldonado Advogados",
             "Firme e Forte - Segurança e Terceirização",
-            "Silveira de Oliveira dos Santos Advogados",
+
             "Leonardo Rainan e Rodrigo Pinho advogados associados",
             "NCO Advogados",
             "OPT.DOC. Gestão de Consultórios",
