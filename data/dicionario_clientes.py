@@ -19,8 +19,6 @@ DICIONARIO_CLIENTES = {
 
             "LATICINIOS KI SABOR LTDA",
             "Doutor 7",
-            "Dom Gabriel",
-            "JP Recicla",
             "AGRI FACAS",
             "Cac Silva",
 
