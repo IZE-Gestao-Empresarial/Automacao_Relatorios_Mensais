@@ -18,7 +18,7 @@ DICIONARIO_CLIENTES = {
         "William Alves da Silva": [
 
             "LATICINIOS KI SABOR LTDA",
-            "Doutor 7",
+
             "AGRI FACAS",
             "Cac Silva",
 
