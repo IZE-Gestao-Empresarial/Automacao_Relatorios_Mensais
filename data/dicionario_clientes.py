@@ -117,7 +117,7 @@ DICIONARIO_CLIENTES = {
             "Boug Acessórios",
 
             "NUTRI REIS",
-            "V.C MARTINS RESTAURANTE",
+
             "AÇAÍ FOOD JANAS",
             "Vitrine 360",
             "Rei da Pizza",
