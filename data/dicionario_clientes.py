@@ -105,8 +105,6 @@ DICIONARIO_CLIENTES = {
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
 
-            "Telerad",
-
             "EG Transportes e Logísticas",
             "Vivaz - Centro de Reabilitacao e Estetica Avancada",
             "Lorenzi Soluções"
