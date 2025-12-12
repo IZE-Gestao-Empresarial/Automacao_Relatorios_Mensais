@@ -111,7 +111,6 @@ DICIONARIO_CLIENTES = {
 
         ],
         "Gabriel Matias Vieira": [
-            "R - FLEX",
 
             "Berno"
         ],
