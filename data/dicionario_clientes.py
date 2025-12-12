@@ -107,8 +107,6 @@ DICIONARIO_CLIENTES = {
 
             "Telerad",
 
-            "Projector",
-
             "EG Transportes e Logísticas",
             "Vivaz - Centro de Reabilitacao e Estetica Avancada",
             "Lorenzi Soluções"
