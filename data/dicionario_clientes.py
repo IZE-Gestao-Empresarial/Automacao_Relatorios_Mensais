@@ -61,7 +61,6 @@ DICIONARIO_CLIENTES = {
             "MAD Engenharia",
             "R J Macedo Agropecuária",
             "Atacadão das Confecções Comércio",
-            "Bella Cat",
 
             "M F Construcoes e Utilidades",
             "Drogaria Menor Preço",
