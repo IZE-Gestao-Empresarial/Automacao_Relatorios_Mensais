@@ -116,8 +116,6 @@ DICIONARIO_CLIENTES = {
 
             "Boug Acessórios",
 
-            "NUTRI REIS",
-
             "AÇAÍ FOOD JANAS",
 
             "Rei da Pizza",
