@@ -54,7 +54,7 @@ DICIONARIO_CLIENTES = {
             "Moto Chefe"
         ],
         "Romulo Chaul": [
-            "PavFacil",
+
             "Euro e Cia [Matriz]",
             "Euro e Cia [Florianopolis]",
             "Euro e Cia [Infoprodutos]",
