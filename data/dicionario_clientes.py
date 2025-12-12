@@ -111,7 +111,6 @@ DICIONARIO_CLIENTES = {
         ],
         "Drisi Rigamonti": [
 
-            "Litoral Medical"
         ],
         "Gabriel Matias Vieira": [
             "R - FLEX",
