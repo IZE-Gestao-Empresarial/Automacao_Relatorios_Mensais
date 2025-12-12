@@ -62,7 +62,7 @@ DICIONARIO_CLIENTES = {
             "R J Macedo Agropecuária",
             "Atacadão das Confecções Comércio",
             "Bella Cat",
-            "Pontes Sports",
+
             "M F Construcoes e Utilidades",
             "Drogaria Menor Preço",
             "La Casa de Hambúrguer",
