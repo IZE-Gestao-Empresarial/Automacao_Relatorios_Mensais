@@ -120,7 +120,7 @@ DICIONARIO_CLIENTES = {
             "Lorenzi Soluções"
         ],
         "Drisi Rigamonti": [
-            "Biomassa",
+
             "Litoral Medical"
         ],
         "Gabriel Matias Vieira": [
