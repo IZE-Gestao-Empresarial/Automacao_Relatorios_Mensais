@@ -28,7 +28,6 @@ DICIONARIO_CLIENTES = {
 
             "HOTEL VILLAGIO D'ITALIA",
 
-            "LG DOS SANTOS (SACX)",
             "Crescendo na Fé Cursos Online",
             "Petfeel Petcenter",
             "TOTAL AR",
