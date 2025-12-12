@@ -124,7 +124,7 @@ DICIONARIO_CLIENTES = {
             "Berno"
         ],
         "Pedro de Carvalho Marques": [
-            "Summer Auto Peças",
+
             "Boug Acessórios",
             "Sator",
             "NUTRI REIS",
