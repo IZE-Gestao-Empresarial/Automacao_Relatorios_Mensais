@@ -27,7 +27,7 @@ DICIONARIO_CLIENTES = {
         "Tiago Alves de Oliveira": [
 
             "HOTEL VILLAGIO D'ITALIA",
-            "A S DE SOUZA PROJETOS AMBIENTAIS",
+
             "LG DOS SANTOS (SACX)",
             "Crescendo na Fé Cursos Online",
             "Petfeel Petcenter",
