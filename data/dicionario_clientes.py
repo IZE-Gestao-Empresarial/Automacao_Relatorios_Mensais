@@ -26,7 +26,6 @@ DICIONARIO_CLIENTES = {
         ],
         "Tiago Alves de Oliveira": [
 
-            "Daniel Guimarães Advocacia",
             "Saquecred",
             "HOTEL VILLAGIO D'ITALIA",
             "A S DE SOUZA PROJETOS AMBIENTAIS",
