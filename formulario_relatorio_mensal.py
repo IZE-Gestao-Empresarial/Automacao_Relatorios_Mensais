@@ -1111,8 +1111,11 @@ def formulario_principal():
                         # Container de pré-visualização com design melhorado
                         st.markdown("<br>", unsafe_allow_html=True)
                         
-                        # Bloquear pré-visualização se configuração for inválida
-                        if not filtro_invalido:
+                        # Verificar se há módulos selecionados
+                        sem_modulos = not modulos_selecionados or len(modulos_selecionados) == 0
+                        
+                        # Bloquear pré-visualização se configuração for inválida OU se não há módulos
+                        if not filtro_invalido and not sem_modulos:
                             with st.expander("📄 Pré-visualizar Relatório", expanded=False):
                                 st.markdown("""
                                 <div style="padding: 0.5rem 0;">
@@ -1181,7 +1184,11 @@ def formulario_principal():
                                             del st.session_state[pdf_key]
                                             st.rerun()
                         else:
-                            st.info("ℹ️ **Pré-visualização indisponível:** Ajuste a configuração acima para gerar a prévia do relatório.")
+                            # Mensagem quando pré-visualização está bloqueada (sem módulos ou configuração inválida)
+                            if sem_modulos:
+                                st.info("ℹ️ **Pré-visualização indisponível:** Selecione pelo menos um módulo (FC, DRE ou Indicadores) para gerar a prévia do relatório.")
+                            else:
+                                st.info("ℹ️ **Pré-visualização indisponível:** Ajuste a configuração acima para gerar a prévia do relatório.")
                     else:
                         st.markdown("<br>", unsafe_allow_html=True)
                         st.warning(f"⚠️ **Atenção:** O cliente '{cliente}' não foi encontrado na base de dados da API. Não é possível gerar prévia do relatório.")
