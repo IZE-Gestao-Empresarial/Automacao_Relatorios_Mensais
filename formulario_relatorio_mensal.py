@@ -172,7 +172,7 @@ def gerar_pdf_relatorio(id_cliente, nome_cliente, modulos_selecionados, nota_con
             "X-API-Key": API_KEY
         }
         
-        response = requests.post(url, json=payload, headers=headers, timeout=240)
+        response = requests.post(url, json=payload, headers=headers, timeout=600)
         
         if response.status_code == 200:
             return response.content
