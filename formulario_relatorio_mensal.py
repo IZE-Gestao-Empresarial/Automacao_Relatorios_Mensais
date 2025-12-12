@@ -1077,13 +1077,32 @@ def formulario_principal():
                         help="Marque esta opção se deseja que o relatório seja filtrado pelos centro de custo."
                     )
                     
-                    # Observação sobre filtro por centro de custo com indicadores
-                    st.markdown("""
-                    <p style="margin: 0.5rem 0; padding: 0.5rem; color: #666; font-size: 0.85rem; line-height: 1.4;">
-                        <em>Obs: Não recomendamos gerar o relatório filtrado por centro de custo com indicadores. 
-                        Atualmente o sistema não suporta esse tipo de filtro e o relatório pode não ser gerado como esperado.</em>
-                    </p>
-                    """, unsafe_allow_html=True)
+                    # Validação: Verificar se selecionou APENAS Indicadores com filtro por centro de custo
+                    apenas_indicadores = (modulos_selecionados == ["Indicadores"])
+                    filtro_invalido = centro_custo and apenas_indicadores
+                    
+                    if filtro_invalido:
+                        st.markdown("""
+                        <div style="background-color: #FFF4E6; border-left: 4px solid #FF9800; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <p style="margin: 0; color: #E65100; font-size: 0.95rem;">
+                                ⚠️ <strong>Atenção:</strong> Não é possível filtrar por centro de custo quando <strong>APENAS</strong> 
+                                o módulo de Indicadores está selecionado.
+                            </p>
+                            <p style="margin: 0.8rem 0 0 0; color: #666; font-size: 0.9rem;">
+                                <strong>Escolha uma das opções:</strong><br>
+                                • Desmarque o filtro por centro de custo, OU<br>
+                                • Adicione outros módulos (FC ou DRE) além de Indicadores
+                            </p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    else:
+                        # Observação sobre filtro por centro de custo com indicadores
+                        st.markdown("""
+                        <p style="margin: 0.5rem 0; padding: 0.5rem; color: #666; font-size: 0.85rem; line-height: 1.4;">
+                            <em>Obs: Não recomendamos gerar o relatório filtrado por centro de custo com indicadores. 
+                            Atualmente o sistema não suporta esse tipo de filtro e o relatório pode não ser gerado como esperado.</em>
+                        </p>
+                        """, unsafe_allow_html=True)
                     
                     # Verificar se o cliente tem ID na API
                     id_cliente = clientes_ids.get(cliente)
@@ -1092,84 +1111,95 @@ def formulario_principal():
                         # Container de pré-visualização com design melhorado
                         st.markdown("<br>", unsafe_allow_html=True)
                         
-                        with st.expander("📄 Pré-visualizar Relatório", expanded=False):
-                            st.markdown("""
-                            <div style="padding: 0.5rem 0;">
-                                <p style="margin: 0; color: #666; font-size: 0.9rem;">
-                                    💡 <strong>Dica:</strong> Clique no botão abaixo para gerar e baixar uma prévia 
-                                    do relatório que será enviado para este cliente. Isso permite verificar 
-                                    se todas as informações estão corretas antes do envio oficial.
-                                </p>
-                            </div>
-                            """, unsafe_allow_html=True)
-                            
-                            st.markdown("<br>", unsafe_allow_html=True)
-                            
-                            # Criar chave única para armazenar estado do PDF
-                            pdf_key = f"pdf_gerado_{cliente}"
-                            
-                            # Botão para gerar PDF
-                            if st.button(
-                                "📁 Gerar Prévia do PDF", 
-                                key=f"btn_gerar_{cliente}", 
-                                use_container_width=True,
-                                help="Clique para gerar o relatório em PDF"
-                            ):
-                                with st.spinner(f"⏳ Gerando relatório para **{cliente}**... Aguarde, isso pode levar alguns minutos."):
-                                    nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
-                                    # Obter valor do centro_custo do session state
-                                    filtro_cc = st.session_state.get(f"centro_custo_{cliente}", False)
-                                    pdf_content = gerar_pdf_relatorio(id_cliente, cliente, modulos_selecionados, nota_limpa, filtro_cc)
-                                    
-                                    if pdf_content:
-                                        # Armazenar PDF no session state
-                                        st.session_state[pdf_key] = pdf_content
-                                        st.success("✅ Relatório gerado com sucesso!")
-                                        st.rerun()
-                            
-                            # Se o PDF já foi gerado, mostrar botão de download
-                            if pdf_key in st.session_state:
+                        # Bloquear pré-visualização se configuração for inválida
+                        if not filtro_invalido:
+                            with st.expander("📄 Pré-visualizar Relatório", expanded=False):
+                                st.markdown("""
+                                <div style="padding: 0.5rem 0;">
+                                    <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                        💡 <strong>Dica:</strong> Clique no botão abaixo para gerar e baixar uma prévia 
+                                        do relatório que será enviado para este cliente. Isso permite verificar 
+                                        se todas as informações estão corretas antes do envio oficial.
+                                    </p>
+                                </div>
+                                """, unsafe_allow_html=True)
+                                
                                 st.markdown("<br>", unsafe_allow_html=True)
                                 
-                                # Gerar nome do arquivo
-                                data_atual = datetime.now()
-                                mes_nome = data_atual.strftime("%B")
-                                ano = data_atual.year
-                                nome_arquivo = f"Relatorio_{cliente.replace(' ', '_')}_{mes_nome}_{ano}.pdf"
+                                # Criar chave única para armazenar estado do PDF
+                                pdf_key = f"pdf_gerado_{cliente}"
                                 
-                                # Mostrar informações do arquivo
-                                tamanho_kb = len(st.session_state[pdf_key]) / 1024
-                                st.info(f"📊 **Relatório pronto:** {nome_arquivo} ({tamanho_kb:.1f} KB)")
+                                # Botão para gerar PDF
+                                if st.button(
+                                    "📁 Gerar Prévia do PDF", 
+                                    key=f"btn_gerar_{cliente}", 
+                                    use_container_width=True,
+                                    help="Clique para gerar o relatório em PDF"
+                                ):
+                                    with st.spinner(f"⏳ Gerando relatório para **{cliente}**... Aguarde, isso pode levar alguns minutos."):
+                                        nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
+                                        # Obter valor do centro_custo do session state
+                                        filtro_cc = st.session_state.get(f"centro_custo_{cliente}", False)
+                                        pdf_content = gerar_pdf_relatorio(id_cliente, cliente, modulos_selecionados, nota_limpa, filtro_cc)
+                                        
+                                        if pdf_content:
+                                            # Armazenar PDF no session state
+                                            st.session_state[pdf_key] = pdf_content
+                                            st.success("✅ Relatório gerado com sucesso!")
+                                            st.rerun()
                                 
-                                # Botão de download estilizado
-                                col_download, col_reset = st.columns([3, 1])
-                                
-                                with col_download:
-                                    st.download_button(
-                                        label=f"💾 Baixar {nome_arquivo}",
-                                        data=st.session_state[pdf_key],
-                                        file_name=nome_arquivo,
-                                        mime="application/pdf",
-                                        key=f"download_button_{cliente}",
-                                        use_container_width=True,
-                                        help="Clique para fazer o download do relatório"
-                                    )
-                                
-                                with col_reset:
-                                    if st.button("🔄", key=f"reset_{cliente}", help="Gerar novamente"):
-                                        del st.session_state[pdf_key]
-                                        st.rerun()
+                                # Se o PDF já foi gerado, mostrar botão de download
+                                if pdf_key in st.session_state:
+                                    st.markdown("<br>", unsafe_allow_html=True)
+                                    
+                                    # Gerar nome do arquivo
+                                    data_atual = datetime.now()
+                                    mes_nome = data_atual.strftime("%B")
+                                    ano = data_atual.year
+                                    nome_arquivo = f"Relatorio_{cliente.replace(' ', '_')}_{mes_nome}_{ano}.pdf"
+                                    
+                                    # Mostrar informações do arquivo
+                                    tamanho_kb = len(st.session_state[pdf_key]) / 1024
+                                    st.info(f"📊 **Relatório pronto:** {nome_arquivo} ({tamanho_kb:.1f} KB)")
+                                    
+                                    # Botão de download estilizado
+                                    col_download, col_reset = st.columns([3, 1])
+                                    
+                                    with col_download:
+                                        st.download_button(
+                                            label=f"💾 Baixar {nome_arquivo}",
+                                            data=st.session_state[pdf_key],
+                                            file_name=nome_arquivo,
+                                            mime="application/pdf",
+                                            key=f"download_button_{cliente}",
+                                            use_container_width=True,
+                                            help="Clique para fazer o download do relatório"
+                                        )
+                                    
+                                    with col_reset:
+                                        if st.button("🔄", key=f"reset_{cliente}", help="Gerar novamente"):
+                                            del st.session_state[pdf_key]
+                                            st.rerun()
+                        else:
+                            st.info("ℹ️ **Pré-visualização indisponível:** Ajuste a configuração acima para gerar a prévia do relatório.")
                     else:
                         st.markdown("<br>", unsafe_allow_html=True)
                         st.warning(f"⚠️ **Atenção:** O cliente '{cliente}' não foi encontrado na base de dados da API. Não é possível gerar prévia do relatório.")
                 
                 # Armazenar resposta (com limpeza da nota do consultor)
                 nota_limpa = limpar_emojis_e_caracteres_especiais(nota_consultor) if nota_consultor else ""
+                
+                # Verificar se a configuração é inválida (APENAS Indicadores + filtro por centro de custo)
+                centro_custo_valor = st.session_state.get(f"centro_custo_{cliente}", False) if deseja_relatorio else False
+                apenas_indicadores = (modulos_selecionados == ["Indicadores"])
+                configuracao_invalida = centro_custo_valor and apenas_indicadores
+                
                 respostas[cliente] = {
                     "deseja_relatorio": deseja_relatorio,
                     "modulos": modulos_selecionados,
                     "nota_consultor": nota_limpa,
-                    "centro_custo": st.session_state.get(f"centro_custo_{cliente}", False) if deseja_relatorio else False
+                    "centro_custo": centro_custo_valor,
+                    "configuracao_invalida": configuracao_invalida
                 }
             
             st.markdown("<br>", unsafe_allow_html=True)
@@ -1483,12 +1513,28 @@ def main():
         else:
             # VALIDAÇÃO ADICIONAL: Verificar se clientes com "Sim" têm módulos selecionados
             clientes_sem_modulos = []
-            for cliente, dados in respostas_validas.items():
-                if dados["deseja_relatorio"] == "Sim" and (not dados["modulos"] or len(dados["modulos"]) == 0):
-                    clientes_sem_modulos.append(cliente)
+            clientes_configuracao_invalida = []
             
+            for cliente, dados in respostas_validas.items():
+                if dados["deseja_relatorio"] == "Sim":
+                    if not dados["modulos"] or len(dados["modulos"]) == 0:
+                        clientes_sem_modulos.append(cliente)
+                    elif dados.get("configuracao_invalida", False):
+                        clientes_configuracao_invalida.append(cliente)
+            
+            # Mostrar aviso se houver clientes com configuração inválida
+            if clientes_configuracao_invalida:
+                mensagem_invalido = '<div style="background-color: #FFF4E6; border-left: 4px solid #FF9800; padding: 1.2rem; border-radius: 8px; margin: 1rem 0;">'
+                mensagem_invalido += '<p style="margin: 0 0 0.5rem 0; color: #E65100; font-size: 1rem;"><strong>⚠️ Ajuste necessário:</strong> Alguns clientes precisam de ajuste na configuração:</p>'
+                mensagem_invalido += '<ul style="margin: 0.5rem 0; padding-left: 1.5rem; color: #666;">'
+                for cliente in clientes_configuracao_invalida:
+                    mensagem_invalido += f'<li style="margin: 0.4rem 0;"><strong>{cliente}</strong> - Não é possível filtrar por centro de custo quando apenas Indicadores está selecionado. Desmarque o filtro ou adicione outros módulos.</li>'
+                mensagem_invalido += '</ul>'
+                mensagem_invalido += '<p style="margin: 0.8rem 0 0 0; color: #E65100; font-size: 0.9rem;"><strong>→</strong> Ajuste as configurações acima para prosseguir com o envio.</p>'
+                mensagem_invalido += '</div>'
+                st.markdown(mensagem_invalido, unsafe_allow_html=True)
             # Mostrar aviso se houver clientes sem módulos
-            if clientes_sem_modulos:
+            elif clientes_sem_modulos:
                 # Construir mensagem completa em um único bloco com cor de atenção (amarelo/laranja)
                 mensagem_aviso = '<div class="warning-message">'
                 mensagem_aviso += '⚠️ <strong>Atenção:</strong> Os seguintes clientes estão marcados para envio mas não têm módulos selecionados:'
