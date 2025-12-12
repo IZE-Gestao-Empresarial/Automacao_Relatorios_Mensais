@@ -99,8 +99,6 @@ DICIONARIO_CLIENTES = {
         ],
         "Ylienney Archil": [
 
-            "Nutralive",
-
             "VMB Advocacia"
         ],
         "Rayane Caroline Cândida de Amorim Oliveira": [
