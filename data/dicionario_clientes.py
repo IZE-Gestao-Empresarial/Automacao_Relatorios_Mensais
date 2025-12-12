@@ -59,7 +59,7 @@ DICIONARIO_CLIENTES = {
             "Euro e Cia [Florianopolis]",
             "Euro e Cia [Infoprodutos]",
             "MAD Engenharia",
-            "R J Macedo Agropecuária",
+
             "Atacadão das Confecções Comércio",
 
             "M F Construcoes e Utilidades",
