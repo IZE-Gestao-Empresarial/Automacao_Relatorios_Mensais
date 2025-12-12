@@ -119,7 +119,7 @@ DICIONARIO_CLIENTES = {
             "NUTRI REIS",
 
             "AÇAÍ FOOD JANAS",
-            "Vitrine 360",
+
             "Rei da Pizza",
             "Marcia Pinto Gastronomia",
             "Santrack"
