@@ -43,7 +43,7 @@ DICIONARIO_CLIENTES = {
         ],
         "Leonardo Souto": [
             "Mundo das Pedras",
-            "Comercial 3 Irmãos",
+
             "DAZAN EQUIPAMENTOS",
             "FG AUTO CENTER",
             "Toruk Sushi",
