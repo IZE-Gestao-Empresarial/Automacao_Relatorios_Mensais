@@ -136,7 +136,7 @@ DICIONARIO_CLIENTES = {
             "Tangerine Óculos"
         ],
         "Vinícius Petini de Almeida": [
-            "Maia & Morgado Advogados Associados",
+
             "Ilir Advogados",
             "PUKARUMI",
             "Castro e Rocha"
