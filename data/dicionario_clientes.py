@@ -115,7 +115,7 @@ DICIONARIO_CLIENTES = {
         "Pedro de Carvalho Marques": [
 
             "Boug Acessórios",
-            "Sator",
+
             "NUTRI REIS",
             "V.C MARTINS RESTAURANTE",
             "AÇAÍ FOOD JANAS",
