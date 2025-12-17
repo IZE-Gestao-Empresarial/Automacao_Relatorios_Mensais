@@ -127,7 +127,6 @@ DICIONARIO_CLIENTES = {
             "Burian Vacinas e Imunização",
             "Elem S Confeccoes",
             "Usina Burguer",
-            "Bachi Steakhouse",
 
             "Techcell Celulares",
 
